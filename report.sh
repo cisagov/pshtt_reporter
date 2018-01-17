@@ -1,33 +1,35 @@
 #!/bin/bash
-SHARED_DIR='/home/shared'
+
+HOME_DIR='/home/reporter'
+SHARED_DIR=$HOME_DIR'/shared'
 
 # Prepare fonts
 echo "Preparing fonts..."
-cp $SHARED_DIR/fonts/* /usr/share/fonts/truetype/
+cp ./fonts/* /usr/share/fonts/truetype/
 fc-cache -f
 
-echo 'Waiting for https-scan results to be saved to database...'
-while true;
+echo 'Waiting for saver'
+while [ "$(redis-cli -h orchestrator_redis_1 get saving_complete)" != "true" ]
 do
-  if [[ -r $SHARED_DIR/results_saved_to_db ]]
-  then
-    echo 'https-scan results saved to database!'
-    break
-  fi
-  sleep 5
+    sleep 5
 done
+echo "Saver finished"
+
+# No longer needed
+redis-cli -h orchestrator_redis_1 del saving_complete
 
 echo "Creating reporting folder..."
-mkdir -p $SHARED_DIR/artifacts/reporting/reports
-mkdir -p $SHARED_DIR/artifacts/reporting/non-cyhy-reports
+mkdir -p $SHARED_DIR/artifacts/reporting
 
 # Because HHS/NASA reports are large, we need to increase buffer size (LaTeX)
 sed -i 's/buf_size = 200000/buf_size = 400000/' /usr/share/texmf/web2c/texmf.cnf
 
+mkdir -p $SHARED_DIR/artifacts/reporting/pshtt_reports
+mkdir -p $SHARED_DIR/artifacts/reporting/pshtt_non-cyhy_reports
+
 # Generate agency reports
-# TODO? Separate cyhy reports from non-cyhy reports
-cd $SHARED_DIR/artifacts/reporting/reports
-/home/scanner/report/create_all_reports.py
+cd $SHARED_DIR/artifacts/reporting/pshtt_reports
+$HOME_DIR/report/create_all_reports.py
 
 # Archive artifacts folder
 echo 'Archiving Results...'
@@ -40,4 +42,8 @@ tar -czf $SHARED_DIR/archive/artifacts_$TODAY.tar.gz artifacts_$TODAY/
 # Clean up
 echo 'Cleaning up'
 rm -rf artifacts_$TODAY
-rm $SHARED_DIR/results_saved_to_db
+
+# Let redis know we're done
+# redis-cli -h orchestrator_redis_1 set trustymail_reporting_complete true
+# This is the end of the line, so tell redis to shutdown
+redis-cli -h orchestrator_redis_1 shutdown
