@@ -13,7 +13,6 @@ RUN apt-get update -qq \
     libfontconfig1 \
     libreadline-dev \
     libssl-dev \
-    libssl-doc \
     libxml2-dev \
     libxslt1-dev \
     libyaml-dev \
@@ -32,12 +31,10 @@ RUN apt-get update -qq \
     libtool \
     pkg-config \
     sqlite3 \
-    python-pip \
     libgeos-dev \
     python3-dev \
     python3-pip \
     python3-tk \
-    texlive-xetex \
     # Additional dependencies for python-build
     libbz2-dev \
     llvm \
@@ -47,10 +44,12 @@ RUN apt-get update -qq \
     texlive-latex-base \
     texlive-latex-recommended \
     texlive-latex-extra \
+    texlive-xetex \
     fonts-lmodern \
     lmodern \
     texlive-math-extra \
-    fontconfig
+    fontconfig \
+    redis-tools
 
 # Setup texlive latex stuff.
 # This command returns a bogus non-zero return value:
@@ -69,16 +68,16 @@ RUN pip3 install --upgrade setuptools \
     pystache \
     pandas \
     geos \
-    https://github.com/matplotlib/basemap/archive/v1.1.0.tar.gz \
     pyyaml \
-    docopt
+    docopt \
+    https://github.com/matplotlib/basemap/archive/v1.1.0.tar.gz
 
 ###
 # Create unprivileged User
 ###
-ENV SCANNER_HOME=/home/scanner
-RUN groupadd -r scanner \
-    && useradd -r -c "Scanner user" -g scanner scanner
+ENV REPORTER_HOME=/home/reporter
+RUN groupadd -r reporter \
+    && useradd -r -c "Reporter user" -g reporter reporter
 
 # It would be nice to get rid of some build dependencies at this point
 
@@ -88,13 +87,13 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 # Put this just before we change users because the copy (and every
 # step after it) will always be rerun by docker, but we need to be
 # root for the chown command.
-COPY . $SCANNER_HOME
-RUN chown -R scanner:scanner ${SCANNER_HOME}
+COPY . $REPORTER_HOME
+RUN chown -R reporter:reporter ${REPORTER_HOME}
 
 ###
 # Prepare to Run
 ###
 # Right now we need to run as root for the font stuff
-# USER scanner:scanner
-WORKDIR $SCANNER_HOME
+# USER reporter:reporter
+WORKDIR $REPORTER_HOME
 ENTRYPOINT ["./report.sh"]
