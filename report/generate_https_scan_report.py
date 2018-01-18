@@ -34,12 +34,8 @@ import yaml
 import graphs
 
 # constants
-SHARED_DIR = '/home/shared'
-ARTIFACTS_DIR = SHARED_DIR + '/artifacts'
-DB_CONFIG_FILE = '/run/secrets/db.yml'
+DB_CONFIG_FILE = '/run/secrets/pshtt_read_creds.yml'
 HTTPS_RESULTS_CSV_FILE = 'pshtt-results.csv'
-SCORING_ENGINE_VERSION = '1.0'
-CURRENTLY_SCANNED_DAYS = 14  # Number of days in the past that an org's tally doc was last changed; a.k.a. a 'currently-scanned' org
 # Do not include the orgs below (based on _id) in the Report
 EXEMPT_ORGS = []
 MUSTACHE_FILE = 'https_scan_report.mustache'
@@ -402,7 +398,7 @@ class ReportGenerator(object):
             if self.__cyhy_stakeholder:
                 dest_dir = "."
             else:
-                dest_dir = "../non-cyhy-reports"
+                dest_dir = "../pshtt_non-cyhy_reports"
 
             if self.__agency_id is not None:
                 dest_filename = "{}/cyhy-{}-{}-https-report.pdf".format(
