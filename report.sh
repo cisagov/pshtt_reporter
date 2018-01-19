@@ -15,21 +15,27 @@ do
 done
 echo "Saver finished"
 
-# No longer needed
-redis-cli -h orchestrator_redis_1 del saving_complete
-
-echo "Creating reporting folder..."
-mkdir -p $SHARED_DIR/artifacts/reporting
+# Don't delete saving_complete here since trustymail_reporter may be
+# using it too.
 
 # Because HHS/NASA reports are large, we need to increase buffer size (LaTeX)
 sed -i 's/buf_size = 200000/buf_size = 400000/' /usr/share/texmf/web2c/texmf.cnf
 
+echo "Creating reporting folders..."
 mkdir -p $SHARED_DIR/artifacts/reporting/pshtt_reports
 mkdir -p $SHARED_DIR/artifacts/reporting/pshtt_non-cyhy_reports
 
 # Generate agency reports
 cd $SHARED_DIR/artifacts/reporting/pshtt_reports
 $HOME_DIR/report/create_all_reports.py
+
+# Wait for the trustworthy email reporting to finish
+echo 'Waiting for trustworthy email reporting'
+while [ "$(redis-cli -h orchestrator_redis_1 get trustymail_reporting_complete)" != "true" ]
+do
+    sleep 5
+done
+echo "Trustworthy email reporting finished"
 
 # Archive artifacts folder
 echo 'Archiving Results...'
@@ -38,12 +44,12 @@ cd $SHARED_DIR
 TODAY=$(date +'%Y-%m-%d')
 mv artifacts artifacts_$TODAY
 tar -czf $SHARED_DIR/archive/artifacts_$TODAY.tar.gz artifacts_$TODAY/
-
 # Clean up
 echo 'Cleaning up'
 rm -rf artifacts_$TODAY
 
-# Let redis know we're done
-# redis-cli -h orchestrator_redis_1 set trustymail_reporting_complete true
+# No longer needed
+redis-cli -h orchestrator_redis_1 del saving_complete trustymail_reporting_complete
+
 # This is the end of the line, so tell redis to shutdown
 redis-cli -h orchestrator_redis_1 shutdown
