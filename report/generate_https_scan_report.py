@@ -108,7 +108,7 @@ class ReportGenerator(object):
         self.__cyhy_stakeholder = False
 
         # Get list of all domains from the database
-        all_domains_cursor = self.__db.https_scan.find({'latest':True, 'agency': agency})
+        all_domains_cursor = self.__db.https_scan.find({'latest':True, 'agency.name': agency})
         self.__domain_count = all_domains_cursor.count()
 
         for domain_doc in all_domains_cursor:
@@ -117,10 +117,10 @@ class ReportGenerator(object):
                 domain_doc['subdomains'] = list(self.__db.https_scan.find({'latest':True, 'base_domain': domain_doc['base_domain'], 'domain': {'$ne': domain_doc['domain']}}).sort([('domain', 1)]))
                 self.__subdomain_count += len(domain_doc['subdomains'])
                 self.__base_domains.append(domain_doc)
-            self.__agency_id = domain_doc['agency_id']
+            self.__agency_id = domain_doc['agency']['id']
 
         # Get list of all second-level domains an agency owns
-        second_cursor = self.__db.https_scan.find({'latest': True, 'agency': agency}).distinct('base_domain')
+        second_cursor = self.__db.https_scan.find({'latest': True, 'agency.name': agency}).distinct('base_domain')
         for document in second_cursor:
             self.__base_domain_count += 1
 
@@ -477,6 +477,7 @@ class ReportGenerator(object):
         result['non_https_compliance_list'] = self.__non_https_compliance_list
         result['title_date_tex'] = self.__generated_time.strftime('{%d}{%m}{%Y}')
         result['agency'] = self.__agency
+        result['agency_id'] = self.__agency_id
         result['strictly_forces_percentage'] = round(float(self.__strictly_forces_count)/float(self.__domain_count) * 100.0, 1)
         result['downgrades_percentage'] = round(float(self.__downgrades_count)/float(self.__domain_count) * 100.0, 1)
         result['hsts_percentage'] = self.__hsts_percentage
