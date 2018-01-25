@@ -34,7 +34,7 @@ import yaml
 import graphs
 
 # constants
-DB_CONFIG_FILE = '/run/secrets/pshtt_read_creds.yml'
+DB_CONFIG_FILE = '/run/secrets/scan_read_creds.yml'
 HTTPS_RESULTS_CSV_FILE = 'pshtt-results.csv'
 # Do not include the orgs below (based on _id) in the Report
 EXEMPT_ORGS = []
