@@ -113,16 +113,14 @@ class ReportGenerator(object):
 
         for domain_doc in all_domains_cursor:
             self.__all_domains.append(domain_doc)
-            if domain_doc['base_domain'] == domain_doc['domain']:
-                domain_doc['subdomains'] = list(self.__db.https_scan.find({'latest':True, 'base_domain': domain_doc['base_domain'], 'domain': {'$ne': domain_doc['domain']}}).sort([('domain', 1)]))
+            if domain_doc['is_base_domain']:
+                domain_doc['subdomains'] = list(self.__db.https_scan.find({'latest':True, 'base_domain':domain_doc['base_domain'], 'is_base_domain':False}).sort([('domain', 1)]))
                 self.__subdomain_count += len(domain_doc['subdomains'])
                 self.__base_domains.append(domain_doc)
             self.__agency_id = domain_doc['agency']['id']
 
-        # Get list of all second-level domains an agency owns
-        second_cursor = self.__db.https_scan.find({'latest': True, 'agency.name': agency}).distinct('base_domain')
-        for document in second_cursor:
-            self.__base_domain_count += 1
+        # Get count of second-level domains an agency owns
+        self.__base_domain_count = self.__db.https_scan.find({'latest': True, 'agency.name': agency, 'is_base_domain':True}).count()
 
 
     def __score_domain(self, domain):
@@ -133,7 +131,7 @@ class ReportGenerator(object):
 
         if domain['live']:
             score['live_bool'] = True
-            if domain['domain'] == domain['base_domain']:
+            if domain['is_base_domain']:
                 self.__eligible_domains_count += 1
                 self.__all_eligible_domains_count += 1
             else:
@@ -141,7 +139,7 @@ class ReportGenerator(object):
                 self.__all_eligible_domains_count += 1
         else:
             score['live_bool'] = False
-            if domain['domain'] == domain['base_domain']:
+            if domain['is_base_domain']:
                 # only include non-live base domains in the ineligible domains list; otherwise lots of non-existent subs will show in the report
                 self.__ineligible_domains.append({'domain' : domain['domain']})     # TODO Determine if this is still needed
 
@@ -430,8 +428,8 @@ class ReportGenerator(object):
         self.__generate_https_attachment()
 
     def __generate_https_attachment(self):
-        header_fields = ('Domain', 'Base Domain', 'Canonical URL', 'Live', 'Redirect', 'Redirect To', 'Valid HTTPS', 'Defaults to HTTPS', 'Downgrades HTTPS', 'Strictly Forces HTTPS', 'HTTPS Bad Chain', 'HTTPS Bad Hostname', 'HTTPS Expired Cert', 'HTTPS Self Signed Cert', 'HSTS', 'HSTS Header', 'HSTS Max Age', 'HSTS Entire Domain', 'HSTS Preload Ready', 'HSTS Preload Pending', 'HSTS Preloaded', 'Base Domain HSTS Preloaded', 'Domain Supports HTTPS', 'Domain Enforces HTTPS', 'Domain Uses Strong HSTS', 'Unknown Error')
-        data_fields = ('domain', 'base_domain', 'canonical_url', 'live', 'redirect', 'redirect_to', 'valid_https', 'defaults_https', 'downgrades_https', 'strictly_forces_https', 'https_bad_chain', 'https_bad_hostname', 'https_expired_cert', 'https_self_signed_cert', 'hsts', 'hsts_header', 'hsts_max_age', 'hsts_entire_domain', 'hsts_preload_ready', 'hsts_preload_pending', 'hsts_preloaded', 'hsts_base_domain_preloaded', 'domain_supports_https', 'domain_enforces_https', 'domain_uses_strong_hsts', 'unknown_error')
+        header_fields = ('Domain', 'Base Domain', 'Is Base Domain', 'Canonical URL', 'Live', 'Redirect', 'Redirect To', 'Valid HTTPS', 'Defaults to HTTPS', 'Downgrades HTTPS', 'Strictly Forces HTTPS', 'HTTPS Bad Chain', 'HTTPS Bad Hostname', 'HTTPS Expired Cert', 'HTTPS Self Signed Cert', 'HSTS', 'HSTS Header', 'HSTS Max Age', 'HSTS Entire Domain', 'HSTS Preload Ready', 'HSTS Preload Pending', 'HSTS Preloaded', 'Base Domain HSTS Preloaded', 'Domain Supports HTTPS', 'Domain Enforces HTTPS', 'Domain Uses Strong HSTS', 'Unknown Error')
+        data_fields = ('domain', 'base_domain', 'is_base_domain', 'canonical_url', 'live', 'redirect', 'redirect_to', 'valid_https', 'defaults_https', 'downgrades_https', 'strictly_forces_https', 'https_bad_chain', 'https_bad_hostname', 'https_expired_cert', 'https_self_signed_cert', 'hsts', 'hsts_header', 'hsts_max_age', 'hsts_entire_domain', 'hsts_preload_ready', 'hsts_preload_pending', 'hsts_preloaded', 'hsts_base_domain_preloaded', 'domain_supports_https', 'domain_enforces_https', 'domain_uses_strong_hsts', 'unknown_error')
         with open(HTTPS_RESULTS_CSV_FILE, newline='', mode='w') as out_file:
             header_writer = csv.DictWriter(out_file, header_fields, extrasaction='ignore')
             header_writer.writeheader()
