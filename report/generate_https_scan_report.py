@@ -536,7 +536,7 @@ class ReportGenerator(object):
                                                            self.__enforces_https_percentage,
                                                            self.__hsts_percentage,
                                                            self.__has_no_weak_crypto_percentage],
-                                          label_list=['Uses\nHTTPS', 'Enforces\nHTTPS', 'Uses\nHSTS', 'No SSLv2/v3,\n3DES,RC4'],
+                                          label_list=['Uses\nHTTPS', 'Enforces\nHTTPS', 'Uses Strong\nHSTS', 'No SSLv2/v3,\n3DES,RC4'],
                                           fill_color=graphs.DARK_BLUE,
                                           title='BOD 18-01 HTTPS Components')
         bod_1801_bar.plot(filename='bod-18-01-https-components')

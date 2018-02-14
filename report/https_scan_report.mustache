@@ -410,7 +410,7 @@ Of \textit{\numprint{<<all_eligible_domains_count>>} hostnames that respond to H
 \begin{itemize}[topsep=-6pt, itemsep=0pt]
   \item \textbf{\numprint{<<domain_supports_https_count>>}} hostnames (<<uses_https_percentage>>\%) have HTTPS enabled
   \item \textbf{\numprint{<<domain_enforces_https_count>>}} hostnames (<<enforces_https_percentage>>\%) default to HTTPS
-  \item \textbf{\numprint{<<domain_uses_strong_hsts_count>>}} hostnames (<<hsts_percentage>>\%) use HSTS
+  \item \textbf{\numprint{<<domain_uses_strong_hsts_count>>}} hostnames (<<hsts_percentage>>\%) use Strong HSTS
   \item \textbf{\numprint{<<domain_has_no_weak_crypto_count>>}} hostnames (<<has_no_weak_crypto_percentage>>\%) do not support SSLv2, SSLv3, 3DES, or RC4
   \item \textbf{\numprint{<<bod_1801_count>>}} hostnames (<<bod_1801_percentage>>\%) are \href{https://cyber.dhs.gov}{BOD 18-01} Compliant for web security
 \end{itemize}
@@ -435,7 +435,7 @@ Of \textit{\numprint{<<all_eligible_domains_count>>} hostnames that respond to H
 \label{app:results}
 \phantomsection% links this section from toc
 \addcontentsline{toc}{subsection}{Results}% Adds subsection to toc
-The following table shows where each <<&agency>> domain falls along the spectrum of BOD 18-01 web security compliance and whether the domain is preloaded. To be \hyperlink{BOD 18-01 Web Compliant}{BOD 18-01 web compliant}, a domain must meet all of the following: `Uses HTTPS', `Enforces HTTPS', `Strict Transport Security (HSTS)', `Free of SSLv2, SSLv3, 3DES, RC4'. Definitions of the field values are in ``\hyperlink{Field Descriptions}{\color{blue}{Field Descriptions}}", after the table below.\\~\\
+The following table shows where each <<&agency>> domain falls along the spectrum of BOD 18-01 web security compliance and whether the domain is preloaded. To be \hyperlink{BOD 18-01 Web Compliant}{BOD 18-01 web compliant}, a domain must meet all of the following: `Uses HTTPS', `Enforces HTTPS', `Uses Strong Strict Transport Security (HSTS)', `Free of SSLv2, SSLv3, 3DES, RC4'. Definitions of the field values are in ``\hyperlink{Field Descriptions}{\color{blue}{Field Descriptions}}", after the table below.\\~\\
 
 BOD 18-01 includes \href{https://https.cio.gov/guide/#what-about-domains-that-are-technically-public-but-in-practice-are-only-used-internally}{\textbf{all domains and subdomains that are publicly reachable over HTTP/HTTPS}}, regardless of whether those hostnames are in practice only used internally.\\~\\
 
@@ -449,7 +449,7 @@ Subdomains of domains that are HSTS preloaded are not shown below; preloading en
 \rowcolors{4}{white}{row-gray}
 \begin{longtable}{>{\raggedright}p{2.7in}p{1.0in}p{0.7in}p{1.2in}p{2.1in}p{0.8in}p{0.7in}}
   \toprule
-      \textbf{Domain} & \hyperlink{Uses HTTPS}{\color{blue}{\textbf{Uses HTTPS}}} & \hyperlink{Enforces HTTPS}{\color{blue}{\textbf{Enforces\newline HTTPS}}} & \hyperlink{Strict Transport Security (HSTS)}{\color{blue}{\textbf{Strict Transport\newline Security (HSTS)}}} & \hyperlink{Free of SSLv2, SSLv3, 3DES, RC4}{\color{blue}{\textbf{Free of SSLv2, SSLv3, 3DES, RC4}}} & \hyperlink{BOD 18-01 Web Compliant}{\color{blue}{\textbf{BOD 18-01\newline Web\newline Compliant}}} & \hyperlink{Preloaded}{\color{blue}{\textbf{Preloaded}}}\\
+      \textbf{Domain} & \hyperlink{Uses HTTPS}{\color{blue}{\textbf{Uses HTTPS}}} & \hyperlink{Enforces HTTPS}{\color{blue}{\textbf{Enforces\newline HTTPS}}} & \hyperlink{Uses Strong Strict Transport Security (HSTS)}{\color{blue}{\textbf{Uses Strong\newline Strict Transport\newline Security (HSTS)}}} & \hyperlink{Free of SSLv2, SSLv3, 3DES, RC4}{\color{blue}{\textbf{Free of SSLv2, SSLv3, 3DES, RC4}}} & \hyperlink{BOD 18-01 Web Compliant}{\color{blue}{\textbf{BOD 18-01\newline Web\newline Compliant}}} & \hyperlink{Preloaded}{\color{blue}{\textbf{Preloaded}}}\\
   \hhline{=======}
   \endhead
 	<<#report_doc.scores>>
@@ -520,18 +520,18 @@ In \texttt{pshtt}, ``Enforces HTTPS" is mapped to the value for `Domain Enforces
 \end{center}
 
 \phantomsection % links this section from toc
-\addcontentsline{toc}{subsubsection}{Strict Transport Security (HSTS)}% Adds subsection to toc
-\hypertarget{Strict Transport Security (HSTS)}{\textbf{\color{dhs-dark-gray}{\large{Strict Transport Security (HSTS)}}}}\\
-\textit{Values: \checkmark (implements), \xmark \ (does not implement, or implements with low max-age)}\\~\\
+\addcontentsline{toc}{subsubsection}{Uses Strong Strict Transport Security (HSTS)}% Adds subsection to toc
+\hypertarget{Uses Strong Strict Transport Security (HSTS)}{\textbf{\color{dhs-dark-gray}{\large{Uses Strong Strict Transport Security (HSTS)}}}}\\
+\textit{Values: \checkmark (implements), \xmark \ (does not implement HSTS, or implements HSTS with low max-age)}\\~\\
 
-Whether a hostname has implemented \href{https://https.cio.gov/hsts}{HTTP Strict Transport Security}. HSTS is an HTTP response header that directs \href{https://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security#Browser_support}{supporting browsers} to, after the first visit, only communicate with a hostname over HTTPS for the duration of \texttt{max-age} (even if the user clicks or types a plain HTTP link).\\
+Whether a hostname has implemented strong \href{https://https.cio.gov/hsts}{HTTP Strict Transport Security}. HSTS is an HTTP response header that directs \href{https://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security#Browser_support}{supporting browsers} to, after the first visit, only communicate with a hostname over HTTPS for the duration of \texttt{max-age} (even if the user clicks or types a plain HTTP link).\\
 
 \begin{itemize}[topsep=-6pt, itemsep=0pt]
 	\item \checkmark means that a valid Strict-Transport-Security header with at least \texttt{max-age=31536000} (1 year) is present on the hostname's default endpoint. (For increased security, you should consider the full HSTS preloading of the parent domain, which includes all subdomains.)
 	\item ``Low max-age" indicates that a valid Strict-Transport-Security header is present, but the max-age is below 31536000 as required by BOD 18-01.
 \end{itemize}
 \vspace*{2mm}
-In \texttt{pshtt}, ``Strict Transport Security (HSTS)" is mapped to the value for `Domain Uses Strong HSTS'. It is calculated:
+In \texttt{pshtt}, ``Uses Strong Strict Transport Security (HSTS)" is mapped to the value for `Domain Uses Strong HSTS'. It is calculated:
 \begin{center}
 \normalsize\textit{HSTS == ``True" AND HSTS Max Age >= 31536000}\\
 \end{center}
@@ -550,7 +550,7 @@ Whether any weak cryptographic protocols (Secure Sockets Layer (SSL)v2, SSLv3) o
 \hypertarget{BOD 18-01 Web Compliant}{\textbf{\color{dhs-dark-gray}{\large{BOD 18-01 Web Compliant}}}}\\
 \textit{Values: \checkmark (compliant), \xmark \ (not compliant), N/A (Not live; no web)}\\~\\
 
-Whether a hostname meets the following criteria for being compliant with \href{https://cyber.dhs.gov}{BOD 18-01} for web security:
+Whether a hostname meets all of the following criteria for being compliant with \href{https://cyber.dhs.gov}{BOD 18-01} for web security:
   \begin{itemize}[topsep=-6pt, itemsep=0pt]
     \item Uses HTTPS
     \item Enforces HTTPS
