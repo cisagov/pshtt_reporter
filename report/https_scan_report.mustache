@@ -410,8 +410,9 @@ Of \textit{\numprint{<<all_eligible_domains_count>>} hostnames that respond to H
 \begin{itemize}[topsep=-6pt, itemsep=0pt]
   \item \textbf{\numprint{<<domain_supports_https_count>>}} hostnames (<<uses_https_percentage>>\%) have HTTPS enabled
   \item \textbf{\numprint{<<domain_enforces_https_count>>}} hostnames (<<enforces_https_percentage>>\%) default to HTTPS
-  \item \textbf{\numprint{<<domain_uses_strong_hsts_count>>}} hostnames (<<hsts_percentage>>\%) use HSTS
-  \item \textbf{\numprint{<<bod_1801_count>>}} hostnames (<<bod_1801_percentage>>\%) are compliant with BOD 18-01
+  \item \textbf{\numprint{<<domain_uses_strong_hsts_count>>}} hostnames (<<hsts_percentage>>\%) use Strong HSTS
+  \item \textbf{\numprint{<<domain_has_no_weak_crypto_count>>}} hostnames (<<has_no_weak_crypto_percentage>>\%) do not support SSLv2, SSLv3, 3DES, or RC4
+  \item \textbf{\numprint{<<bod_1801_count>>}} hostnames (<<bod_1801_percentage>>\%) are \href{https://cyber.dhs.gov}{BOD 18-01} Compliant for web security
 \end{itemize}
 
 \vspace*{6mm}
@@ -434,11 +435,11 @@ Of \textit{\numprint{<<all_eligible_domains_count>>} hostnames that respond to H
 \label{app:results}
 \phantomsection% links this section from toc
 \addcontentsline{toc}{subsection}{Results}% Adds subsection to toc
-The following table shows where each <<&agency>> domain falls along the spectrum of BOD 18-01 compliance and whether the domain is preloaded. To be BOD 18-01 compliant\hyperlink{BOD 18-01 Compliant}{*} for web security, a domain must meet all of the following: `Uses HTTPS', `Enforces HTTPS', and `HSTS'. Definitions of the field values are in ``\hyperlink{Field Descriptions}{\color{blue}{Field Descriptions}}", after the table below.\\~\\
+The following table shows where each <<&agency>> domain falls along the spectrum of BOD 18-01 web security compliance and whether the domain is preloaded. To be \hyperlink{BOD 18-01 Web Compliant}{BOD 18-01 web compliant}, a domain must meet all of the following: `Uses HTTPS', `Enforces HTTPS', `Uses Strong Strict Transport Security (HSTS)', `Free of SSLv2, SSLv3, 3DES, RC4'. Definitions of the field values are in ``\hyperlink{Field Descriptions}{\color{blue}{Field Descriptions}}", after the table below.\\~\\
 
 BOD 18-01 includes \href{https://https.cio.gov/guide/#what-about-domains-that-are-technically-public-but-in-practice-are-only-used-internally}{\textbf{all domains and subdomains that are publicly reachable over HTTP/HTTPS}}, regardless of whether those hostnames are in practice only used internally.\\~\\
 
-Subdomains of domains that are HSTS preloaded are not shown below; preloading ensures those domains' compliance with BOD 18-01. All known subdomains are included in the attachment \texttt{pshtt-results.csv}.\\~\\
+\textbf{Subdomains of domains that are HSTS preloaded are not shown below;} preloading ensures those domains' compliance with BOD 18-01. All known subdomains are included in the attachment \texttt{pshtt-results.csv}.\\~\\
 %Note that if a parent domain uses \texttt{includeSubDomains} as part of its HSTS policy, subdomains with a score or ``No" for `HSTS' may be in compliance.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -446,16 +447,16 @@ Subdomains of domains that are HSTS preloaded are not shown below; preloading en
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \setlength{\tabcolsep}{1.2pt}
 \rowcolors{4}{white}{row-gray}
-\begin{longtable}{>{\raggedright}p{2.6in}p{1.0in}p{0.7in}p{1.2in}p{1.0in}p{0.7in}}
+\begin{longtable}{>{\raggedright}p{2.7in}p{1.0in}p{0.7in}p{1.2in}p{2.1in}p{0.8in}p{0.7in}}
   \toprule
-      \textbf{Domain} & \hyperlink{Uses HTTPS}{\color{blue}{\textbf{Uses HTTPS}}} & \hyperlink{Enforces HTTPS}{\color{blue}{\textbf{Enforces\newline HTTPS}}} & \hyperlink{Strict Transport Security (HSTS)}{\color{blue}{\textbf{Strict Transport\newline Security (HSTS)}}} & \hyperlink{BOD 18-01 Compliant}{\color{blue}{\textbf{BOD 18-01\newline Compliant*}}} & \hyperlink{Preloaded}{\color{blue}{\textbf{Preloaded}}}\\
-  \hhline{======}
+      \textbf{Domain} & \hyperlink{Uses HTTPS}{\color{blue}{\textbf{Uses HTTPS}}} & \hyperlink{Enforces HTTPS}{\color{blue}{\textbf{Enforces\newline HTTPS}}} & \hyperlink{Uses Strong Strict Transport Security (HSTS)}{\color{blue}{\textbf{Uses Strong\newline Strict Transport\newline Security (HSTS)}}} & \hyperlink{Free of SSLv2, SSLv3, 3DES, RC4}{\color{blue}{\textbf{Free of SSLv2, SSLv3, 3DES, RC4}}} & \hyperlink{BOD 18-01 Web Compliant}{\color{blue}{\textbf{BOD 18-01\newline Web\newline Compliant}}} & \hyperlink{Preloaded}{\color{blue}{\textbf{Preloaded}}}\\
+  \hhline{=======}
   \endhead
 	<<#report_doc.scores>>
-<<#live_bool>>\color{blue}\textbf{{<<&domain>>}} & <<#domain_supports_https_bool>>\checkmark <</domain_supports_https_bool>><<^domain_supports_https_bool>> \xmark <<#https_bad_chain_bool>>\textit{\newline Bad chain}<</https_bad_chain_bool>><<#https_bad_hostname_bool>>\textit{\newline Bad hostname}<</https_bad_hostname_bool>><<#https_expired_cert_bool>>\textit{\newline Expired certificate}<</https_expired_cert_bool>><</domain_supports_https_bool>> & <<#domain_enforces_https_bool>>\checkmark <</domain_enforces_https_bool>><<^domain_enforces_https_bool>>\xmark <</domain_enforces_https_bool>> & <<#domain_uses_strong_hsts_bool>>\checkmark <</domain_uses_strong_hsts_bool>><<^domain_uses_strong_hsts_bool>>\xmark <<#hsts_bool>>\textit{\ \ Low max-age}<</hsts_bool>><</domain_uses_strong_hsts_bool>> & <<#bod_1801_compliance>>\checkmark <</bod_1801_compliance>><<^bod_1801_compliance>>\xmark <</bod_1801_compliance>> & <<#bod_1801_compliance>><<#hsts_preloaded_bool>> \checkmark <</hsts_preloaded_bool>><<^hsts_preloaded_bool>><<#hsts_preload_pending_bool>> \textit{Pending*} <</hsts_preload_pending_bool>><<^hsts_preload_pending_bool>><<#hsts_preload_ready_bool>> \textit{Preload-ready*} <</hsts_preload_ready_bool>><<^hsts_preload_ready_bool>> \xmark <</hsts_preload_ready_bool>><</hsts_preload_pending_bool>><</hsts_preloaded_bool>><</bod_1801_compliance>><<^bod_1801_compliance>> \xmark <</bod_1801_compliance>><</live_bool>>
-<<^live_bool>>\color{blue}\textbf{{<<&domain>>}} \textit{\ \ Not Live} & \textit{N/A} & \textit{N/A} & \textit{N/A} & \checkmark & <<#hsts_preloaded_bool>> \checkmark <</hsts_preloaded_bool>><<^hsts_preloaded_bool>><<#hsts_preload_pending_bool>> \textit{Pending*} <</hsts_preload_pending_bool>><<^hsts_preload_pending_bool>><<#hsts_preload_ready_bool>> \textit{Preload-ready*} <</hsts_preload_ready_bool>><<^hsts_preload_ready_bool>> \xmark <</hsts_preload_ready_bool>><</hsts_preload_pending_bool>><</hsts_preloaded_bool>><</live_bool>>\\
+<<#live_bool>>\color{blue}\textbf{{<<&domain>>}} & <<#domain_supports_https_bool>>\checkmark <</domain_supports_https_bool>><<^domain_supports_https_bool>> \xmark <<#https_bad_chain_bool>>\textit{\newline Bad chain}<</https_bad_chain_bool>><<#https_bad_hostname_bool>>\textit{\newline Bad hostname}<</https_bad_hostname_bool>><<#https_expired_cert_bool>>\textit{\newline Expired certificate}<</https_expired_cert_bool>><</domain_supports_https_bool>> & <<#domain_enforces_https_bool>>\checkmark <</domain_enforces_https_bool>><<^domain_enforces_https_bool>>\xmark <</domain_enforces_https_bool>> & <<#domain_uses_strong_hsts_bool>>\checkmark <</domain_uses_strong_hsts_bool>><<^domain_uses_strong_hsts_bool>>\xmark <<#hsts_bool>>\textit{\ \ Low max-age}<</hsts_bool>><</domain_uses_strong_hsts_bool>> & <<^domain_has_weak_crypto_bool>> \checkmark <</domain_has_weak_crypto_bool>><<#domain_has_weak_crypto_bool>> \xmark \textit{\ \ Supports: <<#hosts_with_weak_crypto>><<&weak_crypto_list_str>><</hosts_with_weak_crypto>>} <</domain_has_weak_crypto_bool>> & <<#bod_1801_compliance>>\checkmark <</bod_1801_compliance>><<^bod_1801_compliance>>\xmark <</bod_1801_compliance>> & <<#bod_1801_compliance>><<#hsts_preloaded_bool>> \checkmark <</hsts_preloaded_bool>><<^hsts_preloaded_bool>><<#hsts_preload_pending_bool>> \textit{Pending*} <</hsts_preload_pending_bool>><<^hsts_preload_pending_bool>><<#hsts_preload_ready_bool>> \textit{Preload-ready*} <</hsts_preload_ready_bool>><<^hsts_preload_ready_bool>> \xmark <</hsts_preload_ready_bool>><</hsts_preload_pending_bool>><</hsts_preloaded_bool>><</bod_1801_compliance>><<^bod_1801_compliance>> \xmark <</bod_1801_compliance>><</live_bool>>
+<<^live_bool>>\color{blue}\textbf{{<<&domain>>}} \textit{\ \ Not Live} & \textit{N/A} & \textit{N/A} & \textit{N/A} & \textit{N/A} & \checkmark & <<#hsts_preloaded_bool>> \checkmark <</hsts_preloaded_bool>><<^hsts_preloaded_bool>><<#hsts_preload_pending_bool>> \textit{Pending*} <</hsts_preload_pending_bool>><<^hsts_preload_pending_bool>><<#hsts_preload_ready_bool>> \textit{Preload-ready*} <</hsts_preload_ready_bool>><<^hsts_preload_ready_bool>> \xmark <</hsts_preload_ready_bool>><</hsts_preload_pending_bool>><</hsts_preloaded_bool>><</live_bool>>\\
 % Show subdomains if hsts_preloaded_bool is false and if any subdomain_scores exist
-<<^hsts_preloaded_bool>><<#subdomain_scores>>\color{blue}{\ \ \ <<&domain>>} & <<#domain_supports_https_bool>>\checkmark <</domain_supports_https_bool>><<^domain_supports_https_bool>> \xmark <<#https_bad_chain_bool>>\textit{\newline Bad chain}<</https_bad_chain_bool>><<#https_bad_hostname_bool>>\textit{\newline Bad hostname}<</https_bad_hostname_bool>><<#https_expired_cert_bool>>\textit{\newline Expired certificate}<</https_expired_cert_bool>><</domain_supports_https_bool>> & <<#domain_enforces_https_bool>>\checkmark <</domain_enforces_https_bool>><<^domain_enforces_https_bool>>\xmark <</domain_enforces_https_bool>> & <<#domain_uses_strong_hsts_bool>>\checkmark <</domain_uses_strong_hsts_bool>><<^domain_uses_strong_hsts_bool>>\xmark <<#hsts_bool>>\textit{\ \ Low max-age}<</hsts_bool>><</domain_uses_strong_hsts_bool>> & <<#bod_1801_compliance>>\checkmark <</bod_1801_compliance>><<^bod_1801_compliance>>\xmark <</bod_1801_compliance>> & \\<</subdomain_scores>><</hsts_preloaded_bool>>
+<<^hsts_preloaded_bool>><<#subdomain_scores>>\color{blue}{\ \ \ <<&domain>>} & <<#domain_supports_https_bool>>\checkmark <</domain_supports_https_bool>><<^domain_supports_https_bool>> \xmark <<#https_bad_chain_bool>>\textit{\newline Bad chain}<</https_bad_chain_bool>><<#https_bad_hostname_bool>>\textit{\newline Bad hostname}<</https_bad_hostname_bool>><<#https_expired_cert_bool>>\textit{\newline Expired certificate}<</https_expired_cert_bool>><</domain_supports_https_bool>> & <<#domain_enforces_https_bool>>\checkmark <</domain_enforces_https_bool>><<^domain_enforces_https_bool>>\xmark <</domain_enforces_https_bool>> & <<#domain_uses_strong_hsts_bool>>\checkmark <</domain_uses_strong_hsts_bool>><<^domain_uses_strong_hsts_bool>>\xmark <<#hsts_bool>>\textit{\ \ Low max-age}<</hsts_bool>><</domain_uses_strong_hsts_bool>> & <<^domain_has_weak_crypto_bool>> \checkmark <</domain_has_weak_crypto_bool>><<#domain_has_weak_crypto_bool>> \xmark \textit{\ \ Supports: <<#hosts_with_weak_crypto>><<&weak_crypto_list_str>><</hosts_with_weak_crypto>>} <</domain_has_weak_crypto_bool>> & <<#bod_1801_compliance>>\checkmark <</bod_1801_compliance>><<^bod_1801_compliance>>\xmark <</bod_1801_compliance>> & \\<</subdomain_scores>><</hsts_preloaded_bool>>
 	<</report_doc.scores>>
 	%\bottomrule
 \end{longtable}
@@ -463,11 +464,7 @@ Subdomains of domains that are HSTS preloaded are not shown below; preloading en
 %%% End Table of Death....Thank Goodness!
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\textbf{* Notes:}
-\begin{itemize}[topsep=-6pt, itemsep=0pt]
-  \item Additional criteria for BOD 18-01 Compliance will soon be added to this report.  See ``\hyperlink{BOD 18-01 Compliant}{\color{blue}{BOD 18-01 Compliant}}" in the \hyperlink{Field Descriptions}{\color{blue}{Field Descriptions}} section for more information.
-  \item ``Preload-ready" domains can be submitted \textit{by anyone at any time} to the HSTS Preload List site. This submission could potentially have negative effects if you have intranet subdomains that do not support HTTPS. See ``\hyperlink{Preloaded}{\color{blue}{Preloaded}}" in the \hyperlink{Field Descriptions}{\color{blue}{Field Descriptions}} section for more information.
-\end{itemize}
+\textbf{Note:} ``Preload-ready" domains can be submitted \textit{by anyone at any time} to the HSTS Preload List site. This submission could potentially have negative effects if you have intranet subdomains that do not support HTTPS. See ``\hyperlink{Preloaded}{\color{blue}{Preloaded}}" in the \hyperlink{Field Descriptions}{\color{blue}{Field Descriptions}} section for more information.
 
 % The following domains were not responsive over HTTP/HTTPS in our most recent scan. M-15-13 requires secure connections for websites and web services, which means only HTTP-based protocols. Domains that don't communicate over HTTP-based protocols have no action to take because of M-15-13.\\~\\
 %
@@ -523,49 +520,49 @@ In \texttt{pshtt}, ``Enforces HTTPS" is mapped to the value for `Domain Enforces
 \end{center}
 
 \phantomsection % links this section from toc
-\addcontentsline{toc}{subsubsection}{Strict Transport Security (HSTS)}% Adds subsection to toc
-\hypertarget{Strict Transport Security (HSTS)}{\textbf{\color{dhs-dark-gray}{\large{Strict Transport Security (HSTS)}}}}\\
-\textit{Values: \checkmark (implements), \xmark \ (does not implement, or implements with low max-age)}\\~\\
+\addcontentsline{toc}{subsubsection}{Uses Strong Strict Transport Security (HSTS)}% Adds subsection to toc
+\hypertarget{Uses Strong Strict Transport Security (HSTS)}{\textbf{\color{dhs-dark-gray}{\large{Uses Strong Strict Transport Security (HSTS)}}}}\\
+\textit{Values: \checkmark (implements), \xmark \ (does not implement HSTS, or implements HSTS with low max-age)}\\~\\
 
-Whether a hostname has implemented \href{https://https.cio.gov/hsts}{HTTP Strict Transport Security}. HSTS is an HTTP response header that directs \href{https://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security#Browser_support}{supporting browsers} to, after the first visit, only communicate with a hostname over HTTPS for the duration of \texttt{max-age} (even if the user clicks or types a plain HTTP link).\\
+Whether a hostname has implemented strong \href{https://https.cio.gov/hsts}{HTTP Strict Transport Security}. HSTS is an HTTP response header that directs \href{https://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security#Browser_support}{supporting browsers} to, after the first visit, only communicate with a hostname over HTTPS for the duration of \texttt{max-age} (even if the user clicks or types a plain HTTP link).\\
 
 \begin{itemize}[topsep=-6pt, itemsep=0pt]
 	\item \checkmark means that a valid Strict-Transport-Security header with at least \texttt{max-age=31536000} (1 year) is present on the hostname's default endpoint. (For increased security, you should consider the full HSTS preloading of the parent domain, which includes all subdomains.)
 	\item ``Low max-age" indicates that a valid Strict-Transport-Security header is present, but the max-age is below 31536000 as required by BOD 18-01.
 \end{itemize}
 \vspace*{2mm}
-In \texttt{pshtt}, ``Strict Transport Security (HSTS)" is mapped to the value for `Domain Uses Strong HSTS'. It is calculated:
+In \texttt{pshtt}, ``Uses Strong Strict Transport Security (HSTS)" is mapped to the value for `Domain Uses Strong HSTS'. It is calculated:
 \begin{center}
 \normalsize\textit{HSTS == ``True" AND HSTS Max Age >= 31536000}\\
 \end{center}
 
 \newpage
 \phantomsection % links this section from toc
-\addcontentsline{toc}{subsubsection}{BOD 18-01 Compliant}% Adds subsection to toc
-\hypertarget{BOD 18-01 Compliant}{\textbf{\color{dhs-dark-gray}{\large{BOD 18-01 Compliant}}}}\\
+\addcontentsline{toc}{subsubsection}{Free of SSLv2, SSLv3, 3DES, RC4}% Adds subsection to toc
+\hypertarget{Free of SSLv2, SSLv3, 3DES, RC4}{\textbf{\color{dhs-dark-gray}{\large{Free of SSLv2, SSLv3, 3DES, RC4}}}}\\
+\textit{Values: \checkmark (no weak protocols/ciphers detected), \xmark \ (weak protocols/ciphers detected)}\\~\\
+
+Whether any weak cryptographic protocols (Secure Sockets Layer (SSL)v2, SSLv3) or ciphers (3DES, RC4) are supported by the web server at the hostname.\\
+
+\vspace*{7mm}
+\phantomsection % links this section from toc
+\addcontentsline{toc}{subsubsection}{BOD 18-01 Web Compliant}% Adds subsection to toc
+\hypertarget{BOD 18-01 Web Compliant}{\textbf{\color{dhs-dark-gray}{\large{BOD 18-01 Web Compliant}}}}\\
 \textit{Values: \checkmark (compliant), \xmark \ (not compliant), N/A (Not live; no web)}\\~\\
 
-Whether a hostname meets the following criteria for being compliant with \href{https://cyber.dhs.gov}{BOD 18-01}:
+Whether a hostname meets all of the following criteria for being compliant with \href{https://cyber.dhs.gov}{BOD 18-01} for web security:
   \begin{itemize}[topsep=-6pt, itemsep=0pt]
     \item Uses HTTPS
     \item Enforces HTTPS
     \item Uses Strong HSTS
+    \item Free of SSLv2, SSLv3, 3DES, RC4
   \end{itemize}
-\vspace*{2mm}
-In the near future, the following additional criteria will also be factored in to BOD 18-01 compliance in this report:
-\begin{itemize}[topsep=-6pt, itemsep=0pt]
-  \item Secure Sockets Layer (SSL)v2, SSLv3 and 3DES, RC4 ciphers are disabled on all web servers
-\end{itemize}
-\vspace*{2mm}
-In \texttt{pshtt}, BOD 18-01 compliance is met when:
-\begin{center}
-\normalsize\textit{Domain Supports HTTPS == ``True" AND Domain Enforces HTTPS == ``True" AND Domain Uses Strong HSTS == ``True"}\\
-\end{center}
 
 % A subdomain can receive a score of ``No" for HSTS and yet be M-15-13 compliant. In these cases, the subdomain inherits the HSTS policy from the parent domain.
 % TODO ^ fix this in Python!, maybe a new value that says "parent"
 % Nevermind! This only matters if a domain is preloaded, since the parent domain won't be loaded unless preloading is in effect.
 
+\vspace*{5mm}
 \phantomsection % links this section from toc
 \addcontentsline{toc}{subsubsection}{Preloaded}% Adds subsection to toc
 \hypertarget{Preloaded}{\textbf{\color{dhs-dark-gray}{\large{Preloaded}}}}\\
