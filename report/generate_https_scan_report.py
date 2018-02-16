@@ -185,7 +185,8 @@ class ReportGenerator(object):
             score['strictly_forces_https_bool'] = False
 
         # "Uses HTTPS", domains_supports_https
-        if domain['domain_supports_https'] or domain['hsts_base_domain_preloaded']:
+        # Domain gets credit for supporting HTTPS as long as it's live and hsts_base_domain_preloaded is true
+        if domain['domain_supports_https'] or (domain['live'] and domain['hsts_base_domain_preloaded']):
             # score['domain_supports_https'] = 'Yes'
             score['domain_supports_https_bool'] = True
             self.__domain_supports_https_count += 1
@@ -194,7 +195,8 @@ class ReportGenerator(object):
             score['domain_supports_https_bool'] = False
 
         # "Enforces HTTPS", domain_enforces_https
-        if domain['domain_enforces_https'] or domain['hsts_base_domain_preloaded']:
+        # Domain gets credit for enforcing HTTPS as long as it's live and hsts_base_domain_preloaded is true
+        if domain['domain_enforces_https'] or (domain['live'] and domain['hsts_base_domain_preloaded']):
             # score['domain_enforces_https'] = 'Yes'
             score['domain_enforces_https_bool'] = True
             self.__domain_enforces_https_count += 1
@@ -241,7 +243,8 @@ class ReportGenerator(object):
             score['downgrades_https_bool'] = False
 
         # Is the domain's base_domain preloaded?
-        if domain['hsts_base_domain_preloaded']:
+        # In this case, we only care if the domain is live
+        if domain['live'] and domain['hsts_base_domain_preloaded']:
             score['hsts_base_domain_preloaded_bool'] = True
             self.__hsts_base_domain_preloaded_count += 1
         else:
@@ -274,7 +277,8 @@ class ReportGenerator(object):
                     # score['hsts_preload_ready'] = 'No'
 
             # HTTPS Strict Transport Security (HSTS): This is 'Yes' in the report only if HSTS is present and the max-age is >= 1 year, as BOD 18-01 requires
-            if domain['domain_uses_strong_hsts']:
+            # Domain gets credit for strong HSTS as long as it's live and hsts_base_domain_preloaded is true
+            if domain['domain_uses_strong_hsts'] or (domain['live'] and domain['hsts_base_domain_preloaded']):
                 score['domain_uses_strong_hsts_bool'] = True
                 self.__domain_uses_strong_hsts_count += 1
             else:
@@ -283,7 +287,8 @@ class ReportGenerator(object):
                     self.__hsts_low_max_age_count += 1
 
         # if HSTS is not present but the base_domain is preloaded, "HSTS" gets a thumbs up
-        elif domain['hsts_base_domain_preloaded']:
+        # In this case, we only care if the domain is live
+        elif domain['live'] and domain['hsts_base_domain_preloaded']:
             score['domain_uses_strong_hsts_bool'] = True
             self.__domain_uses_strong_hsts_count += 1
 
@@ -310,7 +315,7 @@ class ReportGenerator(object):
                                                     'weak_crypto_list_str':', '.join(weak_crypto_list)})
 
         # BOD 18-01 compliant?
-        if ((domain['domain_supports_https'] and domain['domain_enforces_https'] and domain['domain_uses_strong_hsts']) or domain['hsts_base_domain_preloaded']) and not domain['domain_has_weak_crypto']:
+        if ( (domain['domain_supports_https'] and domain['domain_enforces_https'] and domain['domain_uses_strong_hsts']) or (domain['live'] and domain['hsts_base_domain_preloaded']) ) and not domain['domain_has_weak_crypto']:
             score['bod_1801_compliance'] = True
             self.__bod_1801_count += 1
         else:
