@@ -2,7 +2,7 @@
 
 This is a Docker container that creates PDF reports for individual
 second-level domains using data collected via
-[trustymail](https://github.com/dhs-ncats/pshtt) scans.
+[pshtt](https://github.com/dhs-ncats/pshtt) scans.
 
 This Docker container is intended to be run via
 [orchestrator](https://github.com/dhs-ncats/orchestrator).
