@@ -78,9 +78,15 @@
 \fancyhead{}
 \fancyfoot{}
 %\fancyhead[CO,CE]{For Official Use Only (FOUO)}
+\newfontfamily{\FranklinGothicDemiFont}{Franklin Gothic Demi}
+\newcommand\TLPFont{\FranklinGothicDemiFont\fontsize{11pt}{11pt}\selectfont}
+\definecolor{tlp-green}{cmyk}{0.79,0.0,1.0,0.0}
+\fancyhead[RO,RE]{\colorbox{black}{\textcolor{tlp-green}{\TLPFont{TLP:GREEN}}}}
 \fancyfoot[CO,CE]{\usvardate\formatdate<<&title_date_tex>>}
-\fancyfoot[LE, RO] {\thepage}
-\fancyfoot[LO, RE] {}
+\fancyfoot[LE]{\thepage}
+\fancyfoot[RO]{\colorbox{black}{\textcolor{tlp-green}{\TLPFont{TLP:GREEN}}} \thepage}
+\fancyfoot[RE]{\colorbox{black}{\textcolor{tlp-green}{\TLPFont{TLP:GREEN}}}}
+\fancyfoot[LO]{}
 \renewcommand{\headrulewidth}{0.0pt}
 \renewcommand{\footrulewidth}{0.0pt}
 
