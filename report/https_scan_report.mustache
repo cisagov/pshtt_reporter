@@ -45,7 +45,7 @@
 \newcommand\tab[1][1cm]{\hspace*{#1}}
 \setstackEOL{\#} %used by stackengine
 \def\stackalignment{l} %used by stackengine
-
+\usepackage{lpic} % used to put text over title page graphic
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% PDF Metadata
@@ -140,6 +140,9 @@ opacity=0.04
 \newdateformat{isodate}{%
 \THEYEAR-\twodigit{\THEMONTH}-\twodigit{\THEDAY}}
 
+\newdateformat{isodatenohyphens}{%
+\THEYEAR\twodigit{\THEMONTH}\twodigit{\THEDAY}}
+
 \newdateformat{usshortvardate}{%
 \shortmonthname[\THEMONTH] \THEDAY, \THEYEAR}
 
@@ -222,6 +225,8 @@ opacity=0.04
 \newcommand\NCCICHeadingThree{\FranklinGothicMediumFont\fontsize{13pt}{13pt}\slshape\selectfont}	% \slshape gives italics (slanted type)
 \newcommand\NCCICHeadingFour{\FranklinGothicMediumFont\fontsize{11pt}{11pt}\slshape\selectfont}
 \newcommand\NCCICCaption{\FranklinGothicMediumFont\fontsize{11pt}{11pt}\slshape\selectfont}
+\newfontfamily{\FranklinGothicBookFont}{Franklin Gothic Book}
+\newcommand\NCCICTitleCoverNumberDate{\FranklinGothicBookFont\fontsize{10pt}{10pt}\selectfont}
 
 % Set formats for each heading level
 % Credit: https://tex.stackexchange.com/questions/136527/section-numbering-without-numbers
@@ -304,45 +309,49 @@ opacity=0.04
 %%% Front Matter
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
-	\begin{titlepage}
-		\newgeometry{left=0.4375in,right=0.4375in,top=0.4375in,bottom=0.4375in}
-		\pagecolor{dhs-blue}
-		\color{white}
-		\vspace*{3.93in}
-		\begin{flushleft}
-			%{\fontsize{40}{36}\selectfont\textit{<<&agency>>}\\\textit{HTTPS Report}}\\[22pt]
-			%{\fontsize{22}{40}\selectfont\textit{\usvardate\formatdate<<&title_date_tex>>}}
-			{\fontsize{58}{58}\selectfont HTTPS Report}\\[22pt]
-			{\fontsize{22}{40}\selectfont\textsf{<<&agency>>}}\\[22pt]
-			{\fontsize{22}{40}\selectfont\textit{\usvardate\formatdate<<&title_date_tex>>}}
+\begin{titlepage}
+  \newgeometry{left=0.1in,right=0.0in,top=0.0in,bottom=0.0in}
 
-		\end{flushleft}
-		\vfill
-		\begin{minipage}{0.50\linewidth}
-			\begin{figure}[H]
-				\color{white}
-				\begin{flushleft}
-					\href{https://www.dhs.gov}{
-							\includegraphics[height=0.75in]{assets/dhs-logo}
-							\raisebox{1.6ex}[0.2ex][0.2ex]{\parbox[b]{2in}{\fontsize{28}{22}\selectfont\textcolor{White}{Homeland\\Security}}}
-					}
-				\end{flushleft}
-			\end{figure}
-		\end{minipage}
-		\begin{minipage}{0.50\linewidth}
-			\begin{figure}[H]
-				\color{white}
-				\begin{flushright}
-					\href{https://www.dhs.gov/national-cybersecurity-and-communications-integration-center}{
-						\raisebox{-1.3ex}[0.2ex][0.2ex]{\fontsize{22}{22}\selectfont\textcolor{White}{\textit{National Cybersecurity and}}}
-						\raisebox{-3.0ex}[0.2ex][0.2ex]{\fontsize{22}{22}\selectfont\textcolor{White}{\textit{Communications Integration Center}}}
-					}
-				\end{flushright}
-			\end{figure}
-		\end{minipage}
-	\end{titlepage}
+  % Fake a header for the title page
+  \vspace*{0.5mm}
+  \begin{minipage}{\textwidth}
+    \begin{minipage}{.32\linewidth}
+      \ % placeholder for left side of header
+    \end{minipage}
+    \begin{minipage}{.34\linewidth}
+      \ % placeholder for center of header
+    \end{minipage}
+    \begin{minipage}{.33\linewidth}
+      \raggedleft \colorbox{black}{\textcolor{tlp-green}{\TLPFont{TLP:GREEN}}} \hspace*{0.7in}
+    \end{minipage}
+    \end{minipage}
+
+  \vspace*{1.0in}
+  \hspace*{3.5mm}
+  \begin{lpic}[] {assets/assessment-summary-title}
+    \lbl[tl]{11, 114; {\textcolor{dhs-white}{\NCCICTitle{Cyber Hygiene Assessment}}}}
+    \lbl[tl]{150, 14.3; \colorbox{yellow}{\NCCICTitleCoverNumberDate{HTTPS<<&agency_id>>\isodatenohyphens\formatdate<<&title_date_tex>>}}}
+    \lbl[tl]{150, 5.9; \colorbox{yellow}{\NCCICTitleCoverNumberDate{\usvardate\formatdate<<&title_date_tex>>}}}
+  \end{lpic}
+  \\~\\
+  \hspace*{9mm}{\textcolor{dhs-blue}{\NCCICCoverTitle{HTTPS Report\\}}}
+  \hspace*{8.3mm}{\textcolor{dhs-blue}{\NCCICTitle{<<&agency>>}}}
+
+  % Fake a footer for the title page
+  \vspace*{1.6in}
+  \begin{minipage}{\textwidth}
+    \begin{minipage}{.32\linewidth}
+      \hspace*{3mm} \raggedright \includegraphics[height=0.8in]{assets/dhs-nccic-logo}
+    \end{minipage}
+    \begin{minipage}{.34\linewidth}
+      \   % placeholder for center of footer
+    \end{minipage}
+    \begin{minipage}{.33\linewidth}
+      \raggedleft{\vspace*{14mm}\colorbox{black}{\textcolor{tlp-green}{\TLPFont{TLP:GREEN}}} \hspace*{0.7in}}
+    \end{minipage}
+  \end{minipage}
+\end{titlepage}
 \restoregeometry
-\pagecolor{white}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Blank Page
