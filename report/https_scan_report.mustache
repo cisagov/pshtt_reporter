@@ -45,7 +45,7 @@
 \newcommand\tab[1][1cm]{\hspace*{#1}}
 \setstackEOL{\#} %used by stackengine
 \def\stackalignment{l} %used by stackengine
-
+\usepackage{lpic} % used to put text over title page graphic
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% PDF Metadata
@@ -77,10 +77,9 @@
 \pagestyle{fancy}
 \fancyhead{}
 \fancyfoot{}
-%\fancyhead[CO,CE]{For Official Use Only (FOUO)}
 \fancyfoot[CO,CE]{\usvardate\formatdate<<&title_date_tex>>}
-\fancyfoot[LE, RO] {\thepage}
-\fancyfoot[LO, RE] {}
+\fancyfoot[RO,LE]{\thepage}
+\fancyfoot[LO]{}
 \renewcommand{\headrulewidth}{0.0pt}
 \renewcommand{\footrulewidth}{0.0pt}
 
@@ -134,6 +133,9 @@ opacity=0.04
 \newdateformat{isodate}{%
 \THEYEAR-\twodigit{\THEMONTH}-\twodigit{\THEDAY}}
 
+\newdateformat{isodatenohyphens}{%
+\THEYEAR\twodigit{\THEMONTH}\twodigit{\THEDAY}}
+
 \newdateformat{usshortvardate}{%
 \shortmonthname[\THEMONTH] \THEDAY, \THEYEAR}
 
@@ -145,36 +147,17 @@ opacity=0.04
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Primary Palette
 \definecolor{dhs-blue}{cmyk}{1.0,0.45,0.0,0.37}
+\definecolor{dhs-light-blue}{cmyk}{1.0,0.16,0.0,0.27}
 \definecolor{dhs-gray}{cmyk}{0.0,0.0,0.0,0.28}
 \definecolor{dhs-dark-gray}{cmyk}{0.0,0.0,0.0,0.79}
+\definecolor{dhs-blue-gray}{cmyk}{0.77,0.51,0.34,0.25}
 \definecolor{dhs-white}{cmyk}{0.0,0.0,0.0,0.0}
 %%% Support Palette
 \definecolor{dhs-red}{cmyk}{0.0,1.0,0.79,0.20}
-\definecolor{dhs-light-blue}{cmyk}{1.0,0.16,0.0,0.27}
 \definecolor{dhs-green}{cmyk}{0.56,0.0,1.0,0.27}
 %%% Table Colors
 \definecolor{row-gray}{cmyk}{0.0,0.0,0.0,0.15}
 \definecolor{row-light-blue}{cmyk}{0.08,0.0,0.0,0.03}
-%%% Vulnerability Colors
-\definecolor{v-critical}{HTML}{C66270}
-\definecolor{v-high}{HTML}{CF9C66}
-\definecolor{v-medium}{HTML}{CFC666}
-\definecolor{v-low}{HTML}{5C90BA}
-%%% Signal Colors
-\definecolor{v-good}{HTML}{7BBE5E}
-\definecolor{v-bad}{HTML}{C66270}
-%%% Scorecard Colors
-\definecolor{sc-high}{cmyk}{0.0,1.0,1.0,0.0} %{HTML}{FF0000}
-\definecolor{sc-medium}{cmyk}{0.0,0.6,1.0,0.0} %{HTML}{FF6600}
-\definecolor{sc-low}{cmyk}{1.0,0.45,0.0,0.37} %same as dhs-blue
-\definecolor{sc-nope}{cmyk}{0.02,0.02,0.0,0.61} %{HTML}{616163}
-\definecolor{sc-yellow-hilite}{cmyk}{0.01,0.0,0.25,0.01} %{HTML}{FDFFBF}
-%%% Scorecard Appendix Colors
-\definecolor{col-stage1}{cmyk}{0.0,0.0,0.19,0.0}		%{HTML}{FFFFCF}
-\definecolor{col-stage2}{cmyk}{0.0,0.12,0.39,0.0}		%{HTML}{FEDF9A}
-\definecolor{col-stage3}{cmyk}{0.0,0.28,0.47,0.0}		%{HTML}{FEB886}
-\definecolor{col-stage4}{cmyk}{0.0,0.46,0.53,0.04}		%{HTML}{F68574}
-\definecolor{col-stage5}{cmyk}{0.0,0.55,0.44,0.16}		%{HTML}{D66078}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Attachments Setup
@@ -222,38 +205,33 @@ opacity=0.04
 %%% Font Setup
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \defaultfontfeatures{Scale=MatchLowercase}
-\setmainfont[Mapping=tex-text]{Joanna MT}
+\setmainfont[Mapping=tex-text]{Arial}
 %\setsansfont[Mapping=tex-text]{Franklin Gothic Book}
 \setmonofont{Source Code Pro}
 
-% Report Card Fonts and Hashes
-\newfontfamily{\RCHeadFont}{Avenir Next Condensed Demi Bold}
-\newfontfamily{\RCSubFont}{Baskerville SemiBold}
-\newfontfamily{\RCBigNumFont}{Avenir Next Demi Bold}
-\newfontfamily{\RCSmallNumFont}{Avenir Next Regular}
-\newfontfamily{\RCArrowFont}{Apple SD Gothic Neo}
-\newfontfamily{\RCFlatArrowFont}{Cambria Math}
-
-\newcommand\RCHeadA{\RCHeadFont\fontsize{28pt}{28pt}\selectfont}
-\newcommand\RCHeadB{\RCHeadFont\fontsize{14pt}{16.8pt}\selectfont}
-\newcommand\RCSub{\RCSubFont\fontsize{9pt}{10.8pt}\selectfont}
-\newcommand\RCBigNum{\RCBigNumFont\fontsize{18pt}{21.6pt}\selectfont}
-\newcommand\RCSmallNum{\RCSmallNumFont\fontsize{9pt}{10.8pt}\selectfont}
-\newcommand\RCHashDot{\hdashrule[6pt]{\linewidth}{1pt}{1pt}}
-\newcommand\RCHashThick{\hdashrule{\linewidth}{3pt}{}}
-\newcommand\RCUpArrow{\RCArrowFont\fontsize{18pt}{18pt}\selectfont⬆}
-\newcommand\RCDownArrow{\RCArrowFont\fontsize{18pt}{18pt}\selectfont⬇}
-\newcommand\RCFlatArrow{\RCFlatArrowFont\fontsize{18pt}{18pt}\selectfont⬌}
-\newcommand\RCBullet{\RCFlatArrowFont\fontsize{22pt}{22pt}\selectfont•}
-% Scorecard Fonts
-\newcommand\SCHeadA{\RCHeadFont\fontsize{22pt}{22pt}\selectfont}
-\newcommand\SCMed{\RCSmallNumFont\fontsize{12pt}{12pt}\selectfont}
-\newcommand\SCSmall{\RCSmallNumFont\fontsize{10.4pt}{10.4pt}\selectfont}
+% DHS NCCIC Standard Fonts
+\newfontfamily{\FranklinGothicMediumFont}{Franklin Gothic Medium}
+\newcommand\NCCICCoverTitle{\FranklinGothicMediumFont\fontsize{24pt}{24pt}\selectfont}
+\newcommand\NCCICTitle{\FranklinGothicMediumFont\fontsize{16pt}{16pt}\selectfont}
+\newcommand\NCCICHeadingOne{\FranklinGothicMediumFont\fontsize{16pt}{16pt}\selectfont}
+\newcommand\NCCICHeadingTwo{\FranklinGothicMediumFont\fontsize{14pt}{14pt}\selectfont}
+\newcommand\NCCICHeadingThree{\FranklinGothicMediumFont\fontsize{13pt}{13pt}\slshape\selectfont}	% \slshape gives italics (slanted type)
+\newcommand\NCCICHeadingFour{\FranklinGothicMediumFont\fontsize{11pt}{11pt}\slshape\selectfont}
+\newcommand\NCCICCaption{\FranklinGothicMediumFont\fontsize{11pt}{11pt}\slshape\selectfont}
+\newfontfamily{\FranklinGothicBookFont}{Franklin Gothic Book}
+\newcommand\NCCICTitleCoverNumberDate{\FranklinGothicBookFont\fontsize{10pt}{10pt}\selectfont}
 
 % Set formats for each heading level
-\titleformat*{\section}{\LARGE\bfseries\normalfont\color{dhs-dark-gray}}
-\titleformat*{\subsection}{\Large\bfseries\normalfont\color{dhs-dark-gray}}
-\titleformat*{\subsubsection}{\large\itshape\normalfont\color{dhs-dark-gray}}
+% Credit: https://tex.stackexchange.com/questions/136527/section-numbering-without-numbers
+\titleformat{\section}
+  {\NCCICHeadingOne\color{dhs-blue}}   % The style of the section title
+  {}                                   % a prefix
+  {0pt}                                % How much space exists between the prefix and the title
+  {}                                   % How the section is represented
+% Use \subsection* for unnumbered subsections
+\titleformat{name=\subsection,numberless} {\NCCICHeadingTwo\color{dhs-dark-gray}} {} {0pt} {}
+% Use \subsubsection* for unnumbered subsubsections
+\titleformat{name=\subsubsection,numberless} {\NCCICHeadingThree\color{dhs-blue}} {} {0pt} {}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Graphics Setup
@@ -324,53 +302,51 @@ opacity=0.04
 %%% Front Matter
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
-	\begin{titlepage}
-		\newgeometry{left=0.4375in,right=0.4375in,top=0.4375in,bottom=0.4375in}
-		\pagecolor{dhs-blue}
-		\color{white}
-		\vspace*{3.93in}
-		\begin{flushleft}
-			%{\fontsize{40}{36}\selectfont\textit{<<&agency>>}\\\textit{HTTPS Report}}\\[22pt]
-			%{\fontsize{22}{40}\selectfont\textit{\usvardate\formatdate<<&title_date_tex>>}}
-			{\fontsize{58}{58}\selectfont HTTPS Report}\\[22pt]
-			{\fontsize{22}{40}\selectfont\textsf{<<&agency>>}}\\[22pt]
-			{\fontsize{22}{40}\selectfont\textit{\usvardate\formatdate<<&title_date_tex>>}}
+\begin{titlepage}
+  \newgeometry{left=0.1in,right=0.0in,top=0.0in,bottom=0.0in}
 
-		\end{flushleft}
-		\vfill
-		\begin{minipage}{0.50\linewidth}
-			\begin{figure}[H]
-				\color{white}
-				\begin{flushleft}
-					\href{https://www.dhs.gov}{
-							\includegraphics[height=0.75in]{assets/dhs-logo}
-							\raisebox{1.6ex}[0.2ex][0.2ex]{\parbox[b]{2in}{\fontsize{28}{22}\selectfont\textcolor{White}{Homeland\\Security}}}
-					}
-				\end{flushleft}
-			\end{figure}
-		\end{minipage}
-		\begin{minipage}{0.50\linewidth}
-			\begin{figure}[H]
-				\color{white}
-				\begin{flushright}
-					\href{https://www.dhs.gov/national-cybersecurity-and-communications-integration-center}{
-						\raisebox{-1.3ex}[0.2ex][0.2ex]{\fontsize{22}{22}\selectfont\textcolor{White}{\textit{National Cybersecurity and}}}
-						\raisebox{-3.0ex}[0.2ex][0.2ex]{\fontsize{22}{22}\selectfont\textcolor{White}{\textit{Communications Integration Center}}}
-					}
-				\end{flushright}
-			\end{figure}
-		\end{minipage}
-	\end{titlepage}
+  % Fake a header for the title page
+  \vspace*{0.5mm}
+  \begin{minipage}{\textwidth}
+    \begin{minipage}{.32\linewidth}
+      \ % placeholder for left side of header
+    \end{minipage}
+    \begin{minipage}{.34\linewidth}
+      \ % placeholder for center of header
+    \end{minipage}
+    \begin{minipage}{.33\linewidth}
+      \ % placeholder for right side of header
+    \end{minipage}
+    \end{minipage}
+
+  \vspace*{1.0in}
+  \hspace*{3.5mm}
+  \begin{lpic}[] {assets/assessment-summary-title}
+    \lbl[tl]{11, 114; {\textcolor{dhs-white}{\NCCICTitle{Cyber Hygiene Assessment}}}}
+    \lbl[tl]{150, 14.3; \colorbox{yellow}{\NCCICTitleCoverNumberDate{HTTPS<<&agency_id>>\isodatenohyphens\formatdate<<&title_date_tex>>}}}
+    \lbl[tl]{150, 5.9; \colorbox{yellow}{\NCCICTitleCoverNumberDate{\usvardate\formatdate<<&title_date_tex>>}}}
+  \end{lpic}
+  \\~\\
+  \hspace*{9mm}{\textcolor{dhs-blue}{\NCCICCoverTitle{HTTPS Report\\}}}
+  \hspace*{8.3mm}{\textcolor{dhs-blue}{\NCCICTitle{<<&agency>>}}}
+
+  % Fake a footer for the title page
+  \vspace*{1.6in}
+  \begin{minipage}{\textwidth}
+    \begin{minipage}{.32\linewidth}
+      \hspace*{3mm} \raggedright \includegraphics[height=0.8in]{assets/dhs-nccic-logo}
+    \end{minipage}
+    \begin{minipage}{.34\linewidth}
+      \   % placeholder for center of footer
+    \end{minipage}
+    \begin{minipage}{.33\linewidth}
+      \ % placeholder for right side of footer
+    \end{minipage}
+  \end{minipage}
+\end{titlepage}
 \restoregeometry
-\pagecolor{white}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% Blank Page
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newpage
-\begin{center}
-\textit{This page intentionally left blank}
-\end{center}
+
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Table of Contents
@@ -386,18 +362,19 @@ opacity=0.04
 \newpage
 \renewcommand{\footrulewidth}{0.4pt}
 \section{Executive Summary}
-\label{app:executive summary}
+\label{sec:executive summary}
 Hypertext Transfer Protocol (HTTP) connections can be easily monitored, modified, and impersonated; HTTPS remedies each vulnerability. HTTP Strict Transport Security (HSTS) ensures that browsers always use an https:// connection, and removes the ability for users to click through certificate-related warnings.
 
 In 2015, \href{https://https.cio.gov/}{OMB M-15-13} required all existing Federal websites and web services to be accessible through a secure connection (HTTPS-only, with HSTS). In 2017, the .gov registry began \href{https://home.dotgov.gov/hsts-preloading/}{automatically preloading} new federal .gov domains as HSTS-only in modern browsers. Federal agencies must make more progress on HTTPS and HSTS deployment, including by removing support for known-weak cryptographic protocols and ciphers.
 
 This weekly report, created by the National Cybersecurity Assessments and Technical Services (NCATS) team inside the Department of Homeland Security's National Cybersecurity and Communications Integration Center (NCCIC), is intended to assist your agency to comply with the web security aspects of Binding Operational Directive (BOD) 18-01. Implementation guidance can be found at \href{https://cyber.dhs.gov/guide}{https://cyber.dhs.gov/guide} and \href{https://https.cio.gov}{https://https.cio.gov}.  This report also helps agencies to \href{https://https.cio.gov/hsts/#hsts-preloading}{``preload" their domains} to better enforce the protections BOD 18-01 requires.
 
-\vspace*{5mm}
+\vspace*{-3mm}
 \addcontentsline{toc}{subsection}{Overview} % Adds a subsection to toc
-\textbf{\color{dhs-dark-gray}{\Large{Overview}}}\\~\\
+\subsection*{Overview}
+\vspace*{-3mm}
 \raggedright
-We measure the presence and enforcement of HTTPS for your agency's publicly-accessible .gov domains. \textbf{This report includes all agency-registered \href{https://github.com/GSA/data/blob/master/dotgov-domains/current-federal.csv}{second-level .gov domains} and known subdomains}, collectively referred to as ``hostnames" in this document (see the \hyperref[app:methodology]{\color{blue}{Methodology}} section for a description of how these hostnames are collected). Hostnames which do nothing but redirect to other websites \textit{are} measured. Hostnames that did not respond to HTTP/HTTPS requests are considered `non-web' and are removed from the compliance figures below.
+We measure the presence and enforcement of HTTPS for your agency's publicly-accessible .gov domains. \textbf{This report includes all agency-registered \href{https://github.com/GSA/data/blob/master/dotgov-domains/current-federal.csv}{second-level .gov domains} and known subdomains}, collectively referred to as ``hostnames" in this document (see the \hyperref[app:methodology]{\color{dhs-blue}{Methodology}} section for a description of how these hostnames are collected). Hostnames which do nothing but redirect to other websites \textit{are} measured. Hostnames that did not respond to HTTP/HTTPS requests are considered `non-web' and are removed from the compliance figures below.
 
 <<&agency>> owns \numprint{<<base_domain_count>>} second-level .gov domains and NCATS discovered \numprint{<<subdomain_count>>} subdomains. Of these, \textbf{\numprint{<<all_eligible_domains_count>>} hostnames responded to HTTP/HTTPS requests over the public Internet:}
 \begin{itemize}[topsep=-6pt, itemsep=0pt]
@@ -432,10 +409,10 @@ Of \textit{\numprint{<<all_eligible_domains_count>>} hostnames that respond to H
 \newpage
 \begin{landscape}
 \section{Results}
-\label{app:results}
+\label{sec:results}
 \phantomsection% links this section from toc
 \addcontentsline{toc}{subsection}{Results}% Adds subsection to toc
-The following table shows where each <<&agency>> domain falls along the spectrum of BOD 18-01 web security compliance and whether the domain is preloaded. To be \hyperlink{BOD 18-01 Web Compliant}{BOD 18-01 web compliant}, a domain must meet all of the following: `Uses HTTPS', `Enforces HTTPS', `Uses Strong Strict Transport Security (HSTS)', `Free of SSLv2, SSLv3, 3DES, RC4'. Definitions of the field values are in ``\hyperlink{Field Descriptions}{\color{blue}{Field Descriptions}}", after the table below.\\~\\
+The following table shows where each <<&agency>> domain falls along the spectrum of BOD 18-01 web security compliance and whether the domain is preloaded. To be \hyperlink{BOD 18-01 Web Compliant}{BOD 18-01 web compliant}, a domain must meet all of the following: `Uses HTTPS', `Enforces HTTPS', `Uses Strong Strict Transport Security (HSTS)', `Free of SSLv2, SSLv3, 3DES, RC4'. Definitions of the field values are in ``\hyperlink{Field Descriptions}{\color{dhs-blue}{Field Descriptions}}", after the table below.\\~\\
 
 BOD 18-01 includes \href{https://https.cio.gov/guide/#what-about-domains-that-are-technically-public-but-in-practice-are-only-used-internally}{\textbf{all domains and subdomains that are publicly reachable over HTTP/HTTPS}}, regardless of whether those hostnames are in practice only used internally.\\~\\
 
@@ -449,14 +426,14 @@ BOD 18-01 includes \href{https://https.cio.gov/guide/#what-about-domains-that-ar
 \rowcolors{4}{white}{row-gray}
 \begin{longtable}{>{\raggedright}p{2.7in}p{1.0in}p{0.7in}p{1.2in}p{2.1in}p{0.8in}p{0.7in}}
   \toprule
-      \textbf{Domain} & \hyperlink{Uses HTTPS}{\color{blue}{\textbf{Uses HTTPS}}} & \hyperlink{Enforces HTTPS}{\color{blue}{\textbf{Enforces\newline HTTPS}}} & \hyperlink{Uses Strong Strict Transport Security (HSTS)}{\color{blue}{\textbf{Uses Strong\newline Strict Transport\newline Security (HSTS)}}} & \hyperlink{Free of SSLv2, SSLv3, 3DES, RC4}{\color{blue}{\textbf{Free of SSLv2, SSLv3, 3DES, RC4}}} & \hyperlink{BOD 18-01 Web Compliant}{\color{blue}{\textbf{BOD 18-01\newline Web\newline Compliant}}} & \hyperlink{Preloaded}{\color{blue}{\textbf{Preloaded}}}\\
+      \textbf{Domain} & \hyperlink{Uses HTTPS}{\color{dhs-blue}{\textbf{Uses HTTPS}}} & \hyperlink{Enforces HTTPS}{\color{dhs-blue}{\textbf{Enforces\newline HTTPS}}} & \hyperlink{Uses Strong Strict Transport Security (HSTS)}{\color{dhs-blue}{\textbf{Uses Strong\newline Strict Transport\newline Security (HSTS)}}} & \hyperlink{Free of SSLv2, SSLv3, 3DES, RC4}{\color{dhs-blue}{\textbf{Free of SSLv2, SSLv3, 3DES, RC4}}} & \hyperlink{BOD 18-01 Web Compliant}{\color{dhs-blue}{\textbf{BOD 18-01\newline Web\newline Compliant}}} & \hyperlink{Preloaded}{\color{dhs-blue}{\textbf{Preloaded}}}\\
   \hhline{=======}
   \endhead
 	<<#report_doc.scores>>
-<<#live_bool>>\color{blue}\textbf{{<<&domain>>}} & <<#domain_supports_https_bool>>\checkmark <</domain_supports_https_bool>><<^domain_supports_https_bool>> \xmark <<#https_bad_chain_bool>>\textit{\newline Bad chain}<</https_bad_chain_bool>><<#https_bad_hostname_bool>>\textit{\newline Bad hostname}<</https_bad_hostname_bool>><<#https_expired_cert_bool>>\textit{\newline Expired certificate}<</https_expired_cert_bool>><</domain_supports_https_bool>> & <<#domain_enforces_https_bool>>\checkmark <</domain_enforces_https_bool>><<^domain_enforces_https_bool>>\xmark <</domain_enforces_https_bool>> & <<#domain_uses_strong_hsts_bool>>\checkmark <</domain_uses_strong_hsts_bool>><<^domain_uses_strong_hsts_bool>>\xmark <<#hsts_bool>>\textit{\ \ Low max-age}<</hsts_bool>><</domain_uses_strong_hsts_bool>> & <<^domain_has_weak_crypto_bool>> \checkmark <</domain_has_weak_crypto_bool>><<#domain_has_weak_crypto_bool>> \xmark \textit{\ \ Supports: <<#hosts_with_weak_crypto>><<&weak_crypto_list_str>><</hosts_with_weak_crypto>>} <</domain_has_weak_crypto_bool>> & <<#bod_1801_compliance>>\checkmark <</bod_1801_compliance>><<^bod_1801_compliance>>\xmark <</bod_1801_compliance>> & <<#bod_1801_compliance>><<#hsts_preloaded_bool>> \checkmark <</hsts_preloaded_bool>><<^hsts_preloaded_bool>><<#hsts_preload_pending_bool>> \textit{Pending*} <</hsts_preload_pending_bool>><<^hsts_preload_pending_bool>><<#hsts_preload_ready_bool>> \textit{Preload-ready*} <</hsts_preload_ready_bool>><<^hsts_preload_ready_bool>> \xmark <</hsts_preload_ready_bool>><</hsts_preload_pending_bool>><</hsts_preloaded_bool>><</bod_1801_compliance>><<^bod_1801_compliance>> \xmark <</bod_1801_compliance>><</live_bool>>
-<<^live_bool>>\color{blue}\textbf{{<<&domain>>}} \textit{\ \ Not Live} & \textit{N/A} & \textit{N/A} & \textit{N/A} & \textit{N/A} & \checkmark & <<#hsts_preloaded_bool>> \checkmark <</hsts_preloaded_bool>><<^hsts_preloaded_bool>><<#hsts_preload_pending_bool>> \textit{Pending*} <</hsts_preload_pending_bool>><<^hsts_preload_pending_bool>><<#hsts_preload_ready_bool>> \textit{Preload-ready*} <</hsts_preload_ready_bool>><<^hsts_preload_ready_bool>> \xmark <</hsts_preload_ready_bool>><</hsts_preload_pending_bool>><</hsts_preloaded_bool>><</live_bool>>\\
+<<#live_bool>>\color{dhs-blue}\textbf{{<<&domain>>}} & <<#domain_supports_https_bool>>\checkmark <</domain_supports_https_bool>><<^domain_supports_https_bool>> \xmark <<#https_bad_chain_bool>>\textit{\newline Bad chain}<</https_bad_chain_bool>><<#https_bad_hostname_bool>>\textit{\newline Bad hostname}<</https_bad_hostname_bool>><<#https_expired_cert_bool>>\textit{\newline Expired certificate}<</https_expired_cert_bool>><</domain_supports_https_bool>> & <<#domain_enforces_https_bool>>\checkmark <</domain_enforces_https_bool>><<^domain_enforces_https_bool>>\xmark <</domain_enforces_https_bool>> & <<#domain_uses_strong_hsts_bool>>\checkmark <</domain_uses_strong_hsts_bool>><<^domain_uses_strong_hsts_bool>>\xmark <<#hsts_bool>>\textit{\ \ Low max-age}<</hsts_bool>><</domain_uses_strong_hsts_bool>> & <<^domain_has_weak_crypto_bool>> \checkmark <</domain_has_weak_crypto_bool>><<#domain_has_weak_crypto_bool>> \xmark \textit{\ \ Supports: <<#hosts_with_weak_crypto>><<&weak_crypto_list_str>><</hosts_with_weak_crypto>>} <</domain_has_weak_crypto_bool>> & <<#bod_1801_compliance>>\checkmark <</bod_1801_compliance>><<^bod_1801_compliance>>\xmark <</bod_1801_compliance>> & <<#bod_1801_compliance>><<#hsts_preloaded_bool>> \checkmark <</hsts_preloaded_bool>><<^hsts_preloaded_bool>><<#hsts_preload_pending_bool>> \textit{Pending*} <</hsts_preload_pending_bool>><<^hsts_preload_pending_bool>><<#hsts_preload_ready_bool>> \textit{Preload-ready*} <</hsts_preload_ready_bool>><<^hsts_preload_ready_bool>> \xmark <</hsts_preload_ready_bool>><</hsts_preload_pending_bool>><</hsts_preloaded_bool>><</bod_1801_compliance>><<^bod_1801_compliance>> \xmark <</bod_1801_compliance>><</live_bool>>
+<<^live_bool>>\color{dhs-blue}\textbf{{<<&domain>>}} \textit{\ \ Not Live} & \textit{N/A} & \textit{N/A} & \textit{N/A} & \textit{N/A} & \checkmark & <<#hsts_preloaded_bool>> \checkmark <</hsts_preloaded_bool>><<^hsts_preloaded_bool>><<#hsts_preload_pending_bool>> \textit{Pending*} <</hsts_preload_pending_bool>><<^hsts_preload_pending_bool>><<#hsts_preload_ready_bool>> \textit{Preload-ready*} <</hsts_preload_ready_bool>><<^hsts_preload_ready_bool>> \xmark <</hsts_preload_ready_bool>><</hsts_preload_pending_bool>><</hsts_preloaded_bool>><</live_bool>>\\
 % Show subdomains if hsts_preloaded_bool is false and if any subdomain_scores exist
-<<^hsts_preloaded_bool>><<#subdomain_scores>>\color{blue}{\ \ \ <<&domain>>} & <<#domain_supports_https_bool>>\checkmark <</domain_supports_https_bool>><<^domain_supports_https_bool>> \xmark <<#https_bad_chain_bool>>\textit{\newline Bad chain}<</https_bad_chain_bool>><<#https_bad_hostname_bool>>\textit{\newline Bad hostname}<</https_bad_hostname_bool>><<#https_expired_cert_bool>>\textit{\newline Expired certificate}<</https_expired_cert_bool>><</domain_supports_https_bool>> & <<#domain_enforces_https_bool>>\checkmark <</domain_enforces_https_bool>><<^domain_enforces_https_bool>>\xmark <</domain_enforces_https_bool>> & <<#domain_uses_strong_hsts_bool>>\checkmark <</domain_uses_strong_hsts_bool>><<^domain_uses_strong_hsts_bool>>\xmark <<#hsts_bool>>\textit{\ \ Low max-age}<</hsts_bool>><</domain_uses_strong_hsts_bool>> & <<^domain_has_weak_crypto_bool>> \checkmark <</domain_has_weak_crypto_bool>><<#domain_has_weak_crypto_bool>> \xmark \textit{\ \ Supports: <<#hosts_with_weak_crypto>><<&weak_crypto_list_str>><</hosts_with_weak_crypto>>} <</domain_has_weak_crypto_bool>> & <<#bod_1801_compliance>>\checkmark <</bod_1801_compliance>><<^bod_1801_compliance>>\xmark <</bod_1801_compliance>> & \\<</subdomain_scores>><</hsts_preloaded_bool>>
+<<^hsts_preloaded_bool>><<#subdomain_scores>>\color{dhs-blue}{\ \ \ <<&domain>>} & <<#domain_supports_https_bool>>\checkmark <</domain_supports_https_bool>><<^domain_supports_https_bool>> \xmark <<#https_bad_chain_bool>>\textit{\newline Bad chain}<</https_bad_chain_bool>><<#https_bad_hostname_bool>>\textit{\newline Bad hostname}<</https_bad_hostname_bool>><<#https_expired_cert_bool>>\textit{\newline Expired certificate}<</https_expired_cert_bool>><</domain_supports_https_bool>> & <<#domain_enforces_https_bool>>\checkmark <</domain_enforces_https_bool>><<^domain_enforces_https_bool>>\xmark <</domain_enforces_https_bool>> & <<#domain_uses_strong_hsts_bool>>\checkmark <</domain_uses_strong_hsts_bool>><<^domain_uses_strong_hsts_bool>>\xmark <<#hsts_bool>>\textit{\ \ Low max-age}<</hsts_bool>><</domain_uses_strong_hsts_bool>> & <<^domain_has_weak_crypto_bool>> \checkmark <</domain_has_weak_crypto_bool>><<#domain_has_weak_crypto_bool>> \xmark \textit{\ \ Supports: <<#hosts_with_weak_crypto>><<&weak_crypto_list_str>><</hosts_with_weak_crypto>>} <</domain_has_weak_crypto_bool>> & <<#bod_1801_compliance>>\checkmark <</bod_1801_compliance>><<^bod_1801_compliance>>\xmark <</bod_1801_compliance>> & \\<</subdomain_scores>><</hsts_preloaded_bool>>
 	<</report_doc.scores>>
 	%\bottomrule
 \end{longtable}
@@ -464,7 +441,7 @@ BOD 18-01 includes \href{https://https.cio.gov/guide/#what-about-domains-that-ar
 %%% End Table of Death....Thank Goodness!
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\textbf{Note:} ``Preload-ready" domains can be submitted \textit{by anyone at any time} to the HSTS Preload List site. This submission could potentially have negative effects if you have intranet subdomains that do not support HTTPS. See ``\hyperlink{Preloaded}{\color{blue}{Preloaded}}" in the \hyperlink{Field Descriptions}{\color{blue}{Field Descriptions}} section for more information.
+\textbf{Note:} ``Preload-ready" domains can be submitted \textit{by anyone at any time} to the HSTS Preload List site. This submission could potentially have negative effects if you have intranet subdomains that do not support HTTPS. See ``\hyperlink{Preloaded}{\color{dhs-blue}{Preloaded}}" in the \hyperlink{Field Descriptions}{\color{dhs-blue}{Field Descriptions}} section for more information.
 
 % The following domains were not responsive over HTTP/HTTPS in our most recent scan. M-15-13 requires secure connections for websites and web services, which means only HTTP-based protocols. Domains that don't communicate over HTTP-based protocols have no action to take because of M-15-13.\\~\\
 %
@@ -482,14 +459,18 @@ BOD 18-01 includes \href{https://https.cio.gov/guide/#what-about-domains-that-ar
 \end{landscape}
 
 \newpage
-%\label{app:field-descriptions}
+\vspace*{-3mm}
 \phantomsection % links this section from toc
-\addcontentsline{toc}{subsection}{Field Descriptions}% Adds subsection to toc
-\hypertarget{Field Descriptions}{\textbf{\color{dhs-dark-gray}{\Large{Field Descriptions}}}}\\~\\
+\addcontentsline{toc}{subsection}{Field Descriptions} % Adds a subsection to toc
+\hypertarget{Field Descriptions}{\subsection*{Field Descriptions}}
+\vspace*{-3mm}
 Each hostname's score is calculated from values derived from a \texttt{pshtt} scan; see the \href{https://github.com/dhs-ncats/pshtt/#whats-checked}{README} for definitions of the values in the tool's output. \\~\\
+
+\vspace*{-5mm}
 \phantomsection % links this section from toc
-\addcontentsline{toc}{subsubsection}{Uses HTTPS}% Adds subsection to toc
-\hypertarget{Uses HTTPS}{\textbf{\color{dhs-dark-gray}{\large{Uses HTTPS}}}}\\
+\addcontentsline{toc}{subsubsection}{Uses HTTPS} % Adds a subsection to toc
+\hypertarget{Uses HTTPS}{\subsubsection*{Uses HTTPS}}
+\vspace*{-6mm}
 \textit{Values: \checkmark (uses), \xmark \ (does not use, or uses with: Bad chain, Bad hostname, Expired certificate)}\\~\\
 
 Whether a site can be used over HTTPS, on either its bare domain or its www subdomain. Sites that appear to redirect ``down" from HTTPS to HTTP are given an \xmark. %Domains with ``Bad chain" or ``Expired certificate" are considered `supported' for count purposes, but warnings are likely to be presented to many users.
@@ -505,9 +486,11 @@ In \texttt{pshtt}, ``Uses HTTPS" is mapped to the value for `Domain Supports HTT
 (Bad Hostname == ``False" AND Bad Chain == ``True" and Downgrades HTTPS == ``False"))}\\
 \end{center}
 
+\vspace*{-5mm}
 \phantomsection % links this section from toc
-\addcontentsline{toc}{subsubsection}{Enforces HTTPS}% Adds subsection to toc
-\hypertarget{Enforces HTTPS}{\textbf{\color{dhs-dark-gray}{\large{Enforces HTTPS}}}}\\
+\addcontentsline{toc}{subsubsection}{Enforces HTTPS} % Adds a subsection to toc
+\hypertarget{Enforces HTTPS}{\subsubsection*{Enforces HTTPS}}
+\vspace*{-6mm}
 \textit{Values: \checkmark (enforces), \xmark \ (does not enforce)}\\~\\
 
 Whether a hostname appears to ``default" to using HTTPS (a hostname must have a \checkmark for `Uses HTTPS' to qualify). A hostname where `Redirect' is false is allowed to eventually redirect to an https:// URI. A hostname where `Redirect' is true must immediately redirect clients to an https:// URI (even if that URI is on another domain).\\~\\
@@ -519,9 +502,11 @@ In \texttt{pshtt}, ``Enforces HTTPS" is mapped to the value for `Domain Enforces
 (Strictly Forces HTTPS == ``False" AND Defaults to HTTPS == ``True")))}\\
 \end{center}
 
+\vspace*{-5mm}
 \phantomsection % links this section from toc
-\addcontentsline{toc}{subsubsection}{Uses Strong Strict Transport Security (HSTS)}% Adds subsection to toc
-\hypertarget{Uses Strong Strict Transport Security (HSTS)}{\textbf{\color{dhs-dark-gray}{\large{Uses Strong Strict Transport Security (HSTS)}}}}\\
+\addcontentsline{toc}{subsubsection}{Uses Strong Strict Transport Security (HSTS)} % Adds a subsection to toc
+\hypertarget{Uses Strong Strict Transport Security (HSTS)}{\subsubsection*{Uses Strong Strict Transport Security (HSTS)}}
+\vspace*{-6mm}
 \textit{Values: \checkmark (implements), \xmark \ (does not implement HSTS, or implements HSTS with low max-age)}\\~\\
 
 Whether a hostname has implemented strong \href{https://https.cio.gov/hsts}{HTTP Strict Transport Security}. HSTS is an HTTP response header that directs \href{https://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security#Browser_support}{supporting browsers} to, after the first visit, only communicate with a hostname over HTTPS for the duration of \texttt{max-age} (even if the user clicks or types a plain HTTP link).\\
@@ -537,17 +522,20 @@ In \texttt{pshtt}, ``Uses Strong Strict Transport Security (HSTS)" is mapped to 
 \end{center}
 
 \newpage
+\vspace*{-5mm}
 \phantomsection % links this section from toc
-\addcontentsline{toc}{subsubsection}{Free of SSLv2, SSLv3, 3DES, RC4}% Adds subsection to toc
-\hypertarget{Free of SSLv2, SSLv3, 3DES, RC4}{\textbf{\color{dhs-dark-gray}{\large{Free of SSLv2, SSLv3, 3DES, RC4}}}}\\
+\addcontentsline{toc}{subsubsection}{Free of SSLv2, SSLv3, 3DES, RC4} % Adds a subsection to toc
+\hypertarget{Free of SSLv2, SSLv3, 3DES, RC4}{\subsubsection*{Free of SSLv2, SSLv3, 3DES, RC4}}
+\vspace*{-6mm}
 \textit{Values: \checkmark (no weak protocols/ciphers detected), \xmark \ (weak protocols/ciphers detected)}\\~\\
 
 Whether any weak cryptographic protocols (Secure Sockets Layer (SSL)v2, SSLv3) or ciphers (3DES, RC4) are supported by the web server at the hostname.\\
 
-\vspace*{7mm}
+\vspace*{2mm}
 \phantomsection % links this section from toc
-\addcontentsline{toc}{subsubsection}{BOD 18-01 Web Compliant}% Adds subsection to toc
-\hypertarget{BOD 18-01 Web Compliant}{\textbf{\color{dhs-dark-gray}{\large{BOD 18-01 Web Compliant}}}}\\
+\addcontentsline{toc}{subsubsection}{BOD 18-01 Web Compliant} % Adds a subsection to toc
+\hypertarget{BOD 18-01 Web Compliant}{\subsubsection*{BOD 18-01 Web Compliant}}
+\vspace*{-6mm}
 \textit{Values: \checkmark (compliant), \xmark \ (not compliant), N/A (Not live; no web)}\\~\\
 
 Whether a hostname meets all of the following criteria for being compliant with \href{https://cyber.dhs.gov}{BOD 18-01} for web security:
@@ -562,10 +550,11 @@ Whether a hostname meets all of the following criteria for being compliant with 
 % TODO ^ fix this in Python!, maybe a new value that says "parent"
 % Nevermind! This only matters if a domain is preloaded, since the parent domain won't be loaded unless preloading is in effect.
 
-\vspace*{5mm}
+\vspace*{-1mm}
 \phantomsection % links this section from toc
-\addcontentsline{toc}{subsubsection}{Preloaded}% Adds subsection to toc
-\hypertarget{Preloaded}{\textbf{\color{dhs-dark-gray}{\large{Preloaded}}}}\\
+\addcontentsline{toc}{subsubsection}{Preloaded} % Adds a subsection to toc
+\hypertarget{Preloaded}{\subsubsection*{Preloaded}}
+\vspace*{-6mm}
 \textit{Values: \checkmark (yes), \xmark (no), Preload-ready, Pending}
 
 \begin{itemize}[topsep=-6pt, itemsep=0pt]
@@ -580,11 +569,14 @@ Whether a hostname meets all of the following criteria for being compliant with 
 \newpage
 \phantomsection % links this section from toc
 \section{Background}
-\label{app:Background}
+\label{sec:Background}
 More implementation guidance can be found at \href{https://cyber.dhs.gov/guide}{https://cyber.dhs.gov/guide} and \href{https://https.cio.gov}{https://https.cio.gov}.\\~\\
 
+\vspace*{-3mm}
+\phantomsection % links this section from toc
 \addcontentsline{toc}{subsection}{What are the web security requirements of BOD 18-01?}% Adds subsection to toc
-\textbf{\color{dhs-dark-gray}{\Large{What are the web security requirements of BOD 18-01?}}}
+\subsection*{What are the web security requirements of BOD 18-01?}
+\vspace*{-3mm}
 
 \begin{itemize}[topsep=-6pt, itemsep=0pt]
   \item All publicly accessible Federal websites and web services provide service through a secure connection (HTTPS-only, with HSTS):
@@ -602,9 +594,11 @@ M-15-13 includes \textbf{all domains and subdomains that are publicly reachable 
 
 \href{https://cyber.dhs.gov/guide/#how-does-the-web-security-requirement-in-bod-18-01-differ-from-m-15-13}{BOD 18-01 incorporates parallel language to M-15-13} with regard to HTTPS deployment. The Compliance Guide at \href{https://https.cio.gov}{https.cio.gov} \textbf{should be consulted} in implementing HTTPS and HSTS.\\~\\~\\
 
+\vspace*{-3mm}
 \phantomsection % links this section from toc
-\addcontentsline{toc}{subsection}{What else should I do?} % Adds subsection to toc
-\textbf{\color{dhs-dark-gray}{\Large{What else should I do?}}}\\~\\
+\addcontentsline{toc}{subsection}{What else should I do?}% Adds subsection to toc
+\subsection*{What else should I do?}
+\vspace*{-3mm}
 
 BOD 18-01 \textbf{requires} <<&agency>> to evaluate which domains can be added to the \href{https://https.cio.gov/hsts/#hsts-preloading}{HSTS preload list}.\\~\\
 
@@ -632,23 +626,28 @@ You are encouraged to \href{https://cyber.dhs.gov/guide/#how-should-the-list-of-
 %%% Resources Section
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
+\vspace*{-3mm}
 \phantomsection % links this section from toc
-\addcontentsline{toc}{subsection}{Resources} % Adds subsection to toc
-\textbf{\color{dhs-dark-gray}{\Large{Resources}}}\\~\\
+\addcontentsline{toc}{subsection}{Resources}% Adds subsection to toc
+\subsection*{Resources}
+\vspace*{-3mm}
 
 \phantomsection % links this section from toc
 \addcontentsline{toc}{subsubsection}{Learn}% Adds subsection to toc
-\textbf{\color{dhs-dark-gray}{\large{Learn}}}
+\subsubsection*{Learn}
+\vspace*{-3mm}
+
 \begin{itemize}[topsep=-6pt, itemsep=0pt]
 	\item \href{https://cyber.dhs.gov/guide/#how-does-the-web-security-requirement-in-bod-18-01-differ-from-m-15-13}{BOD 18-01 incorporates parallel language to M-15-13} with regard to HTTPS deployment. The Compliance Guide at \href{https://https.cio.gov}{https.cio.gov} \textbf{should be consulted} in implementing HTTPS and HSTS.
-	\item \href{https://pulse.cio.gov}{pulse.cio.gov} is a public dashboard to support compliance with M-15-13 and BOD 18-01. The site includes scores for all second-level Federal .gov domains and subdomains sourced from GSA's DAP and Censys.io (as detailed in the \hyperref[app:methodology]{\color{blue}{Methodology}} section below). Pulse scans domains with \href{https://github.com/dhs-ncats/pshtt}{\texttt{pshtt}}.
+	\item \href{https://pulse.cio.gov}{pulse.cio.gov} is a public dashboard to support compliance with M-15-13 and BOD 18-01. The site includes scores for all second-level Federal .gov domains and subdomains sourced from GSA's DAP and Censys.io (as detailed in the \hyperref[app:methodology]{\color{dhs-blue}{Methodology}} section below). Pulse scans domains with \href{https://github.com/dhs-ncats/pshtt}{\texttt{pshtt}}.
 	\item \href{https://https.cio.gov/resources}{https://https.cio.gov/resources} has presentations to watch and tools to use.
 \end{itemize}
 
-\vspace*{5mm}
+\vspace*{-3mm}
 \phantomsection % links this section from toc
-\addcontentsline{toc}{subsubsection}{Get Help} % Adds subsection to toc
-\textbf{\color{dhs-dark-gray}{\large{Get Help}}}\\~\\
+\addcontentsline{toc}{subsubsection}{Get Help}% Adds subsection to toc
+\subsubsection*{Get Help}
+\vspace*{-3mm}
 
 You can reach out to the NCATS team at \href{mailto:ncats@hq.dhs.gov}{ncats@hq.dhs.gov}.
 
@@ -658,11 +657,13 @@ You can reach out to the NCATS team at \href{mailto:ncats@hq.dhs.gov}{ncats@hq.d
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \section{Methodology}
-\label{app:methodology}
+\label{sec:methodology}
 
+\vspace*{-3mm}
 \phantomsection % links this section from toc
 \addcontentsline{toc}{subsection}{What domains are measured?}% Adds subsection to toc
-\textbf{\Large{\color{dhs-dark-gray}{What domains are measured?}}}\\~\\
+\subsection*{What domains are measured?}
+\vspace*{-3mm}
 
 This report measures the presence and enforcement of HTTPS for <<&agency>>'s publicly-accessible domains and subdomains. Hostnames which do nothing but redirect to other websites \textit{are} measured.\\~\\
 
@@ -679,11 +680,13 @@ Data from these endpoints is used to characterize the overall behavior of a host
   \item Hostnames gathered from Cyber Hygiene scans.
 \end{itemize}
 \vspace*{2mm}
-Your agency is also welcome to request additional domains/subdomains be scanned that you find missing from this report by emailing \href{mailto:ncats@hq.dhs.gov}{ncats@hq.dhs.gov}.\\~\\~\\
+Your agency is also welcome to request additional domains/subdomains be scanned that you find missing from this report by emailing \href{mailto:ncats@hq.dhs.gov}{ncats@hq.dhs.gov}.
 
-\phantomsection% links this section from toc
+\vspace*{-3mm}
+\phantomsection % links this section from toc
 \addcontentsline{toc}{subsection}{What trust store is DHS using?}% Adds subsection to toc
-\textbf{\Large{\color{dhs-dark-gray}{What trust store is DHS using?}}}\\~\\
+\subsection*{What trust store is DHS using?}
+\vspace*{-3mm}
 
 Our scans use the \href{https://wiki.mozilla.org/CA:IncludedCAs}{Mozilla CA Certificate Store}. This trust store most accurately represents what roots are ``publicly trusted", and is used in Firefox, Android, Linux, and many commercial and open source network security tools. Note that the Federal Common Policy CA, the Federal trust anchor, \href{https://https.cio.gov/certificates/#does-the-us-government-operate-a-publicly-trusted-certificate-authority}{is not currently trusted} by the Mozilla CA Certificate Store.\\~\\
 
@@ -694,9 +697,8 @@ M-15-13/BOD 18-01 have no restrictions on acceptable certificate authorities age
 %%% Attachments Section
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\newpage
-\phantomsection % links this section from toc
 \section{Attachments}
-\label{app:Attachments}
+\label{sec:Attachments}
 If your PDF viewer supports embedded attachments, you will see a paperclip icon below for each attached file.\\
 \attachfile[appearance=false,mimetype=text/csv,icon=Paperclip,ucfilespec=pshtt-results.csv]{pshtt-results.csv} pshtt-results.csv : Detailed results from \texttt{pshtt} scan {\small\lbrack\href{https://github.com/dhs-ncats/pshtt}{https://github.com/dhs-ncats/pshtt}]}\\
 
