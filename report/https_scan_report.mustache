@@ -77,15 +77,8 @@
 \pagestyle{fancy}
 \fancyhead{}
 \fancyfoot{}
-%\fancyhead[CO,CE]{For Official Use Only (FOUO)}
-\newfontfamily{\FranklinGothicDemiFont}{Franklin Gothic Demi}
-\newcommand\TLPFont{\FranklinGothicDemiFont\fontsize{11pt}{11pt}\selectfont}
-\definecolor{tlp-green}{cmyk}{0.79,0.0,1.0,0.0}
-\fancyhead[RO,RE]{\colorbox{black}{\textcolor{tlp-green}{\TLPFont{TLP:GREEN}}}}
 \fancyfoot[CO,CE]{\usvardate\formatdate<<&title_date_tex>>}
-\fancyfoot[LE]{\thepage}
-\fancyfoot[RO]{\colorbox{black}{\textcolor{tlp-green}{\TLPFont{TLP:GREEN}}} \thepage}
-\fancyfoot[RE]{\colorbox{black}{\textcolor{tlp-green}{\TLPFont{TLP:GREEN}}}}
+\fancyfoot[RO,LE]{\thepage}
 \fancyfoot[LO]{}
 \renewcommand{\headrulewidth}{0.0pt}
 \renewcommand{\footrulewidth}{0.0pt}
@@ -322,7 +315,7 @@ opacity=0.04
       \ % placeholder for center of header
     \end{minipage}
     \begin{minipage}{.33\linewidth}
-      \raggedleft \colorbox{black}{\textcolor{tlp-green}{\TLPFont{TLP:GREEN}}} \hspace*{0.7in}
+      \ % placeholder for right side of header
     \end{minipage}
     \end{minipage}
 
@@ -347,19 +340,13 @@ opacity=0.04
       \   % placeholder for center of footer
     \end{minipage}
     \begin{minipage}{.33\linewidth}
-      \raggedleft{\vspace*{14mm}\colorbox{black}{\textcolor{tlp-green}{\TLPFont{TLP:GREEN}}} \hspace*{0.7in}}
+      \ % placeholder for right side of footer
     \end{minipage}
   \end{minipage}
 \end{titlepage}
 \restoregeometry
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% Blank Page
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newpage
-\begin{center}
-\textit{This page intentionally left blank}
-\end{center}
+
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Table of Contents
