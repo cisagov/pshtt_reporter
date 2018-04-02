@@ -23,7 +23,6 @@ sed -i 's/buf_size = 200000/buf_size = 400000/' /usr/share/texmf/web2c/texmf.cnf
 
 echo "Creating reporting folders..."
 mkdir -p $SHARED_DIR/artifacts/reporting/pshtt_reports
-mkdir -p $SHARED_DIR/artifacts/reporting/pshtt_non-cyhy_reports
 
 # Generate agency reports
 cd $SHARED_DIR/artifacts/reporting/pshtt_reports

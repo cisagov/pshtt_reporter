@@ -106,7 +106,6 @@ class ReportGenerator(object):
         self.__hsts_base_domain_preloaded_count = 0
         self.__hsts_low_max_age_count = 0
         # self.__report_oid = ObjectId()
-        self.__cyhy_stakeholder = False
 
         # Get list of all domains from the database
         all_domains_cursor = self.__db.https_scan.find({'latest':True, 'agency.name': agency})
@@ -157,9 +156,6 @@ class ReportGenerator(object):
 
     def __score_domain(self, domain):
         score = {'domain': domain['domain'], 'subdomain_scores': list()}
-
-        if "cyhy_stakeholder" in domain:
-            self.__cyhy_stakeholder = domain["cyhy_stakeholder"]
 
         if domain['live']:
             score['live_bool'] = True
@@ -444,11 +440,7 @@ class ReportGenerator(object):
         if not self.__debug:
             src_filename = os.path.join(temp_working_dir, REPORT_PDF)
             datestamp = self.__generated_time.strftime('%Y-%m-%d')
-
-            if self.__cyhy_stakeholder:
-                dest_dir = "."
-            else:
-                dest_dir = "../pshtt_non-cyhy_reports"
+            dest_dir = "."
 
             if self.__agency_id is not None:
                 dest_filename = "{}/cyhy-{}-{}-https-report.pdf".format(
