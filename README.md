@@ -1,5 +1,7 @@
 # NCATS PSHTT Reporter :notebook: :file_folder: #
 
+[![Build Status](https://travis-ci.org/dhs-ncats/pshtt_reporter.svg?branch=master)](https://travis-ci.org/dhs-ncats/pshtt_reporter)
+
 This is a Docker container that creates PDF reports for individual
 second-level domains using data collected via
 [pshtt](https://github.com/dhs-ncats/pshtt) scans.
