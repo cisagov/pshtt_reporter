@@ -52,7 +52,7 @@ RUN apt-get update -qq \
 #
 # The tlmgr init-usertree command returns a bogus non-zero return
 # value: https://www.tug.org/pipermail/tex-live/2016-March/037889.html
-RUN tlmgr init-usertree || true \
+RUN tlmgr init-usertree \
     && tlmgr option repository ftp://tug.org/historic/systems/texlive/2015/tlnet-final \
     && tlmgr update --self
 
