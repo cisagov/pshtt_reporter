@@ -50,15 +50,11 @@ RUN apt-get update -qq \
 
 # Setup texlive latex stuff.
 #
-# The first command returns a bogus non-zero return value:
-# https://www.tug.org/pipermail/tex-live/2016-March/037889.html
-#
-# The --no-persistent-downloads flag is necessary on the last command
-# when the Docker container is built in TravisCI.
+# The tlmgr init-usertree command returns a bogus non-zero return
+# value: https://www.tug.org/pipermail/tex-live/2016-March/037889.html
 RUN tlmgr init-usertree || true \
     && tlmgr option repository ftp://tug.org/historic/systems/texlive/2015/tlnet-final \
-    && tlmgr update --self \
-    && tlmgr --no-persistent-downloads install arydshln
+    && tlmgr update --self
 
 # Install requirements for report generation
 RUN pip install --upgrade setuptools \
