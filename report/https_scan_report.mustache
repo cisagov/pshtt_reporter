@@ -426,7 +426,7 @@ BOD 18-01 includes \href{https://https.cio.gov/guide/#what-about-domains-that-ar
 \rowcolors{4}{white}{row-gray}
 \begin{longtable}{>{\raggedright}p{2.7in}p{1.0in}p{0.7in}p{1.1in}p{2.1in}p{0.8in}p{0.7in}p{0.6in}}
   \toprule
-      \textbf{Domain} & \hyperlink{Uses HTTPS}{\color{dhs-blue}{\textbf{Uses HTTPS}}} & \hyperlink{Enforces HTTPS}{\color{dhs-blue}{\textbf{Enforces\newline HTTPS}}} & \hyperlink{Uses Strong Strict Transport Security (HSTS)}{\color{dhs-blue}{\textbf{Uses Strong\newline Strict Transport\newline Security (HSTS)}}} & \hyperlink{Free of SSLv2, SSLv3, 3DES, RC4}{\color{dhs-blue}{\textbf{Free of SSLv2, SSLv3, 3DES, RC4}}} & \hyperlink{BOD 18-01 Web Compliant}{\color{dhs-blue}{\textbf{BOD 18-01\newline Web\newline Compliant}}} & \hyperlink{Preloaded}{\color{dhs-blue}{\textbf{Preloaded}}} & \hyperlink{Replace Symantec SSL Cert?}{\color{dhs-blue}{\textbf{Replace\newline Symantec\newline SSL Cert?}}}\\
+      \textbf{Domain} & \hyperlink{Uses HTTPS}{\color{dhs-blue}{\textbf{Uses HTTPS}}} & \hyperlink{Enforces HTTPS}{\color{dhs-blue}{\textbf{Enforces\newline HTTPS}}} & \hyperlink{Uses Strong Strict Transport Security (HSTS)}{\color{dhs-blue}{\textbf{Uses Strong\newline Strict Transport\newline Security (HSTS)}}} & \hyperlink{Free of SSLv2, SSLv3, 3DES, RC4}{\color{dhs-blue}{\textbf{Free of SSLv2, SSLv3, 3DES, RC4}}} & \hyperlink{BOD 18-01 Web Compliant}{\color{dhs-blue}{\textbf{BOD 18-01\newline Web\newline Compliant}}} & \hyperlink{Preloaded}{\color{dhs-blue}{\textbf{Preloaded}}} & \hyperlink{Replace Symantec SSL Cert}{\color{dhs-blue}{\textbf{Replace\newline Symantec\newline SSL Cert}}}\\
   \hhline{========}
   \endhead
 	<<#report_doc.scores>>
@@ -564,14 +564,14 @@ Whether a hostname meets all of the following criteria for being compliant with 
 
 \vspace*{-1mm}
 \phantomsection % links this section from toc
-\addcontentsline{toc}{subsubsection}{Replace Symantec SSL Cert?} % Adds a subsection to toc
-\hypertarget{Replace Symantec SSL Cert?}{\subsubsection*{Replace Symantec SSL Cert?}}
+\addcontentsline{toc}{subsubsection}{Replace Symantec SSL Cert} % Adds a subsection to toc
+\hypertarget{Replace Symantec SSL Cert}{\subsubsection*{Replace Symantec SSL Cert}}
 \vspace*{-6mm}
 \textit{Values: Yes (replace certificate), No (no action needed)}
 
 \begin{itemize}[topsep=-6pt, itemsep=0pt]
-	\item Yes indicates...
-	\item No indicates...
+	\item Yes indicates that a Symantec SSL certificate is currently in use and requires a new SSL certificate to be issued. This is required because Symantec's change in PKI infrastructure will result in failed compliance for the BOD 18-01 requirement of ``Uses HTTPS" and ``Enforces HTTPS".
+	\item No indicates that the hostname is free of a Symantec SSL certificate and is therefore unaffected by their PKI infrastructure change.  No action is needed in this case.
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
