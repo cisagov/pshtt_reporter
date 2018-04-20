@@ -19,7 +19,7 @@ echo "Saver finished"
 # using it too.
 
 # Because HHS/NASA reports are large, we need to increase buffer size (LaTeX)
-sed -i 's/buf_size = 200000/buf_size = 400000/' /usr/share/texmf/web2c/texmf.cnf
+sed -i 's/buf_size = 200000/buf_size = 1000000/' /usr/share/texmf/web2c/texmf.cnf
 
 echo "Creating reporting folders..."
 mkdir -p $SHARED_DIR/artifacts/reporting/pshtt_reports
