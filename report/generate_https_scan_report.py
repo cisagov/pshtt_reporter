@@ -116,10 +116,11 @@ class ReportGenerator(object):
         #       https_scan and sslyze_scan data in one query (MongoDB server 3.6 and later)
 
         sslyze_data_all_domains = dict()
-        for host in self.__db.sslyze_scan.find({'latest':True, 'agency.name':agency, 'scanned_port':443}, {'_id':0, 'domain':1, 'scanned_port':1, 'scanned_hostname':1, 'sslv2':1, 'sslv3':1, 'any_3des':1, 'any_rc4':1}):
+        for host in self.__db.sslyze_scan.find({'latest':True, 'agency.name':agency, 'scanned_port':443}, {'_id':0, 'domain':1, 'scanned_port':1, 'scanned_hostname':1, 'sslv2':1, 'sslv3':1, 'any_3des':1, 'any_rc4':1, 'is_symantec_cert':1}):
             current_host_dict = {'scanned_hostname':host['scanned_hostname'], 'scanned_port':host['scanned_port'],
                                  'sslv2':host['sslv2'], 'sslv3':host['sslv3'],
-                                 'any_3des':host['any_3des'], 'any_rc4':host['any_rc4']}
+                                 'any_3des':host['any_3des'], 'any_rc4':host['any_rc4'],
+                                 'is_symantec_cert':host['is_symantec_cert']}
 
             if not sslyze_data_all_domains.get(host['domain']):
                 sslyze_data_all_domains[host['domain']] = [current_host_dict]
@@ -131,12 +132,15 @@ class ReportGenerator(object):
             # hosts with weak crypto to domain_doc['hosts_with_weak_crypto']
             domain_doc['domain_has_weak_crypto'] = False
             domain_doc['hosts_with_weak_crypto'] = []
+            domain_doc['domain_has_symantec_cert'] = False
 
             if sslyze_data_all_domains.get(domain_doc['domain']):
                 for host in sslyze_data_all_domains[domain_doc['domain']]:
                     if host['sslv2'] or host['sslv3'] or host['any_3des'] or host['any_rc4']:
                         domain_doc['domain_has_weak_crypto'] = True
                         domain_doc['hosts_with_weak_crypto'].append(host)
+                    if host['is_symantec_cert']:
+                        domain_doc['domain_has_symantec_cert'] = True
             return domain_doc
 
         for domain_doc in all_domains_cursor:
@@ -310,6 +314,11 @@ class ReportGenerator(object):
             score['hosts_with_weak_crypto'].append({'hostname':host['scanned_hostname'], 'port':host['scanned_port'],
                                                     'weak_crypto_list_str':', '.join(weak_crypto_list)})
 
+        # Does the domain have a Symantec cert?
+        # If so, they have to be replaced - see:
+        #  https://www.symantec.com/connect/blogs/information-replacement-symantec-ssltls-certificates
+        score['domain_has_symantec_cert_bool'] = domain['domain_has_symantec_cert']
+
         # BOD 18-01 compliant?
         if ( (domain['domain_supports_https'] and domain['domain_enforces_https'] and domain['domain_uses_strong_hsts']) or (domain['live'] and domain['hsts_base_domain_preloaded']) ) and not domain['domain_has_weak_crypto']:
             score['bod_1801_compliance'] = True
@@ -472,8 +481,8 @@ class ReportGenerator(object):
         self.__generate_https_attachment()
 
     def __generate_https_attachment(self):
-        header_fields = ('Domain', 'Base Domain', 'Domain Is Base Domain', 'Canonical URL', 'Live', 'Redirect', 'Redirect To', 'Valid HTTPS', 'Defaults to HTTPS', 'Downgrades HTTPS', 'Strictly Forces HTTPS', 'HTTPS Bad Chain', 'HTTPS Bad Hostname', 'HTTPS Expired Cert', 'HTTPS Self Signed Cert', 'HSTS', 'HSTS Header', 'HSTS Max Age', 'HSTS Entire Domain', 'HSTS Preload Ready', 'HSTS Preload Pending', 'HSTS Preloaded', 'Base Domain HSTS Preloaded', 'Domain Supports HTTPS', 'Domain Enforces HTTPS', 'Domain Uses Strong HSTS', 'Domain Supports Weak Crypto', 'Web Hosts With Weak Crypto', 'Unknown Error')
-        data_fields = ('domain', 'base_domain', 'is_base_domain', 'canonical_url', 'live', 'redirect', 'redirect_to', 'valid_https', 'defaults_https', 'downgrades_https', 'strictly_forces_https', 'https_bad_chain', 'https_bad_hostname', 'https_expired_cert', 'https_self_signed_cert', 'hsts', 'hsts_header', 'hsts_max_age', 'hsts_entire_domain', 'hsts_preload_ready', 'hsts_preload_pending', 'hsts_preloaded', 'hsts_base_domain_preloaded', 'domain_supports_https', 'domain_enforces_https', 'domain_uses_strong_hsts', 'domain_has_weak_crypto', 'hosts_with_weak_crypto_str', 'unknown_error')
+        header_fields = ('Domain', 'Base Domain', 'Domain Is Base Domain', 'Canonical URL', 'Live', 'Redirect', 'Redirect To', 'Valid HTTPS', 'Defaults to HTTPS', 'Downgrades HTTPS', 'Strictly Forces HTTPS', 'HTTPS Bad Chain', 'HTTPS Bad Hostname', 'HTTPS Expired Cert', 'HTTPS Self Signed Cert', 'HSTS', 'HSTS Header', 'HSTS Max Age', 'HSTS Entire Domain', 'HSTS Preload Ready', 'HSTS Preload Pending', 'HSTS Preloaded', 'Base Domain HSTS Preloaded', 'Domain Supports HTTPS', 'Domain Enforces HTTPS', 'Domain Uses Strong HSTS', 'Domain Supports Weak Crypto', 'Web Hosts With Weak Crypto', 'Domain Uses Symantec Certificate', 'Unknown Error')
+        data_fields = ('domain', 'base_domain', 'is_base_domain', 'canonical_url', 'live', 'redirect', 'redirect_to', 'valid_https', 'defaults_https', 'downgrades_https', 'strictly_forces_https', 'https_bad_chain', 'https_bad_hostname', 'https_expired_cert', 'https_self_signed_cert', 'hsts', 'hsts_header', 'hsts_max_age', 'hsts_entire_domain', 'hsts_preload_ready', 'hsts_preload_pending', 'hsts_preloaded', 'hsts_base_domain_preloaded', 'domain_supports_https', 'domain_enforces_https', 'domain_uses_strong_hsts', 'domain_has_weak_crypto', 'hosts_with_weak_crypto_str', 'domain_has_symantec_cert', 'unknown_error')
         with open(HTTPS_RESULTS_CSV_FILE, newline='', mode='w') as out_file:
             header_writer = csv.DictWriter(out_file, header_fields, extrasaction='ignore')
             header_writer.writeheader()
