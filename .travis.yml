@@ -10,10 +10,10 @@ env:
     - secure: "CQqWTdBgIsfDTWy5v99YVwPPqunjGRizq/lTlpP4JMu7JFUsZ7ht69XAXEsaQIVT/cqxmTaa03Zgz+k6Cq4XVtV+MmgMpwNTtTt3lEh7TZGNNU6pTB/1GOC0Ak0U95JpZGELsIxKHoe85KHqzjs6eMP9bYK2ESyfETpoGjq7rVYSojUkBkj4AKu6/MxzOaLe5LVHn7yqVDZIK2CQzTq/qvJ47ZewNuHuO4aPbflWB0U3XtmiORNKkPtB/jebxSO7EJnZnsflbqbFb7uUp1UDX7CoRUYb7NL+wV2dqd7MkC92zxEhKndH26V8V3IsApfPXnaxSoDISWjmGxfZ8sdqIljVyPsNyaY8YPuBNVJX8heOEAvqo2gGtbzoNlgAC74UjoUuGGYk7HIbNLchFE8S/iCye/GydlzpXs2mLGMge0jA3MQTNE4R+x2oJukcYtd4n7ubsprzxuuo+onfdoWb1VEz2enCvEYr5suZj7bYxN/rh52UzWz0rdvdTChqjVuMPhmABFdwjIWPe59Hh0Ad6VC18aswO8q902paM/SBRyVCzmJ8q5RWG6cEj/yHG1tvbublVnWjwW69jKWIMm+XWmmeMNGLB742rPDu7JNtadxVlndPwRVCnsCHWhNCnm+A5D2l+6nCqpT4Ow4/jle5LLnvwm37XjC0lcSQpW+KE2M="
 
 script:
-  - bash travis_scripts/build_docker_image.sh
+  - travis_retry travis_scripts/build_docker_image.sh
 
 deploy:
   - provider: script
-    script: bash travis_scripts/deploy_to_docker_hub.sh
+    script: travis_scripts/deploy_to_docker_hub.sh
     on:
       tags: true
