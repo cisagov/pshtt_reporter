@@ -570,8 +570,8 @@ Whether a hostname meets all of the following criteria for being compliant with 
 \textit{Values: Yes (replace certificate), No (no action needed)}
 
 \begin{itemize}[topsep=-6pt, itemsep=0pt]
-	\item Yes indicates that a Symantec SSL certificate is currently in use and requires a new SSL certificate to be issued. This is required because Symantec's change in PKI infrastructure will result in failed compliance for the BOD 18-01 requirement of ``Uses HTTPS" and ``Enforces HTTPS".
-	\item No indicates that the hostname is free of a Symantec SSL certificate and is therefore unaffected by their PKI infrastructure change.  No action is needed in this case.
+  \item ``Yes" indicates that a Symantec certificate is present at the hostname and should be replaced. This is required since major web browsers are removing trust in Symantec-owned certificate authorities, which will result in failed compliance for the BOD 18-01 requirement of ``Uses HTTPS".
+  \item ``No" indicates that the hostname does not serve a Symantec certificate. No action is needed.
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
