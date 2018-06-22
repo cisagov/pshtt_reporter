@@ -43,9 +43,9 @@ cd $SHARED_DIR
 TODAY=$(date +'%Y-%m-%d')
 mv artifacts artifacts_$TODAY
 tar -czf $SHARED_DIR/archive/artifacts_$TODAY.tar.gz artifacts_$TODAY/
-# Clean up
-echo 'Cleaning up'
-rm -rf artifacts_$TODAY
+# Save the artifacts directory as latest
+rm -rf latest
+mv artifacts_$TODAY latest
 
 # No longer needed
 redis-cli -h orchestrator_redis_1 del saving_complete trustymail_reporting_complete
