@@ -39,13 +39,12 @@ echo "Trustworthy email reporting finished"
 # Archive artifacts folder
 echo 'Archiving Results...'
 mkdir -p $SHARED_DIR/archive/
-cd $SHARED_DIR
 TODAY=$(date +'%Y-%m-%d')
-mv artifacts artifacts_$TODAY
-tar -czf $SHARED_DIR/archive/artifacts_$TODAY.tar.gz artifacts_$TODAY/
+mv $SHARED_DIR/artifacts $SHARED_DIR/artifacts_$TODAY
+tar -czf $SHARED_DIR/archive/artifacts_$TODAY.tar.gz $SHARED_DIR/artifacts_$TODAY/
 # Save the artifacts directory as latest
-rm -rf latest
-mv artifacts_$TODAY latest
+rm -rf $SHARED_DIR/archive/latest
+mv $SHARED_DIR/artifacts_$TODAY $SHARED_DIR/archive/latest
 
 # No longer needed
 redis-cli -h orchestrator_redis_1 del saving_complete trustymail_reporting_complete
