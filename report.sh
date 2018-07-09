@@ -2,6 +2,7 @@
 
 HOME_DIR='/home/reporter'
 SHARED_DIR=$HOME_DIR'/shared'
+SHARED_DIR_REGEX="s/^$(echo $SHARED_DIR|sed 's/\//\\\//g')\///"
 
 # Prepare fonts
 echo "Preparing fonts..."
@@ -41,7 +42,7 @@ echo 'Archiving Results...'
 mkdir -p $SHARED_DIR/archive/
 TODAY=$(date +'%Y-%m-%d')
 mv $SHARED_DIR/artifacts $SHARED_DIR/artifacts_$TODAY
-tar -czf $SHARED_DIR/archive/artifacts_$TODAY.tar.gz $SHARED_DIR/artifacts_$TODAY/
+tar czf $SHARED_DIR/archive/artifacts_$TODAY.tar.gz --transform="$SHARED_DIR_REGEX" $SHARED_DIR/artifacts_$TODAY/
 # Save the artifacts directory as latest
 rm -rf $SHARED_DIR/archive/latest
 mv $SHARED_DIR/artifacts_$TODAY $SHARED_DIR/archive/latest
