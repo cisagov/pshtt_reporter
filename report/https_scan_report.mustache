@@ -494,9 +494,9 @@ Whether a hostname appears to ``default" to using HTTPS (a hostname must have a 
 
 In \texttt{pshtt}, ``Enforces HTTPS" is mapped to the value for `Domain Enforces HTTPS'. It is calculated:
 \begin{center}
-\normalsize\textit{(Domain Supports HTTPS == ``True" AND\\
-(Strictly Forces HTTPS == ``True" AND (Defaults to HTTPS == ``True" OR Redirect == ``True") OR\\
-(Strictly Forces HTTPS == ``False" AND Defaults to HTTPS == ``True")))}\\
+\normalsize\textit{(Domain Supports HTTPS == ``True'' AND\\
+(Defaults to HTTPS == ``True'' OR\\
+(Strictly Forces HTTPS == ``True'' AND Redirect == ``True'')))}
 \end{center}
 
 \vspace*{-5mm}
