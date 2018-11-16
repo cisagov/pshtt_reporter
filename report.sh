@@ -9,7 +9,7 @@ cp ./fonts/* /usr/share/fonts/truetype/
 fc-cache -f
 
 echo 'Waiting for saver'
-while [ "$(redis-cli -h orchestrator_redis_1 get saving_complete)" != "true" ]
+while [ "$(redis-cli -h redis get saving_complete)" != "true" ]
 do
     sleep 5
 done
@@ -30,7 +30,7 @@ $HOME_DIR/report/create_all_reports.py
 
 # Wait for the trustworthy email reporting to finish
 echo 'Waiting for trustworthy email reporting'
-while [ "$(redis-cli -h orchestrator_redis_1 get trustymail_reporting_complete)" != "true" ]
+while [ "$(redis-cli -h redis get trustymail_reporting_complete)" != "true" ]
 do
     sleep 5
 done
@@ -47,7 +47,7 @@ rm -rf $SHARED_DIR/archive/latest
 mv $SHARED_DIR/artifacts_$TODAY $SHARED_DIR/archive/latest
 
 # No longer needed
-redis-cli -h orchestrator_redis_1 del saving_complete trustymail_reporting_complete
+redis-cli -h redis del saving_complete trustymail_reporting_complete
 
 # This is the end of the line, so tell redis to shutdown
-redis-cli -h orchestrator_redis_1 shutdown
+redis-cli -h redis shutdown
