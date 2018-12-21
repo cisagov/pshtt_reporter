@@ -121,21 +121,23 @@ class ReportGenerator(object):
         # query (MongoDB server 3.6 and later)
 
         sslyze_data_all_domains = dict()
-        for host in self.__db.sslyze_scan.find({
+        for host in self.__db.sslyze_scan.find(
+            {
                 'latest': True,
                 'agency.name': agency,
                 'scanned_port': 443
-        }, {
-            '_id': 0,
-            'domain': 1,
-            'scanned_port': 1,
-            'scanned_hostname': 1,
-            'sslv2': 1,
-            'sslv3': 1,
-            'any_3des': 1,
-            'any_rc4': 1,
-            'is_symantec_cert': 1
-        }):
+            }, {
+                '_id': 0,
+                'domain': 1,
+                'scanned_port': 1,
+                'scanned_hostname': 1,
+                'sslv2': 1,
+                'sslv3': 1,
+                'any_3des': 1,
+                'any_rc4': 1,
+                'is_symantec_cert': 1
+            }
+        ):
             current_host_dict = {
                 'scanned_hostname': host['scanned_hostname'],
                 'scanned_port': host['scanned_port'],
@@ -593,7 +595,9 @@ class ReportGenerator(object):
                 return ', '.join(record_list)
 
             for domain in self.__all_domains:
-                hosts_with_weak_crypto = [rehydrate_hosts_with_weak_crypto(d) for d in domain['hosts_with_weak_crypto']]
+                hosts_with_weak_crypto = [
+                    rehydrate_hosts_with_weak_crypto(d) for d in domain['hosts_with_weak_crypto']
+                ]
                 domain['hosts_with_weak_crypto_str'] = format_list(hosts_with_weak_crypto)
                 data_writer.writerow(domain)
 
@@ -606,19 +610,28 @@ class ReportGenerator(object):
         self.__generate_donut_charts()
 
     def __generate_bod_1801_components_bar_chart(self):
-        bod_1801_bar = graphs.MyTrustyBar(percentage_list=[self.__uses_https_percentage,
-                                                           self.__enforces_https_percentage,
-                                                           self.__hsts_percentage,
-                                                           self.__has_no_weak_crypto_percentage],
-                                          label_list=['Uses\nHTTPS', 'Enforces\nHTTPS', 'Uses Strong\nHSTS', 'No SSLv2/v3,\n3DES,RC4'],
-                                          fill_color=graphs.DARK_BLUE,
-                                          title='BOD 18-01 HTTPS Components')
+        bod_1801_bar = graphs.MyTrustyBar(
+            percentage_list=[
+                self.__uses_https_percentage,
+                self.__enforces_https_percentage,
+                self.__hsts_percentage,
+                self.__has_no_weak_crypto_percentage
+            ],
+            label_list=[
+                'Uses\nHTTPS',
+                'Enforces\nHTTPS',
+                'Uses Strong\nHSTS',
+                'No SSLv2/v3,\n3DES,RC4'
+            ],
+            fill_color=graphs.DARK_BLUE,
+            title='BOD 18-01 HTTPS Components')
         bod_1801_bar.plot(filename='bod-18-01-https-components')
 
     def __generate_donut_charts(self):
-        bod_1801_donut = graphs.MyDonutPie(percentage_full=round(self.__bod_1801_percentage),
-                                           label='BOD 18-01\nCompliant\n(Web)',
-                                           fill_color=graphs.DARK_BLUE)
+        bod_1801_donut = graphs.MyDonutPie(
+            percentage_full=round(self.__bod_1801_percentage),
+            label='BOD 18-01\nCompliant\n(Web)',
+            fill_color=graphs.DARK_BLUE)
         bod_1801_donut.plot(filename='bod-18-01-compliant')
 
     ###########################################################################
