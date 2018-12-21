@@ -35,6 +35,7 @@ import graphs
 # constants
 DB_CONFIG_FILE = '/run/secrets/scan_read_creds.yml'
 HTTPS_RESULTS_CSV_FILE = 'pshtt-results.csv'
+OCSP_EXCLUSION_CSV_FILE = 'ocsp-crl.csv'
 # Do not include the orgs below (based on _id) in the Report
 EXEMPT_ORGS = []
 MUSTACHE_FILE = 'https_scan_report.mustache'
@@ -106,6 +107,16 @@ class ReportGenerator(object):
         self.__hsts_low_max_age_count = 0
         # self.__report_oid = ObjectId()
 
+        # Read in and parse the OCSP exclusion domains.
+        #
+        # We use a dict for ocsp_exclusions because we want to take
+        # advantage of the speed of the underlying hash map.  (We only
+        # care if a domain is present as an exclusion or not.)
+        ocsp_exclusions = None
+        with open(OCSP_EXCLUSION_CSV_FILE, newline='') as ocsp_file:
+            csvreader = csv.reader(ocsp_file)
+            ocsp_exclusions = {row[0]: 0 for row in csvreader}
+
         # Get list of all domains from the database
         all_domains_cursor = self.__db.https_scan.find({
             'latest': True,
@@ -174,6 +185,7 @@ class ReportGenerator(object):
         for domain_doc in all_domains_cursor:
             domain_doc = add_weak_crypto_data_to_domain(domain_doc,
                                                         sslyze_data_all_domains)
+            domain_doc['ocsp_domain'] = domain_doc['domain'] in ocsp_exclusions
             self.__all_domains.append(domain_doc)
             if domain_doc['is_base_domain']:
                 domain_doc['subdomains'] = list(self.__db.https_scan.find({
@@ -196,16 +208,27 @@ class ReportGenerator(object):
         }).count()
 
     def __score_domain(self, domain):
-        score = {'domain': domain['domain'], 'subdomain_scores': list()}
+        score = {
+            'domain': domain['domain'],
+            'ocsp_domain': domain['ocsp_domain'],
+            'subdomain_scores': list()
+        }
 
         if domain['live']:
             score['live_bool'] = True
-            if domain['is_base_domain']:
-                self.__eligible_domains_count += 1
-                self.__all_eligible_domains_count += 1
+            # OCSP domains aren't eligible
+            if not domain['ocsp_domain']:
+                if domain['is_base_domain']:
+                    self.__eligible_domains_count += 1
+                    self.__all_eligible_domains_count += 1
+                else:
+                    self.__eligible_subdomains_count += 1
+                    self.__all_eligible_domains_count += 1
             else:
-                self.__eligible_subdomains_count += 1
-                self.__all_eligible_domains_count += 1
+                # TODO Determine if this is still needed
+                self.__ineligible_domains.append({
+                    'domain': domain['domain']
+                })
         else:
             score['live_bool'] = False
             if domain['is_base_domain']:
@@ -222,7 +245,8 @@ class ReportGenerator(object):
         if domain['strictly_forces_https']:
             # score['strictly_forces_https'] = 'Yes'
             score['strictly_forces_https_bool'] = True
-            self.__strictly_forces_count += 1
+            if not domain['ocsp_domain']:
+                self.__strictly_forces_count += 1
         else:
             # score['strictly_forces_https'] = 'No'
             score['strictly_forces_https_bool'] = False
@@ -234,7 +258,8 @@ class ReportGenerator(object):
         if domain['domain_supports_https'] or (domain['live'] and domain['hsts_base_domain_preloaded']):
             # score['domain_supports_https'] = 'Yes'
             score['domain_supports_https_bool'] = True
-            self.__domain_supports_https_count += 1
+            if not domain['ocsp_domain']:
+                self.__domain_supports_https_count += 1
         else:
             # score['domain_supports_https'] = 'No'
             score['domain_supports_https_bool'] = False
@@ -246,7 +271,8 @@ class ReportGenerator(object):
         if domain['domain_enforces_https'] or (domain['live'] and domain['hsts_base_domain_preloaded']):
             # score['domain_enforces_https'] = 'Yes'
             score['domain_enforces_https_bool'] = True
-            self.__domain_enforces_https_count += 1
+            if not domain['ocsp_domain']:
+                self.__domain_enforces_https_count += 1
         else:
             # score['domain_enforces_https'] = 'No'
             score['domain_enforces_https_bool'] = False
@@ -254,23 +280,27 @@ class ReportGenerator(object):
         # https_bad_chain
         if domain['https_bad_chain'] and domain['https_bad_hostname']:
             score['https_bad_chain_bool'] = True
-            self.__https_bad_chain_count += 1
+            if not domain['ocsp_domain']:
+                self.__https_bad_chain_count += 1
         elif (domain['https_bad_chain'] and not domain['https_bad_hostname']) or (domain['https_bad_chain'] and domain['https_expired_cert']):
-            self.__https_bad_chain_count += 1
+            if not domain['ocsp_domain']:
+                self.__https_bad_chain_count += 1
         else:
             score['https_bad_chain_bool'] = False
 
         # https_bad_hostname
         if domain['https_bad_hostname']:
             score['https_bad_hostname_bool'] = True
-            self.__https_bad_hostname_count += 1
+            if not domain['ocsp_domain']:
+                self.__https_bad_hostname_count += 1
         else:
             score['https_bad_hostname_bool'] = False
 
         # https_expired_cert
         if domain['https_expired_cert']:
             score['https_expired_cert_bool'] = True
-            self.__https_expired_cert_count += 1
+            if not domain['ocsp_domain']:
+                self.__https_expired_cert_count += 1
         else:
             score['https_expired_cert_bool'] = False
 
@@ -284,7 +314,8 @@ class ReportGenerator(object):
         if domain['downgrades_https']:
             # score['downgrades_https'] = 'Yes'
             score['downgrades_https_bool'] = True
-            self.__downgrades_count += 1
+            if not domain['ocsp_domain']:
+                self.__downgrades_count += 1
         else:
             # score['downgrades_https'] = 'No'
             score['downgrades_https_bool'] = False
@@ -293,7 +324,8 @@ class ReportGenerator(object):
         # In this case, we only care if the domain is live
         if domain['live'] and domain['hsts_base_domain_preloaded']:
             score['hsts_base_domain_preloaded_bool'] = True
-            self.__hsts_base_domain_preloaded_count += 1
+            if not domain['ocsp_domain']:
+                self.__hsts_base_domain_preloaded_count += 1
         else:
             score['hsts_base_domain_preloaded'] = False
 
@@ -306,7 +338,8 @@ class ReportGenerator(object):
             if domain['hsts_preloaded']:
                 # score['hsts_preloaded'] = 'Yes'
                 score['hsts_preloaded_bool'] = True
-                self.__hsts_preloaded_count += 1
+                if not domain['ocsp_domain']:
+                    self.__hsts_preloaded_count += 1
             else:
                 score['hsts_preloaded_bool'] = False
                 # score['hsts_preloaded'] = 'No'
@@ -318,7 +351,8 @@ class ReportGenerator(object):
                 if domain['hsts_preload_ready']:
                     score['hsts_preload_ready_bool'] = True
                     # score['hsts_preload_ready'] = 'Yes'
-                    self.__hsts_preload_ready_count += 1
+                    if not domain['ocsp_domain']:
+                        self.__hsts_preload_ready_count += 1
                 else:
                     score['hsts_preload_ready_bool'] = False
                     # score['hsts_preload_ready'] = 'No'
@@ -331,18 +365,21 @@ class ReportGenerator(object):
             # and hsts_base_domain_preloaded is true
             if domain['domain_uses_strong_hsts'] or (domain['live'] and domain['hsts_base_domain_preloaded']):
                 score['domain_uses_strong_hsts_bool'] = True
-                self.__domain_uses_strong_hsts_count += 1
+                if not domain['ocsp_domain']:
+                    self.__domain_uses_strong_hsts_count += 1
             else:
                 score['domain_uses_strong_hsts_bool'] = False
                 if 0 < domain['hsts_max_age'] < 31536000:
-                    self.__hsts_low_max_age_count += 1
+                    if not domain['ocsp_domain']:
+                        self.__hsts_low_max_age_count += 1
 
         # If HSTS is not present but the base_domain is preloaded,
         # "HSTS" gets a thumbs up.  In this case, we only care if the
         # domain is live.
         elif domain['live'] and domain['hsts_base_domain_preloaded']:
             score['domain_uses_strong_hsts_bool'] = True
-            self.__domain_uses_strong_hsts_count += 1
+            if not domain['ocsp_domain']:
+                self.__domain_uses_strong_hsts_count += 1
 
         else:   # No HSTS
             # score['hsts'] = 'No'
@@ -355,7 +392,8 @@ class ReportGenerator(object):
         # Does the domain have weak crypto?
         score['domain_has_weak_crypto_bool'] = domain['domain_has_weak_crypto']
         if domain['live'] and not domain['domain_has_weak_crypto']:
-            self.__domain_has_no_weak_crypto_count += 1
+            if not domain['ocsp_domain']:
+                self.__domain_has_no_weak_crypto_count += 1
         # Build list of weak crypto host info and save it in
         # score['hosts_with_weak_crypto']
         score['hosts_with_weak_crypto'] = list()
@@ -383,7 +421,8 @@ class ReportGenerator(object):
         # BOD 18-01 compliant?
         if ((domain['domain_supports_https'] and domain['domain_enforces_https'] and domain['domain_uses_strong_hsts']) or (domain['live'] and domain['hsts_base_domain_preloaded'])) and not domain['domain_has_weak_crypto']:
             score['bod_1801_compliance'] = True
-            self.__bod_1801_count += 1
+            if not domain['ocsp_domain']:
+                self.__bod_1801_count += 1
         else:
             score['bod_1801_compliance'] = False
 
@@ -544,8 +583,8 @@ class ReportGenerator(object):
         self.__generate_https_attachment()
 
     def __generate_https_attachment(self):
-        header_fields = ('Domain', 'Base Domain', 'Domain Is Base Domain', 'Canonical URL', 'Live', 'Redirect', 'Redirect To', 'Valid HTTPS', 'Defaults to HTTPS', 'Downgrades HTTPS', 'Strictly Forces HTTPS', 'HTTPS Bad Chain', 'HTTPS Bad Hostname', 'HTTPS Expired Cert', 'HTTPS Self Signed Cert', 'HSTS', 'HSTS Header', 'HSTS Max Age', 'HSTS Entire Domain', 'HSTS Preload Ready', 'HSTS Preload Pending', 'HSTS Preloaded', 'Base Domain HSTS Preloaded', 'Domain Supports HTTPS', 'Domain Enforces HTTPS', 'Domain Uses Strong HSTS', 'Domain Supports Weak Crypto', 'Web Hosts With Weak Crypto', 'Domain Uses Symantec Certificate', 'Unknown Error')
-        data_fields = ('domain', 'base_domain', 'is_base_domain', 'canonical_url', 'live', 'redirect', 'redirect_to', 'valid_https', 'defaults_https', 'downgrades_https', 'strictly_forces_https', 'https_bad_chain', 'https_bad_hostname', 'https_expired_cert', 'https_self_signed_cert', 'hsts', 'hsts_header', 'hsts_max_age', 'hsts_entire_domain', 'hsts_preload_ready', 'hsts_preload_pending', 'hsts_preloaded', 'hsts_base_domain_preloaded', 'domain_supports_https', 'domain_enforces_https', 'domain_uses_strong_hsts', 'domain_has_weak_crypto', 'hosts_with_weak_crypto_str', 'domain_has_symantec_cert', 'unknown_error')
+        header_fields = ('Domain', 'Base Domain', 'Domain Is Base Domain', 'Canonical URL', 'Live', 'Redirect', 'Redirect To', 'Valid HTTPS', 'Defaults to HTTPS', 'Downgrades HTTPS', 'Strictly Forces HTTPS', 'HTTPS Bad Chain', 'HTTPS Bad Hostname', 'HTTPS Expired Cert', 'HTTPS Self Signed Cert', 'HSTS', 'HSTS Header', 'HSTS Max Age', 'HSTS Entire Domain', 'HSTS Preload Ready', 'HSTS Preload Pending', 'HSTS Preloaded', 'Base Domain HSTS Preloaded', 'Domain Supports HTTPS', 'Domain Enforces HTTPS', 'Domain Uses Strong HSTS', 'Domain Supports Weak Crypto', 'Web Hosts With Weak Crypto', 'Domain Uses Symantec Certificate', 'OCSP Domain', 'Unknown Error')
+        data_fields = ('domain', 'base_domain', 'is_base_domain', 'canonical_url', 'live', 'redirect', 'redirect_to', 'valid_https', 'defaults_https', 'downgrades_https', 'strictly_forces_https', 'https_bad_chain', 'https_bad_hostname', 'https_expired_cert', 'https_self_signed_cert', 'hsts', 'hsts_header', 'hsts_max_age', 'hsts_entire_domain', 'hsts_preload_ready', 'hsts_preload_pending', 'hsts_preloaded', 'hsts_base_domain_preloaded', 'domain_supports_https', 'domain_enforces_https', 'domain_uses_strong_hsts', 'domain_has_weak_crypto', 'hosts_with_weak_crypto_str', 'domain_has_symantec_cert', 'ocsp_domain', 'unknown_error')
         with open(HTTPS_RESULTS_CSV_FILE, newline='', mode='w') as out_file:
             header_writer = csv.DictWriter(out_file, header_fields,
                                            extrasaction='ignore')
