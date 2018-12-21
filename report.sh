@@ -24,6 +24,13 @@ sed -i 's/buf_size = 200000/buf_size = 1000000/' /usr/share/texmf/web2c/texmf.cn
 echo "Creating reporting folders..."
 mkdir -p $SHARED_DIR/artifacts/reporting/pshtt_reports
 
+# Grab OCSP/CRL hosts.  These hosts are to be removed from the list of
+# hosts to be evaluated for HTTPS compliance, since they are not
+# required to satisfy BOD 18-01.  For more information see here:
+# https://https.cio.gov/guide/#are-federally-operated-certificate-revocation-services-crl-ocsp-also-required-to-move-to-https
+wget https://raw.githubusercontent.com/GSA/data/master/dotgov-websites/ocsp-crl.csv \
+     -O $SHARED_DIR/artifacts/ocsp-crl.csv
+
 # Generate agency reports
 cd $SHARED_DIR/artifacts/reporting/pshtt_reports
 $HOME_DIR/report/create_all_reports.py
