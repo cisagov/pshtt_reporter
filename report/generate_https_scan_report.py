@@ -115,7 +115,7 @@ class ReportGenerator(object):
         ocsp_exclusions = None
         with open(OCSP_EXCLUSION_CSV_FILE, newline='') as ocsp_file:
             csvreader = csv.reader(ocsp_file)
-            ocsp_exclusions = {row[0]: 0 for row in csvreader}
+            ocsp_exclusions = {row[0]: None for row in csvreader}
 
         # Get list of all domains from the database
         all_domains_cursor = self.__db.https_scan.find({
