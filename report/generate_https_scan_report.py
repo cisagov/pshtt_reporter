@@ -33,9 +33,11 @@ import yaml
 import graphs
 
 # constants
+HOME_DIR = '/home/reporter'
+SHARED_DATA_DIR = HOME_DIR + '/shared/'
 DB_CONFIG_FILE = '/run/secrets/scan_read_creds.yml'
 HTTPS_RESULTS_CSV_FILE = 'pshtt-results.csv'
-OCSP_EXCLUSION_CSV_FILE = 'ocsp-crl.csv'
+OCSP_EXCLUSION_CSV_FILE = SHARED_DATA_DIR + 'artifacts/ocsp-crl.csv'
 # Do not include the orgs below (based on _id) in the Report
 EXEMPT_ORGS = []
 MUSTACHE_FILE = 'https_scan_report.mustache'
@@ -197,6 +199,7 @@ class ReportGenerator(object):
                 for subdomain_doc in domain_doc['subdomains']:
                     subdomain_doc = add_weak_crypto_data_to_domain(subdomain_doc,
                                                                    sslyze_data_all_domains)
+                    subdomain_doc['ocsp_domain'] = domain_doc['domain'] in ocsp_exclusions
                 self.__base_domains.append(domain_doc)
             self.__agency_id = domain_doc['agency']['id']
 
