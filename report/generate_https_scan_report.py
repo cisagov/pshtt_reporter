@@ -114,7 +114,7 @@ class ReportGenerator(object):
         # We use a dict for ocsp_exclusions because we want to take
         # advantage of the speed of the underlying hash map.  (We only
         # care if a domain is present as an exclusion or not.)
-        ocsp_exclusions = None
+        ocsp_exclusions = {}
         with open(OCSP_EXCLUSION_CSV_FILE, newline='') as ocsp_file:
             csvreader = csv.reader(ocsp_file)
             ocsp_exclusions = {row[0]: None for row in csvreader}
@@ -124,6 +124,20 @@ class ReportGenerator(object):
             'latest': True,
             'agency.name': agency
         })
+        # We really shouldn't include OCSP excluded domains in the
+        # total count.  We do want to score them, for informational
+        # purposes, but the scores will not impact compliance.
+        # Therefore I should really perform this query:
+        #   self.__domain_count = self.__db.https_scan.count({
+        #       'latest': True,
+        #       'agency.name': agency,
+        #       'domain': {
+        #            '$nin': ocsp_exclusions.keys()
+        #        }
+        #   })
+        #
+        # In reality this value is not used in the report at all, so
+        # it doesn't matter.
         self.__domain_count = all_domains_cursor.count()
 
         # Get weak crypto data for this agency's domains from the
@@ -203,7 +217,11 @@ class ReportGenerator(object):
                 self.__base_domains.append(domain_doc)
             self.__agency_id = domain_doc['agency']['id']
 
-        # Get count of second-level domains an agency owns
+        # Get a count of the second-level domains an agency owns.
+        #
+        # Really I should exclude OCSP domains here, but this isn't
+        # necessary since OCSP domains should be individual hostnames
+        # and not second-level domains.
         self.__base_domain_count = self.__db.https_scan.find({
             'latest': True,
             'agency.name': agency,
