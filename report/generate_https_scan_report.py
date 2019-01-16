@@ -505,11 +505,9 @@ class ReportGenerator(object):
                 self.__latex_escape_structure(i)
 
     def generate_https_scan_report(self):
-        print('\tparsing data')
+        print('\tParsing data')
         # build up the report_doc from the query results
         self.__populate_report_doc()
-
-        print('\tDone parsing data')
 
         # sort org lists
         if self.__https_compliance_list:
@@ -528,11 +526,11 @@ class ReportGenerator(object):
         self.__setup_work_directory(temp_working_dir)
         os.chdir(temp_working_dir)
 
-        print('\tgenerating attachments')
+        print('\tGenerating attachments')
         # generate attachments
         self.__generate_attachments()
 
-        print('\tgenerating charts')
+        print('\tGenerating charts')
         # generate charts
         self.__generate_charts()
 
@@ -542,7 +540,7 @@ class ReportGenerator(object):
         # generate latex json + mustache
         self.__generate_latex(MUSTACHE_FILE, REPORT_JSON, REPORT_TEX)
 
-        print('\tassembling PDF')
+        print('\tAssembling PDF')
         # generate report figures + latex
         self.__generate_final_pdf()
 
