@@ -199,7 +199,7 @@ class ReportGenerator(object):
                 for subdomain_doc in domain_doc['subdomains']:
                     subdomain_doc = add_weak_crypto_data_to_domain(subdomain_doc,
                                                                    sslyze_data_all_domains)
-                    subdomain_doc['ocsp_domain'] = domain_doc['domain'] in ocsp_exclusions
+                    subdomain_doc['ocsp_domain'] = subdomain_doc['domain'] in ocsp_exclusions
                 self.__base_domains.append(domain_doc)
             self.__agency_id = domain_doc['agency']['id']
 
