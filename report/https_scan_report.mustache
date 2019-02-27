@@ -471,7 +471,7 @@ asterisk, and their scores \emph{are not} included as part of the BOD
 \addcontentsline{toc}{subsection}{Field Descriptions} % Adds a subsection to toc
 \hypertarget{Field Descriptions}{\subsection*{Field Descriptions}}
 \vspace*{-3mm}
-Each hostname's score is calculated from values derived from a \texttt{pshtt} scan; see the \href{https://github.com/dhs-ncats/pshtt/#whats-checked}{README} for definitions of the values in the tool's output. \\~\\
+Each hostname's score is calculated from values derived from a \texttt{pshtt} scan; see the \href{https://github.com/cisagov/pshtt/#whats-checked}{README} for definitions of the values in the tool's output. \\~\\
 
 \vspace*{-5mm}
 \phantomsection % links this section from toc
@@ -657,7 +657,7 @@ You are encouraged to \href{https://cyber.dhs.gov/guide/#how-should-the-list-of-
 
 \begin{itemize}[topsep=-6pt, itemsep=0pt]
 	\item \href{https://cyber.dhs.gov/guide/#how-does-the-web-security-requirement-in-bod-18-01-differ-from-m-15-13}{BOD 18-01 incorporates parallel language to M-15-13} with regard to HTTPS deployment. The Compliance Guide at \href{https://https.cio.gov}{https.cio.gov} \textbf{should be consulted} in implementing HTTPS and HSTS.
-	\item \href{https://pulse.cio.gov}{pulse.cio.gov} is a public dashboard to support compliance with M-15-13 and BOD 18-01. The site includes scores for all second-level Federal .gov domains and subdomains sourced from GSA's DAP and Censys.io (as detailed in the \hyperref[app:methodology]{\color{dhs-blue}{Methodology}} section below). Pulse scans domains with \href{https://github.com/dhs-ncats/pshtt}{\texttt{pshtt}}.
+	\item \href{https://pulse.cio.gov}{pulse.cio.gov} is a public dashboard to support compliance with M-15-13 and BOD 18-01. The site includes scores for all second-level Federal .gov domains and subdomains sourced from GSA's DAP and Censys.io (as detailed in the \hyperref[app:methodology]{\color{dhs-blue}{Methodology}} section below). Pulse scans domains with \href{https://github.com/cisagov/pshtt}{\texttt{pshtt}}.
 	\item \href{https://https.cio.gov/resources}{https://https.cio.gov/resources} has presentations to watch and tools to use.
 \end{itemize}
 
@@ -690,7 +690,7 @@ Each domain and subdomain is assessed on four ``endpoints":\\
 	\item \textbf{http://\hspace{5em}}2. \textbf{http://www\hspace{5em}}3. \textbf{https://\hspace{5em}}4. \textbf{https://www}
 \end{enumerate}
 \vspace*{2mm}
-Data from these endpoints is used to characterize the overall behavior of a hostname. These measurements are performed using \texttt{pshtt}, our \href{https://github.com/dhs-ncats/pshtt}{open source HTTPS scanner}. All owned \href{https://github.com/GSA/data/blob/master/dotgov-domains/current-federal.csv}{.gov domains} and known subdomains are included. Subdomains are gathered from the following sources:
+Data from these endpoints is used to characterize the overall behavior of a hostname. These measurements are performed using \texttt{pshtt}, our \href{https://github.com/cisagov/pshtt}{open source HTTPS scanner}. All owned \href{https://github.com/GSA/data/blob/master/dotgov-domains/current-federal.csv}{.gov domains} and known subdomains are included. Subdomains are gathered from the following sources:
 \begin{itemize}[topsep=-6pt, itemsep=0pt]
   \item General Services Administration's Digital Analytics Program (DAP), which nightly publishes a \href{https://analytics.usa.gov/data/live/sites-extended.csv}{dataset of federal hostnames} for which the DAP observed at least one recorded visit in the previous 14 days.
   \item \href{https://censys.io}{Censys} is used to query the `Common Name' field and `Subject Alternative Name' extension on X.509 certificates found on Federal .gov sites, derived from scans of the IPv4 space and from certificates submitted to public Certificate Transparency logs.
@@ -718,6 +718,6 @@ M-15-13/BOD 18-01 have no restrictions on acceptable certificate authorities age
 \section{Attachments}
 \label{sec:Attachments}
 If your PDF viewer supports embedded attachments, you will see a paperclip icon below for each attached file.\\
-\attachfile[appearance=false,mimetype=text/csv,icon=Paperclip,ucfilespec=pshtt-results.csv]{pshtt-results.csv} pshtt-results.csv : Detailed results from \texttt{pshtt} scan {\small\lbrack\href{https://github.com/dhs-ncats/pshtt}{https://github.com/dhs-ncats/pshtt}]}\\
+\attachfile[appearance=false,mimetype=text/csv,icon=Paperclip,ucfilespec=pshtt-results.csv]{pshtt-results.csv} pshtt-results.csv : Detailed results from \texttt{pshtt} scan {\small\lbrack\href{https://github.com/cisagov/pshtt}{https://github.com/cisagov/pshtt}]}\\
 
 \end{document}
