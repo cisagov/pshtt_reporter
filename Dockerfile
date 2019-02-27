@@ -1,5 +1,5 @@
 FROM python:3.6
-MAINTAINER Shane Frasier <jeremy.frasier@beta.dhs.gov>
+MAINTAINER Shane Frasier <jeremy.frasier@trio.dhs.gov>
 
 ###
 # Dependencies
