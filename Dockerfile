@@ -65,8 +65,7 @@ RUN pip install --upgrade setuptools pip \
     pandas \
     geos \
     pyyaml \
-    docopt \
-    https://github.com/matplotlib/basemap/archive/v1.2.0rel.tar.gz
+    docopt
 
 ###
 # Create unprivileged User
