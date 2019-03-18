@@ -772,7 +772,10 @@ class ReportGenerator(object):
 # connection to database
 def db_from_config(config_filename):
     with open(config_filename, 'r') as stream:
-        config = yaml.load(stream)
+        # The loader must now be explicitly specified to avoid a
+        # warning message.  See here for more details:
+        # https://github.com/yaml/pyyaml/wiki/PyYAML-yaml.load(input)-Deprecation
+        config = yaml.load(stream, Loader=yaml.FullLoader)
 
     try:
         db_uri = config['database']['uri']

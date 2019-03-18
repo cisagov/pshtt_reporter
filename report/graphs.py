@@ -1,20 +1,14 @@
-#!/usr/bin/env python
-
 import math
 import numpy as np
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import matplotlib as mpl
-from mpl_toolkits.basemap import Basemap
-from matplotlib.patches import Rectangle, Ellipse, RegularPolygon
+from matplotlib.patches import Rectangle, Ellipse
 from matplotlib.collections import PatchCollection
 from matplotlib.ticker import MaxNLocator
 from matplotlib.dates import DateFormatter
 from textwrap import TextWrapper
-from pandas import DataFrame, Series
-import pandas as pd
-from itertools import chain
 
 # Blue, Green, Yellow, Orange, Red,
 BLUE = '#5c90ba'
@@ -478,56 +472,6 @@ class MyColorBar(object):
                                      patchB=ax2,
                                      connectionstyle="angle3,angleA=0,angleB=-90"),
                      )
-        fig.set_tight_layout(True)
-        plt.savefig(filename + '.pdf')
-        plt.close()
-
-
-class MyMap(object):
-    def __init__(self, coordinates):
-        self.coordinates = coordinates
-        self.ll_lon = None
-        self.ll_lat = None
-        self.ur_lon = None
-        self.ur_lat = None
-        self.__calculate_zoom()
-
-    def __calculate_zoom(self):
-        USA_LL = (-126.00, 25.00)
-        USA_UR = (-66, 49.50)
-        ll_lon, ll_lat = USA_LL
-        ur_lon, ur_lat = USA_UR
-        for lon, lat in self.coordinates:
-            if lon == None or lat == None:
-                print('bad value for lon,lat:', lon, lat)
-                continue
-            if lon < ll_lon:
-                ll_lon = lon - 1
-            elif lon > ur_lon:
-                ur_lon = lon + 1
-            if lat < ll_lat:
-                ll_lat = lat - 1
-            elif lat > ur_lat:
-                ur_lat = lat + 1
-        self.ll_lon, self.ll_lat, self.ur_lon, self.ur_lat = ll_lon, ll_lat, ur_lon, ur_lat
-
-    def plot(self, filename, size=1.0):
-        fig = plt.figure(1)
-        fig.set_size_inches(fig.get_size_inches() * size)
-        mapp = Basemap(projection='merc',
-                       resolution='l',  # area_thresh = 0.1,
-                       llcrnrlon=self.ll_lon, llcrnrlat=self.ll_lat,
-                       urcrnrlon=self.ur_lon, urcrnrlat=self.ur_lat)
-        mapp.drawcoastlines(linewidth=1, color='white')
-        mapp.drawcountries(linewidth=1, color='white')
-        mapp.drawstates(linewidth=1, color='white')
-        mapp.fillcontinents(color=DARK_BLUE)
-        mapp.drawmapboundary()
-        for lon, lat in self.coordinates:
-            if lon == None or lat == None:
-                continue
-            x, y = mapp(lon, lat)
-            mapp.plot(x, y, 'r.', markersize=9)
         fig.set_tight_layout(True)
         plt.savefig(filename + '.pdf')
         plt.close()
