@@ -1,6 +1,9 @@
 # NCATS PSHTT Reporter :notebook: :file_folder: #
 
 [![Build Status](https://travis-ci.com/cisagov/pshtt_reporter.svg?branch=develop)](https://travis-ci.com/cisagov/pshtt_reporter)
+[![Total alerts](https://img.shields.io/lgtm/alerts/g/cisagov/pshtt_reporter.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/cisagov/pshtt_reporter/alerts/)
+[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/cisagov/pshtt_reporter.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/cisagov/pshtt_reporter/context:python)
+[![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/cisagov/pshtt_reporter.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/cisagov/pshtt_reporter/context:javascript)
 
 This is a Docker container that creates PDF reports for individual
 second-level domains using data collected via
