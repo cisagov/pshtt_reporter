@@ -178,7 +178,9 @@ class ReportGenerator(object):
             if not sslyze_data_all_domains.get(host['domain']):
                 sslyze_data_all_domains[host['domain']] = [current_host_dict]
             else:
-                sslyze_data_all_domains[host['domain']].append(current_host_dict)
+                sslyze_data_all_domains[host['domain']].append(
+                    current_host_dict
+                )
 
         def add_weak_crypto_data_to_domain(domain_doc,
                                            sslyze_data_all_domains):
@@ -191,7 +193,8 @@ class ReportGenerator(object):
 
             if sslyze_data_all_domains.get(domain_doc['domain']):
                 for host in sslyze_data_all_domains[domain_doc['domain']]:
-                    if host['sslv2'] or host['sslv3'] or host['any_3des'] or host['any_rc4']:
+                    if host['sslv2'] or host['sslv3'] or \
+                       host['any_3des'] or host['any_rc4']:
                         domain_doc['domain_has_weak_crypto'] = True
                         domain_doc['hosts_with_weak_crypto'].append(host)
                     if host['is_symantec_cert']:
@@ -199,8 +202,10 @@ class ReportGenerator(object):
             return domain_doc
 
         for domain_doc in all_domains_cursor:
-            domain_doc = add_weak_crypto_data_to_domain(domain_doc,
-                                                        sslyze_data_all_domains)
+            domain_doc = add_weak_crypto_data_to_domain(
+                domain_doc,
+                sslyze_data_all_domains
+            )
             domain_doc['ocsp_domain'] = domain_doc['domain'] in ocsp_exclusions
             self.__all_domains.append(domain_doc)
             if domain_doc['is_base_domain']:
@@ -211,9 +216,12 @@ class ReportGenerator(object):
                 }).sort([('domain', 1)]))
                 self.__subdomain_count += len(domain_doc['subdomains'])
                 for subdomain_doc in domain_doc['subdomains']:
-                    subdomain_doc = add_weak_crypto_data_to_domain(subdomain_doc,
-                                                                   sslyze_data_all_domains)
-                    subdomain_doc['ocsp_domain'] = subdomain_doc['domain'] in ocsp_exclusions
+                    subdomain_doc = add_weak_crypto_data_to_domain(
+                        subdomain_doc,
+                        sslyze_data_all_domains
+                    )
+                    subdomain_doc['ocsp_domain'] = \
+                        subdomain_doc['domain'] in ocsp_exclusions
                 self.__base_domains.append(domain_doc)
             self.__agency_id = domain_doc['agency']['id']
 
@@ -276,7 +284,8 @@ class ReportGenerator(object):
         #
         # Domain gets credit for supporting HTTPS as long as it's live
         # and hsts_base_domain_preloaded is true
-        if domain['domain_supports_https'] or (domain['live'] and domain['hsts_base_domain_preloaded']):
+        if domain['domain_supports_https'] or \
+           (domain['live'] and domain['hsts_base_domain_preloaded']):
             # score['domain_supports_https'] = 'Yes'
             score['domain_supports_https_bool'] = True
             if not domain['ocsp_domain']:
@@ -289,7 +298,8 @@ class ReportGenerator(object):
         #
         # Domain gets credit for enforcing HTTPS as long as it's live
         # and hsts_base_domain_preloaded is true
-        if domain['domain_enforces_https'] or (domain['live'] and domain['hsts_base_domain_preloaded']):
+        if domain['domain_enforces_https'] or \
+           (domain['live'] and domain['hsts_base_domain_preloaded']):
             # score['domain_enforces_https'] = 'Yes'
             score['domain_enforces_https_bool'] = True
             if not domain['ocsp_domain']:
@@ -303,7 +313,9 @@ class ReportGenerator(object):
             score['https_bad_chain_bool'] = True
             if not domain['ocsp_domain']:
                 self.__https_bad_chain_count += 1
-        elif (domain['https_bad_chain'] and not domain['https_bad_hostname']) or (domain['https_bad_chain'] and domain['https_expired_cert']):
+        elif (domain['https_bad_chain'] and
+              not domain['https_bad_hostname']) or \
+             (domain['https_bad_chain'] and domain['https_expired_cert']):
             if not domain['ocsp_domain']:
                 self.__https_bad_chain_count += 1
         else:
@@ -384,7 +396,8 @@ class ReportGenerator(object):
             #
             # Domain gets credit for strong HSTS as long as it's live
             # and hsts_base_domain_preloaded is true
-            if domain['domain_uses_strong_hsts'] or (domain['live'] and domain['hsts_base_domain_preloaded']):
+            if domain['domain_uses_strong_hsts'] or \
+               (domain['live'] and domain['hsts_base_domain_preloaded']):
                 score['domain_uses_strong_hsts_bool'] = True
                 if not domain['ocsp_domain']:
                     self.__domain_uses_strong_hsts_count += 1
@@ -437,10 +450,16 @@ class ReportGenerator(object):
         # Does the domain have a Symantec cert?
         # If so, they have to be replaced - see:
         #  https://www.symantec.com/connect/blogs/information-replacement-symantec-ssltls-certificates
-        score['domain_has_symantec_cert_bool'] = domain['domain_has_symantec_cert']
+        score['domain_has_symantec_cert_bool'] = \
+            domain['domain_has_symantec_cert']
 
         # BOD 18-01 compliant?
-        if ((domain['domain_supports_https'] and domain['domain_enforces_https'] and domain['domain_uses_strong_hsts']) or (domain['live'] and domain['hsts_base_domain_preloaded'])) and not domain['domain_has_weak_crypto']:
+        if (
+                (domain['domain_supports_https'] and
+                 domain['domain_enforces_https'] and
+                 domain['domain_uses_strong_hsts']) or
+                (domain['live'] and domain['hsts_base_domain_preloaded'])
+        ) and not domain['domain_has_weak_crypto']:
             score['bod_1801_compliance'] = True
             if not domain['ocsp_domain']:
                 self.__bod_1801_count += 1
@@ -474,36 +493,34 @@ class ReportGenerator(object):
             print('ERROR: "{}" has no live domains - exiting without generating report!'.format(self.__agency))
             sys.exit(-1)
 
-        self.__uses_https_percentage = round((((self.__domain_supports_https_count)/self.__all_eligible_domains_count) * 100), 1)
-        self.__enforces_https_percentage = round(((self.__domain_enforces_https_count/self.__all_eligible_domains_count) * 100), 1)
-        self.__hsts_percentage = round(((self.__domain_uses_strong_hsts_count/self.__all_eligible_domains_count) * 100), 1)
-        self.__has_no_weak_crypto_percentage = round(((self.__domain_has_no_weak_crypto_count/self.__all_eligible_domains_count) * 100), 1)
-        self.__bod_1801_percentage = round(((self.__bod_1801_count/self.__all_eligible_domains_count) * 100), 1)
+        self.__uses_https_percentage = round(
+            self.__domain_supports_https_count /
+            self.__all_eligible_domains_count * 100.0,
+            1
+        )
+        self.__enforces_https_percentage = round(
+            self.__domain_enforces_https_count /
+            self.__all_eligible_domains_count * 100.0,
+            1
+        )
+        self.__hsts_percentage = round(
+            self.__domain_uses_strong_hsts_count /
+            self.__all_eligible_domains_count * 100.0,
+            1
+        )
+        self.__has_no_weak_crypto_percentage = round(
+            self.__domain_has_no_weak_crypto_count /
+            self.__all_eligible_domains_count * 100,
+            1
+        )
+        self.__bod_1801_percentage = round(
+            self.__bod_1801_count /
+            self.__all_eligible_domains_count * 100.0,
+            1
+        )
 
         # self.__write_to_overview() # generates ARTIFACTS_DIR +
         # "/reporting.csv" - is this still needed?
-
-        # print('Agency,Second-level domains,Found subdomains,Web-responsive hosts,Uses HTTPS,Enforces HTTPS,HSTS,BOD 18-01 compliant count, BOD 18-01 compliant percent')
-        # print(self.__agency, self.__base_domain_count, self.__subdomain_count, self.__all_eligible_domains_count, self.__domain_supports_https_count, self.__domain_enforces_https_count, self.__domain_uses_strong_hsts_count, self.__bod_1801_count, self.__bod_1801_percentage)
-
-    # def __write_to_overview(self):
-    #     # Check and see if the file has headers
-    #     reporting_file = ARTIFACTS_DIR + "/reporting.csv"
-    #     if not os.path.isfile(reporting_file):
-    #         out_file = open(reporting_file, "w+")
-    #         writer = csv.writer(out_file, delimiter=",")
-    #         writer.writerow(["Agency", "Second-level domains", "Found subdomains", "Web-responsive hosts",
-    #                          "Uses HTTPS", "Enforces HTTPS","HSTS","BOD 18-01 compliant count",
-    #                          "BOD 18-01 compliant percent"])
-    #     else:
-    #         out_file = open(reporting_file, "a")
-    #         writer = csv.writer(out_file, delimiter=",")
-    #
-    #     # Now write this agencies results to the csv
-    #     writer.writerow([self.__agency, self.__base_domain_count, self.__subdomain_count,
-    #                     self.__all_eligible_domains_count, self.__domain_supports_https_count,
-    #                     self.__domain_enforces_https_count, self.__domain_uses_strong_hsts_count,
-    #                     self.__bod_1801_count, self.__bod_1801_percentage])
 
     def __latex_escape(self, to_escape):
         return ''.join([LATEX_ESCAPE_MAP.get(i, i) for i in to_escape])
@@ -602,8 +619,38 @@ class ReportGenerator(object):
         self.__generate_https_attachment()
 
     def __generate_https_attachment(self):
-        header_fields = ('Domain', 'Base Domain', 'Domain Is Base Domain', 'Canonical URL', 'Live', 'Redirect', 'Redirect To', 'Valid HTTPS', 'Defaults to HTTPS', 'Downgrades HTTPS', 'Strictly Forces HTTPS', 'HTTPS Bad Chain', 'HTTPS Bad Hostname', 'HTTPS Expired Cert', 'HTTPS Self Signed Cert', 'HSTS', 'HSTS Header', 'HSTS Max Age', 'HSTS Entire Domain', 'HSTS Preload Ready', 'HSTS Preload Pending', 'HSTS Preloaded', 'Base Domain HSTS Preloaded', 'Domain Supports HTTPS', 'Domain Enforces HTTPS', 'Domain Uses Strong HSTS', 'Domain Supports Weak Crypto', 'Web Hosts With Weak Crypto', 'Domain Uses Symantec Certificate', 'OCSP Domain', 'Unknown Error')
-        data_fields = ('domain', 'base_domain', 'is_base_domain', 'canonical_url', 'live', 'redirect', 'redirect_to', 'valid_https', 'defaults_https', 'downgrades_https', 'strictly_forces_https', 'https_bad_chain', 'https_bad_hostname', 'https_expired_cert', 'https_self_signed_cert', 'hsts', 'hsts_header', 'hsts_max_age', 'hsts_entire_domain', 'hsts_preload_ready', 'hsts_preload_pending', 'hsts_preloaded', 'hsts_base_domain_preloaded', 'domain_supports_https', 'domain_enforces_https', 'domain_uses_strong_hsts', 'domain_has_weak_crypto', 'hosts_with_weak_crypto_str', 'domain_has_symantec_cert', 'ocsp_domain', 'unknown_error')
+        header_fields = ('Domain', 'Base Domain', 'Domain Is Base Domain',
+                         'Canonical URL', 'Live', 'Redirect', 'Redirect To',
+                         'Valid HTTPS', 'Defaults to HTTPS',
+                         'Downgrades HTTPS', 'Strictly Forces HTTPS',
+                         'HTTPS Bad Chain', 'HTTPS Bad Hostname',
+                         'HTTPS Expired Cert', 'HTTPS Self Signed Cert',
+                         'HSTS', 'HSTS Header', 'HSTS Max Age',
+                         'HSTS Entire Domain', 'HSTS Preload Ready',
+                         'HSTS Preload Pending', 'HSTS Preloaded',
+                         'Base Domain HSTS Preloaded',
+                         'Domain Supports HTTPS', 'Domain Enforces HTTPS',
+                         'Domain Uses Strong HSTS',
+                         'Domain Supports Weak Crypto',
+                         'Web Hosts With Weak Crypto',
+                         'Domain Uses Symantec Certificate',
+                         'OCSP Domain', 'Unknown Error')
+        data_fields = ('domain', 'base_domain', 'is_base_domain',
+                       'canonical_url', 'live', 'redirect', 'redirect_to',
+                       'valid_https', 'defaults_https',
+                       'downgrades_https', 'strictly_forces_https',
+                       'https_bad_chain', 'https_bad_hostname',
+                       'https_expired_cert', 'https_self_signed_cert',
+                       'hsts', 'hsts_header', 'hsts_max_age',
+                       'hsts_entire_domain', 'hsts_preload_ready',
+                       'hsts_preload_pending', 'hsts_preloaded',
+                       'hsts_base_domain_preloaded',
+                       'domain_supports_https', 'domain_enforces_https',
+                       'domain_uses_strong_hsts',
+                       'domain_has_weak_crypto',
+                       'hosts_with_weak_crypto_str',
+                       'domain_has_symantec_cert',
+                       'ocsp_domain', 'unknown_error')
         with open(HTTPS_RESULTS_CSV_FILE, newline='', mode='w') as out_file:
             header_writer = csv.DictWriter(out_file, header_fields,
                                            extrasaction='ignore')
@@ -636,7 +683,9 @@ class ReportGenerator(object):
                 ]:
                     if d[wc_key]:
                         weak_crypto_list.append(wc_text)
-                result = '{0}:{1} [supports: {2}]'.format(hostname, port, ','.join(weak_crypto_list))
+                result = '{0}:{1} [supports: {2}]'.format(
+                    hostname, port, ','.join(weak_crypto_list)
+                )
 
                 return result
 
@@ -654,9 +703,12 @@ class ReportGenerator(object):
 
             for domain in self.__all_domains:
                 hosts_with_weak_crypto = [
-                    rehydrate_hosts_with_weak_crypto(d) for d in domain['hosts_with_weak_crypto']
+                    rehydrate_hosts_with_weak_crypto(d)
+                    for d in domain['hosts_with_weak_crypto']
                 ]
-                domain['hosts_with_weak_crypto_str'] = format_list(hosts_with_weak_crypto)
+                domain['hosts_with_weak_crypto_str'] = format_list(
+                    hosts_with_weak_crypto
+                )
                 data_writer.writerow(domain)
 
     ###########################################################################
@@ -702,36 +754,55 @@ class ReportGenerator(object):
         result['domain_count'] = self.__domain_count
         result['subdomain_count'] = self.__subdomain_count
         result['base_domain_count'] = self.__base_domain_count
-        result['all_eligible_domains_count'] = self.__all_eligible_domains_count
+        result['all_eligible_domains_count'] = \
+            self.__all_eligible_domains_count
         result['eligible_domains_count'] = self.__eligible_domains_count
         result['eligible_subdomains_count'] = self.__eligible_subdomains_count
         result['https_compliance_list'] = self.__https_compliance_list
         result['non_https_compliance_list'] = self.__non_https_compliance_list
-        result['title_date_tex'] = self.__generated_time.strftime('{%d}{%m}{%Y}')
+        result['title_date_tex'] = \
+            self.__generated_time.strftime('{%d}{%m}{%Y}')
         result['agency'] = self.__agency
         result['agency_id'] = self.__agency_id
-        result['strictly_forces_percentage'] = round(float(self.__strictly_forces_count)/float(self.__domain_count) * 100.0, 1)
-        result['downgrades_percentage'] = round(float(self.__downgrades_count)/float(self.__domain_count) * 100.0, 1)
+        result['strictly_forces_percentage'] = round(
+            self.__strictly_forces_count / self.__domain_count * 100.0,
+            1
+        )
+        result['downgrades_percentage'] = round(
+            self.__downgrades_count / self.__domain_count * 100.0,
+            1
+        )
         result['hsts_percentage'] = self.__hsts_percentage
-        result['hsts_preloaded_percentage'] = round(float(self.__hsts_preloaded_count)/float(self.__domain_count) * 100.0, 1)
-        result['hsts_entire_domain_percentage'] = round(float(self.__hsts_entire_domain_count)/float(self.__domain_count) * 100.0, 1)
+        result['hsts_preloaded_percentage'] = round(
+            self.__hsts_preloaded_count / self.__domain_count * 100.0,
+            1
+        )
+        result['hsts_entire_domain_percentage'] = round(
+            self.__hsts_entire_domain_count / self.__domain_count * 100.0,
+            1
+        )
         # result['strictly_forces_percentage'] = 0
         # result['downgrades_percentage'] = 0
         # result['hsts_preloaded_percentage'] = 0
         # result['hsts_entire_domain_percentage'] = 0
-        result['domain_has_no_weak_crypto_count'] = self.__domain_has_no_weak_crypto_count
-        result['has_no_weak_crypto_percentage'] = self.__has_no_weak_crypto_percentage
+        result['domain_has_no_weak_crypto_count'] = \
+            self.__domain_has_no_weak_crypto_count
+        result['has_no_weak_crypto_percentage'] = \
+            self.__has_no_weak_crypto_percentage
         result['bod_1801_percentage'] = self.__bod_1801_percentage
         result['bod_1801_count'] = self.__bod_1801_count
-        result['domain_supports_https_count'] = self.__domain_supports_https_count  #added
+        result['domain_supports_https_count'] = \
+            self.__domain_supports_https_count  # added
         result['uses_https_percentage'] = self.__uses_https_percentage
         result['enforces_https_percentage'] = self.__enforces_https_percentage
         result['strictly_forces_count'] = self.__strictly_forces_count
-        result['domain_enforces_https_count'] = self.__domain_enforces_https_count
+        result['domain_enforces_https_count'] = \
+            self.__domain_enforces_https_count
         result['hsts_count'] = self.__hsts_count
         result['hsts_preloaded_count'] = self.__hsts_preloaded_count
         result['hsts_preload_ready_count'] = self.__hsts_preload_ready_count
-        result['domain_uses_strong_hsts_count'] = self.__domain_uses_strong_hsts_count
+        result['domain_uses_strong_hsts_count'] = \
+            self.__domain_uses_strong_hsts_count
         result['https_expired_cert_count'] = self.__https_expired_cert_count
         result['https_bad_hostname_count'] = self.__https_bad_hostname_count
         result['https_bad_chain_count'] = self.__https_bad_chain_count
@@ -761,12 +832,14 @@ class ReportGenerator(object):
         return_code = subprocess.call(['xelatex', REPORT_TEX],
                                       stdout=output,
                                       stderr=subprocess.STDOUT)
-        assert return_code == 0, 'xelatex pass 1 of 2 return code was %s' % return_code
+        assert return_code == 0, \
+            'xelatex pass 1 of 2 return code was %s' % return_code
 
         return_code = subprocess.call(['xelatex', REPORT_TEX],
                                       stdout=output,
                                       stderr=subprocess.STDOUT)
-        assert return_code == 0, 'xelatex pass 2 of 2 return code was %s' % return_code
+        assert return_code == 0, \
+            'xelatex pass 2 of 2 return code was %s' % return_code
 
 
 # connection to database
@@ -781,7 +854,9 @@ def db_from_config(config_filename):
         db_uri = config['database']['uri']
         db_name = config['database']['name']
     except:
-        print('Incorrect database config file format: {}'.format(config_filename))
+        print('Incorrect database config file format: {}'.format(
+            config_filename
+        ))
 
     db_connection = MongoClient(host=db_uri, tz_aware=True)
     db = db_connection[db_name]
