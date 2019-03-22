@@ -30,7 +30,7 @@ if (system.args.length != 5) {
 	page.paperSize = { width:vp_width+'px', height:vp_height+12+'px', margin: '0px' }; // Add 12 pixels of height to keep PDF on 1 page
 
 	function onPageReady() {
-	    var htmlContent = page.evaluate(function () {
+	    page.evaluate(function () {
 	        return document.documentElement.outerHTML;
 	    });
 	    //console.log(htmlContent);
