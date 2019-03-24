@@ -44,7 +44,9 @@ TOO_SMALL_WEDGE = 30
 
 
 def setup():
-    fig_width_pt = 505.89  # Get this from LaTeX using \showthe\columnwidth (see *.width file)
+    # Get this from LaTeX using \showthe\columnwidth (see *.width
+    # file)
+    fig_width_pt = 505.89
     inches_per_pt = 1.0 / 72.27  # Convert pt to inch
     golden_mean = (np.sqrt(5) - 1.0) / 2.0  # Aesthetic ratio
     fig_width = fig_width_pt * inches_per_pt  # width in inches
@@ -54,7 +56,6 @@ def setup():
               # 'font.family': 'sans-serif',
               # 'font.sans-serif': ['Avenir Next'],
               'axes.labelsize': 10,
-              'font.size': 10,
               'legend.fontsize': 8,
               'xtick.labelsize': 8,
               'ytick.labelsize': 8,
@@ -122,14 +123,16 @@ class MyStackedBar(object):
         bars = []
         i = 0
         for dataset in self.data:
-            p = ax.barh(pos, dataset, align='center', color=COLORS[i], edgecolor='white', left=lefts)
+            p = ax.barh(pos, dataset, align='center', color=COLORS[i],
+                        edgecolor='white', left=lefts)
             lefts = map(lambda x, y: x + y, lefts, dataset)
             i += 1
             bars.append(p)
 
         plt.yticks(pos, self.ylabels, rotation=None, fontsize=8)
         try:
-            leg = plt.legend(bars, self.dataLabels, ncol=len(self.dataLabels), loc='upper center', fancybox=True,
+            leg = plt.legend(bars, self.dataLabels, ncol=len(self.dataLabels),
+                             loc='upper center', fancybox=True,
                              prop={'size': 4})
             leg.get_frame().set_alpha(0.5)
         except IndexError as e:
@@ -139,21 +142,22 @@ class MyStackedBar(object):
 
         for bar in bars:
             for rect in bar:
-                # Rectangle widths are already integer-valued but are floating
-                # type, so it helps to remove the trailing decimal point and 0 by
-                # converting width to int type
+                # Rectangle widths are already integer-valued but are
+                # floating type, so it helps to remove the trailing
+                # decimal point and 0 by converting width to int type
                 width = int(rect.get_width())
 
                 labelString = '{:,d}'.format(width)
-                if (width > 0):  # TODO handle too labels getting squeezed, need box width in points
+                # TODO handle too labels getting squeezed, need box
+                # width in points
+                if (width > 0):
                     xloc = rect.get_x() + 0.5 * width
                     clr = 'white'
-                    align = 'right'
-                    yloc = rect.get_y() + rect.get_height() / 2.0  # Center the text vertically in the bar
+                    # Center the text vertically in the bar
+                    yloc = rect.get_y() + rect.get_height() / 2.0
                     ax.annotate(labelString, xy=(xloc, yloc), xycoords='data',
                                 xytext=(-4, 0), textcoords='offset points',
-                                size=12, va='center', weight='bold', color=clr
-                                )
+                                size=12, va='center', weight='bold', color=clr)
 
         ax.set_ylim([-0.5, 5])
         fig.set_tight_layout(True)
@@ -162,7 +166,8 @@ class MyStackedBar(object):
 
 
 class MyBar(object):
-    def __init__(self, series, yscale='linear', bigLabels=False, barSeverities=None, legendLabels=None):
+    def __init__(self, series, yscale='linear',
+                 bigLabels=False, barSeverities=None, legendLabels=None):
         self.series = series
         self.yscale = yscale
         self.bigLabels = bigLabels
@@ -184,27 +189,41 @@ class MyBar(object):
             barColors = []
             for i in self.barSeverities:
                 barColors.append(COLORS[i - 1])
-            if self.legendLabels:  # build a dummy set of bars ('underneath' the real bars) to be used
-                legendColors = []  # to color the legend; legendLabels are implicitly tied to COLORS
+            if self.legendLabels:
+                # build a dummy set of bars ('underneath' the real
+                # bars) to be used
+
+                # to color the legend; legendLabels are implicitly
+                # tied to COLORS
+                legendColors = []
                 for i in range(len(self.legendLabels)):
                     legendColors.append(COLORS[i])
-                dummy_legend_rects = plt.bar(pos, self.series.values, align='center', color=legendColors,
+                dummy_legend_rects = plt.bar(pos, self.series.values,
+                                             align='center',
+                                             color=legendColors,
                                              edgecolor='white', width=0.5)
-                leg = plt.legend(dummy_legend_rects, self.legendLabels, ncol=len(self.legendLabels), loc='upper center',
-                                 fancybox=True, prop={'size': 4}, bbox_to_anchor=(0.5, 1.2))
+                leg = plt.legend(dummy_legend_rects, self.legendLabels,
+                                 ncol=len(self.legendLabels),
+                                 loc='upper center',
+                                 fancybox=True, prop={'size': 4},
+                                 bbox_to_anchor=(0.5, 1.2))
                 leg.get_frame().set_alpha(0.5)
-            rects = plt.bar(pos, self.series.values, align='center', color=barColors, edgecolor='white', width=0.5)
+            rects = plt.bar(pos, self.series.values, align='center',
+                            color=barColors, edgecolor='white', width=0.5)
         else:
-            rects = plt.bar(pos, self.series.values, align='center', color=BLUE, edgecolor='white', width=0.5)
+            rects = plt.bar(pos, self.series.values, align='center',
+                            color=BLUE, edgecolor='white', width=0.5)
 
         if self.bigLabels:
-            plt.xticks(pos, wrapLabels(self.series.index, 24), rotation=55, fontsize=7)
+            plt.xticks(pos, wrapLabels(self.series.index, 24),
+                       rotation=55, fontsize=7)
             # Extremely nice function to auto-rotate the x axis labels.
             # It was made for dates (hence the name) but it works
             # for any long x tick labels
             # fig.autofmt_xdate()
         else:
-            plt.xticks(pos, wrapLabels(self.series.index, 6), rotation=None, fontsize=8)
+            plt.xticks(pos, wrapLabels(self.series.index, 6),
+                       rotation=None, fontsize=8)
 
         ax.yaxis.grid(False)
         ax.yaxis.tick_left()  # ticks only on left
@@ -215,11 +234,12 @@ class MyBar(object):
         ax.spines['right'].set_visible(False)
 
         for rect in rects:
-            # Rectangle widths are already integer-valued but are floating
-            # type, so it helps to remove the trailing decimal point and 0 by
-            # converting width to int type
+            # Rectangle widths are already integer-valued but are
+            # floating type, so it helps to remove the trailing
+            # decimal point and 0 by converting width to int type
             yloc = int(rect.get_height())
-            xloc = rect.get_x() + rect.get_width() / 2.0  # Center the text horz in the bar
+            # Center the text horz in the bar
+            xloc = rect.get_x() + rect.get_width() / 2.0
 
             # determine if the label should go in or above the bar
             display_coords = ax.transData.transform([xloc, yloc])
@@ -247,7 +267,8 @@ class MyBar(object):
 
 
 class MyDistributionBar(object):
-    def __init__(self, series, yscale='linear', xlabel=None, ylabel=None, final_bucket_accumulate=False,
+    def __init__(self, series, yscale='linear', xlabel=None, ylabel=None,
+                 final_bucket_accumulate=False,
                  x_major_tick_count=10, region_colors=[], x_limit_extra=0):
         self.series = series
         self.yscale = yscale
@@ -256,15 +277,19 @@ class MyDistributionBar(object):
         self.final_bucket_accumulate = final_bucket_accumulate
         self.x_major_tick_count = x_major_tick_count
         self.region_colors = region_colors
-        self.x_limit_extra = x_limit_extra  # Used to add a little extra space to the end of the x axis to make the final bucket more readable
+        # Used to add a little extra space to the end of the x axis to
+        # make the final bucket more readable
+        self.x_limit_extra = x_limit_extra
 
     def plot(self, filename, size=1.0):
         fig = plt.figure(figsize=(8, 2.75))
         fig.set_size_inches(fig.get_size_inches() * size)
         ax = fig.add_subplot(1, 1, 1)
         ax.set_yscale(self.yscale)
-        pos = np.arange(len(self.series))  # the bar centers on the x axis
-        # Manually set x-axis range to be between 0 and the highest value in the series plus any desired extra space (x_limit_extra)
+        pos = np.arange(len(self.series))  # the bar centers on the x
+        # axis Manually set x-axis range to be between 0 and the
+        # highest value in the series plus any desired extra space
+        # (x_limit_extra)
         ax.set_xlim([0, self.series.index[-1] + self.x_limit_extra])
 
         if self.xlabel:
@@ -276,21 +301,30 @@ class MyDistributionBar(object):
         if self.final_bucket_accumulate:
             tick_labels[-1] = '{}+'.format(tick_labels[-1])
 
-        plt.bar(pos, self.series.values, tick_label=tick_labels, align='center', color='#000000', edgecolor='#000000')
+        plt.bar(pos, self.series.values, tick_label=tick_labels,
+                align='center', color='#000000', edgecolor='#000000')
         y_max = ax.get_ylim()[1]
 
-        # Colorize regions and add dividing lines if region_colors present
+        # Colorize regions and add dividing lines if region_colors
+        # present
         previous_day = 0
         for (day, bgcolor) in self.region_colors:
-            plt.axvline(x=day, color='#777777', linewidth=0.5)  # draw reference lines
-            ax.annotate('{} Days '.format(day), xy=(day - 1, y_max), rotation='vertical', fontsize=7, color='#666666',
+            # draw reference lines
+            plt.axvline(x=day, color='#777777', linewidth=0.5)
+            ax.annotate('{} Days '.format(day), xy=(day - 1, y_max),
+                        rotation='vertical', fontsize=7, color='#666666',
                         ha='right', va='top')
             ax.add_patch(
-                Rectangle((previous_day, 0), day - previous_day, y_max, facecolor=bgcolor, alpha=0.4, edgecolor=None,
+                Rectangle((previous_day, 0), day - previous_day, y_max,
+                          facecolor=bgcolor, alpha=0.4, edgecolor=None,
                           zorder=0))
             previous_day = day
-        ax.add_patch(Rectangle((previous_day, 0), (self.series.index[-1] - previous_day + self.x_limit_extra), y_max,
-                               facecolor='#000000', alpha=0.4, edgecolor=None, zorder=0))
+        ax.add_patch(Rectangle((previous_day, 0),
+                               (self.series.index[-1] - previous_day +
+                                self.x_limit_extra),
+                               y_max,
+                               facecolor='#000000', alpha=0.4, edgecolor=None,
+                               zorder=0))
 
         tick_interval = len(self.series) / (self.x_major_tick_count - 1)
         for i, tick in enumerate(ax.xaxis.get_major_ticks()):
@@ -301,7 +335,8 @@ class MyDistributionBar(object):
                 tick.set_label('{}'.format(self.series.index[i]))
 
         if self.final_bucket_accumulate:
-            tick.set_visible(True)  # Show final tick (just in case it isn't already visible)
+            # Show final tick (just in case it isn't already visible)
+            tick.set_visible(True)
 
         ax.tick_params(direction='out')  # put ticks on the outside of the axes
         ax.yaxis.grid(True)
@@ -356,7 +391,8 @@ class MyPie(object):
         else:
             new_ys = np.linspace(top, bottom * 0.8, len(trips))  # distribute
 
-        trips.sort(key=lambda x: self.wedge_edge(x[2])[1], reverse=not right_side)  # sort by wedge_edge y
+        trips.sort(key=lambda x: self.wedge_edge(x[2])[1],
+                   reverse=not right_side)  # sort by wedge_edge y
 
         for (inner, outer, wedge), y in zip(trips, new_ys):
             outer.set_visible(False)  # hide the old label
@@ -364,7 +400,8 @@ class MyPie(object):
                 new_text = outer.get_text()  # transfer old label text
             else:
                 new_text = '%s\n(%s)' % (outer.get_text(), inner.get_text())
-                inner.set_visible(False)  # too small to show inner label, add to outer
+                # too small to show inner label, add to outer
+                inner.set_visible(False)
 
             # create annotation from pos to wedge
             xy = self.wedge_edge(wedge)
@@ -384,15 +421,16 @@ class MyPie(object):
                             )
 
     def plot(self, filename, size=1.0):
-        (w, h) = plt.rcParams['figure.figsize']
         fig = plt.figure(1)
         fig.set_size_inches(fig.get_size_inches() * size)
         ax = fig.add_subplot(1, 1, 1)
         fig.subplots_adjust(left=0.25, right=0.75)
 
-        wedges, outer_labels, inner_labels = plt.pie(self.data, colors=PIE_COLORS,
-                                                     explode=self.explode, labels=self.labels,
-                                                     labeldistance=1.15, autopct='', pctdistance=0.65, shadow=False)
+        wedges, outer_labels, inner_labels = plt.pie(
+            self.data, colors=PIE_COLORS,
+            explode=self.explode, labels=self.labels,
+            labeldistance=1.15, autopct='', pctdistance=0.65, shadow=False
+        )
         for wedge in wedges:
             wedge.set_edgecolor('white')
         i = 0
@@ -401,7 +439,10 @@ class MyPie(object):
             label.set_fontsize(16.0 * size)  # inner value label size
             label.set_color('white')
             if self.showValue:
-                label.set_text('{0}, {1:.0f}%'.format(self.data[i], float(self.data[i]) / total * 100.0))
+                label.set_text('{0}, {1:.0f}%'.format(
+                    self.data[i],
+                    float(self.data[i]) / total * 100.0)
+                )
             else:
                 label.set_text('%1.1f%%' % (self.data[i]))
             i += 1
@@ -450,35 +491,42 @@ class MyColorBar(object):
             agencyTextXY = (0.75, 0.66)
             federalTextXY = (0.25, 0.66)
 
-        agencyLabel = '%s %s\n%1.2f' % (self.agencyName, self.label, self.agencyScore)
+        agencyLabel = '%s %s\n%1.2f' % (self.agencyName,
+                                        self.label,
+                                        self.agencyScore)
         federalLabel = 'Federal %s\n%1.2f' % (self.label, self.federalScore)
 
-        ax2.annotate(agencyLabel, xy=(self.agencyScore / 10, 1), xycoords='data',
-                     xytext=agencyTextXY, textcoords='figure fraction',
-                     size=14, ha='center',
-                     bbox=dict(boxstyle="round", fc="1.0", alpha=0.9),
-                     arrowprops=dict(arrowstyle="fancy", mutation_scale=30,
-                                     fc="0.1", ec="none",
-                                     patchB=ax2,
-                                     connectionstyle="angle3,angleA=0,angleB=-90"),
-                     )
+        ax2.annotate(
+            agencyLabel, xy=(self.agencyScore / 10, 1),
+            xycoords='data',
+            xytext=agencyTextXY, textcoords='figure fraction',
+            size=14, ha='center',
+            bbox=dict(boxstyle="round", fc="1.0", alpha=0.9),
+            arrowprops=dict(arrowstyle="fancy", mutation_scale=30,
+                            fc="0.1", ec="none",
+                            patchB=ax2,
+                            connectionstyle="angle3,angleA=0,angleB=-90"),
+        )
 
-        ax2.annotate(federalLabel, xy=(self.federalScore / 10, 1), xycoords='data',
-                     xytext=federalTextXY, textcoords='figure fraction',
-                     size=14, ha='center',
-                     bbox=dict(boxstyle="round", fc="1.0", alpha=0.9),
-                     arrowprops=dict(arrowstyle="fancy", mutation_scale=30,
-                                     fc="0.4", ec="none",
-                                     patchB=ax2,
-                                     connectionstyle="angle3,angleA=0,angleB=-90"),
-                     )
+        ax2.annotate(
+            federalLabel, xy=(self.federalScore / 10, 1),
+            xycoords='data',
+            xytext=federalTextXY, textcoords='figure fraction',
+            size=14, ha='center',
+            bbox=dict(boxstyle="round", fc="1.0", alpha=0.9),
+            arrowprops=dict(arrowstyle="fancy", mutation_scale=30,
+                            fc="0.4", ec="none",
+                            patchB=ax2,
+                            connectionstyle="angle3,angleA=0,angleB=-90"),
+        )
         fig.set_tight_layout(True)
         plt.savefig(filename + '.pdf')
         plt.close()
 
 
 class MyLine(object):
-    def __init__(self, data_frame, linecolors, yscale='linear', xlabel=None, ylabel=None):
+    def __init__(self, data_frame, linecolors, yscale='linear',
+                 xlabel=None, ylabel=None):
         self.df = data_frame
         self.linecolors = linecolors
         self.yscale = yscale
@@ -500,11 +548,13 @@ class MyLine(object):
         colors = (c for c in self.linecolors)
         for col in self.df.columns:
             series = self.df[col]
-            series.plot(style='.-', color=colors.next(), linewidth=2, markersize=10)
+            series.plot(style='.-', color=colors.next(),
+                        linewidth=2, markersize=10)
         leg = plt.legend(fancybox=True, loc='best')
         # set the alpha value of the legend: it will be translucent
         leg.get_frame().set_alpha(0.5)
-        ax.set_ylim(ymin=0)  # Force y-axis to go to 0 (must be done after plot)
+        # Force y-axis to go to 0 (must be done after plot)
+        ax.set_ylim(ymin=0)
         fig.set_tight_layout(True)
         plt.savefig(filename + '.pdf')
         plt.close()
@@ -514,7 +564,8 @@ class MyPentaLine(object):
     def __init__(self, data_frame):
         self.df = data_frame
 
-    def plot_four(self, axis, column, color1, color2, last=False, tick_right=False):
+    def plot_four(self, axis, column, color1, color2,
+                  last=False, tick_right=False):
         axis.text(0.025, 0.75, column.title(), fontsize='small',
                   horizontalalignment='left',
                   transform=axis.transAxes)
@@ -523,10 +574,14 @@ class MyPentaLine(object):
         if tick_right:
             axis.yaxis.tick_right()
         for prefix, style in [('', 'solid'), ('world_', 'dotted')]:
-            for col, color in [('host_count', color1), ('vulnerable_host_count', color2)]:
+            for col, color in [
+                    ('host_count', color1),
+                    ('vulnerable_host_count', color2)
+            ]:
                 df = self.df[prefix + column] * 1.0 / self.df[prefix + col]
                 df = df.fillna(0)
-                df.plot(ax=axis, label=prefix + column, grid=False, color=color, linewidth=2, linestyle=style,
+                df.plot(ax=axis, label=prefix + column, grid=False,
+                        color=color, linewidth=2, linestyle=style,
                         marker='.', markersize=10)
 
         if not last:
@@ -535,39 +590,55 @@ class MyPentaLine(object):
             axis.xaxis.set_visible(False)  # kinda: lost upper ticks
 
     def plot(self, filename, size=1.0):
-        df = self.df
         # Three subplots sharing both x/y axes
         fig, axes = plt.subplots(nrows=5, ncols=1, sharex=True, sharey=True)
         fig.set_size_inches(fig.get_size_inches() * size)
 
         self.plot_four(axes[0], 'total', LIGHT_GREEN, DARK_GREEN)
-        self.plot_four(axes[1], 'critical', LIGHT_RED, DARK_RED, tick_right=True)
+        self.plot_four(axes[1], 'critical', LIGHT_RED, DARK_RED,
+                       tick_right=True)
         self.plot_four(axes[2], 'high', LIGHT_ORANGE, DARK_ORANGE)
-        self.plot_four(axes[3], 'medium', LIGHT_YELLOW, DARK_YELLOW, tick_right=True)
+        self.plot_four(axes[3], 'medium', LIGHT_YELLOW, DARK_YELLOW,
+                       tick_right=True)
         self.plot_four(axes[4], 'low', LIGHT_BLUE, DARK_BLUE, last=True)
 
         # fig.subplots_adjust(bottom=0.20)
 
         # build a generic legend to represent all the subplots
-        dark_solid_line = plt.Line2D((0, 1), (0, 0), marker='.', color=GREY_DARK)
-        light_solid_line = plt.Line2D((0, 1), (0, 0), marker='.', color=GREY_MID)
-        dark_dotted_line = plt.Line2D((0, 1), (0, 0), marker='.', linestyle='dotted', color=GREY_DARK)
-        light_dotted_line = plt.Line2D((0, 1), (0, 0), marker='.', linestyle='dotted', color=GREY_MID)
-        fig.legend([dark_solid_line, light_solid_line, dark_dotted_line, light_dotted_line],
-                   ['Vulnerable Hosts', 'All Hosts', 'CH Vulnerable Hosts', 'CH All Hosts'],
-                   'lower center', ncol=4, fontsize='x-small')
+        dark_solid_line = plt.Line2D((0, 1), (0, 0), marker='.',
+                                     color=GREY_DARK)
+        light_solid_line = plt.Line2D((0, 1), (0, 0), marker='.',
+                                      color=GREY_MID)
+        dark_dotted_line = plt.Line2D((0, 1), (0, 0), marker='.',
+                                      linestyle='dotted', color=GREY_DARK)
+        light_dotted_line = plt.Line2D((0, 1), (0, 0), marker='.',
+                                       linestyle='dotted', color=GREY_MID)
+        fig.legend(
+            [
+                dark_solid_line,
+                light_solid_line,
+                dark_dotted_line,
+                light_dotted_line
+            ],
+            [
+                'Vulnerable Hosts',
+                'All Hosts',
+                'CH Vulnerable Hosts',
+                'CH All Hosts'
+            ],
+            'lower center', ncol=4, fontsize='x-small')
         # Fine-tune figure; make subplots close to each other
         plt.grid(False)
-        # fig.set_tight_layout(True)
-        # following line doesn't work with fig.set_tight_layout
-        # it does work with plt.tight_layout(), but generates a warning
+        # following line doesn't work with fig.set_tight_layout it
+        # does work with plt.tight_layout(), but generates a warning
         fig.subplots_adjust(hspace=0)
         plt.savefig(filename + '.pdf', bbox_inches='tight', pad_inches=0.25)
         plt.close()
 
 
 class MyStackedLine(object):
-    def __init__(self, data_frame, yscale='linear', xlabel=None, ylabel=None, data_labels=None, data_fill_colors=None):
+    def __init__(self, data_frame, yscale='linear', xlabel=None, ylabel=None,
+                 data_labels=None, data_fill_colors=None):
         self.df = data_frame
         self.yscale = yscale
         self.xlabel = xlabel
@@ -580,9 +651,13 @@ class MyStackedLine(object):
         df = self.df
         fig, axes = plt.subplots(figsize=(8, 2.75))
         fig.set_size_inches(fig.get_size_inches() * size)
-        axes.stackplot(df.index, df['young'].values.astype(np.int), df['old'].values.astype(np.int),
-                       labels=self.data_labels, colors=self.data_fill_colors, alpha=0.2)
-        # axes.locator_params(axis='x', nbins=8, tight=True)       # Limit x-axis to 8 ticks; doesn't seem to work with Date data :(
+        axes.stackplot(df.index, df['young'].values.astype(np.int),
+                       df['old'].values.astype(np.int),
+                       labels=self.data_labels,
+                       colors=self.data_fill_colors, alpha=0.2)
+        # Limit x-axis to 8 ticks; doesn't seem to work with Date data
+        # :(
+        # axes.locator_params(axis='x', nbins=8, tight=True)
         axes.yaxis.tick_left()  # ticks only on left
         axes.yaxis.grid(True)
         axes.xaxis.tick_bottom()  # ticks only on bottom
@@ -594,8 +669,10 @@ class MyStackedLine(object):
             plt.xlabel(self.xlabel)
         if self.ylabel:
             plt.ylabel(self.ylabel)
-        leg = plt.legend(fancybox=True, loc='lower center', ncol=2, prop={'size': 6}, bbox_to_anchor=(0.5, 1.0))
-        leg.get_frame().set_alpha(0.5)  # set the alpha value of the legend: it will be translucent
+        leg = plt.legend(fancybox=True, loc='lower center',
+                         ncol=2, prop={'size': 6}, bbox_to_anchor=(0.5, 1.0))
+        # set the alpha value of the legend: it will be translucent
+        leg.get_frame().set_alpha(0.5)
         for i, tick in enumerate(axes.xaxis.get_major_ticks()):
             tick.label.set_fontsize(6)
         fig.set_tight_layout(True)
@@ -644,11 +721,15 @@ class Boxes(object):
         j = 1
         for tup in self.df.itertuples():
             tup = list(tup)
-            index = tup.pop(0)  # pop off index, unused
+            tup.pop(0)  # pop off index, unused
             color = color_iter.next()
-            for tup_i, count in enumerate(tup):  # iterate remainding values of row
+            # iterate remainding values of row
+            for tup_i, count in enumerate(tup):
                 for k in range(count):
-                    center = [i * width + (width / 2), 1 - (j * height - (height / 2))]
+                    center = [
+                        i * width + (width / 2),
+                        1 - (j * height - (height / 2))
+                    ]
                     bottom_left = [i * width, 1 - (j * height)]
                     r = Rectangle(bottom_left, width, height)
                     boxes.append(r)
@@ -657,14 +738,17 @@ class Boxes(object):
                         r = Ellipse(center, width / 2, height / 2)
                         boxes.append(r)
                         facecolors.append(self.other_color)
-                        # r = CirclePolygon(center, radius= width/2 ,resolution=8)
-                        # r = RegularPolygon(center, 4, radius=height/2, orientation=0)
+                        # r = CirclePolygon(center, radius= width/2 ,
+                        # resolution=8)
+                        # r = RegularPolygon(center, 4, radius=height/2,
+                        # orientation=0)
                     i += 1
                     if i >= self.cols:
                         i = 0
                         j += 1
 
-        patches = PatchCollection(boxes, facecolors=facecolors, edgecolors='white')
+        patches = PatchCollection(boxes, facecolors=facecolors,
+                                  edgecolors='white')
         ax.add_collection(patches)
         fig.set_tight_layout(True)
         plt.savefig(filename + '.pdf')
@@ -685,10 +769,12 @@ class Histogram(object):
 
         pos = np.arange(len(self.bin_counts))  # the bar centers on the x axis
         colors = [GREY_LIGHT] * len(self.bin_counts)
-        highlight_colors = [GREEN, GREEN, BLUE, BLUE, YELLOW, YELLOW, ORANGE, ORANGE, RED, RED]
+        highlight_colors = [
+            GREEN, GREEN, BLUE, BLUE, YELLOW, YELLOW, ORANGE, ORANGE, RED, RED
+        ]
         colors[self.highlight_bin] = highlight_colors[self.highlight_bin]
-        rects = plt.bar(pos, self.bin_counts, align='edge',
-                        color=colors, edgecolor='white', linewidth=1, width=1)
+        plt.bar(pos, self.bin_counts, align='edge',
+                color=colors, edgecolor='white', linewidth=1, width=1)
 
         ax.yaxis.grid(False)
         # ax.spines['left'].set_visible(False)
@@ -702,7 +788,6 @@ class Histogram(object):
         ax.xaxis.label.set_fontsize(18)
         ax.set_xlabel('CVSS')
         tick_colors = [GREEN, BLUE, YELLOW, ORANGE, RED, RED]
-        tick_count = len(ax.xaxis.get_major_ticks())
         for i, tick in enumerate(ax.xaxis.get_major_ticks()):
             tick.label.set_fontsize(18)
             tick.label.set_color(tick_colors[i])
@@ -719,7 +804,8 @@ class Histogram(object):
 
 
 class Histogram2(object):
-    def __init__(self, histogram_data, bar_colors, tick_colors, x_label=None, y_label=None):
+    def __init__(self, histogram_data, bar_colors, tick_colors,
+                 x_label=None, y_label=None):
         self.histogram_data = histogram_data
         self.bar_colors = bar_colors
         self.tick_colors = tick_colors
@@ -731,8 +817,9 @@ class Histogram2(object):
         fig.set_size_inches(fig.get_size_inches() * size)
 
         ax = fig.add_subplot(1, 1, 1)
-        rects = plt.bar(self.histogram_data[1][:-1], self.histogram_data[0], align='edge',
-                        color=self.bar_colors, edgecolor='white', linewidth=1, width=0.5)
+        plt.bar(self.histogram_data[1][:-1], self.histogram_data[0],
+                align='edge', color=self.bar_colors, edgecolor='white',
+                linewidth=1, width=0.5)
 
         # ax.set_frame_on(False)
         plt.xticks(self.histogram_data[1])  # Put a tick at edge of each bucket
@@ -768,26 +855,32 @@ class MyTrustyBar(object):
         self.fill_color = fill_color
 
     def plot(self, filename):
-        x_left_indices = np.arange(len(self.percentage_list))    # the x locations for the groups
+        # the x locations for the groups
+        x_left_indices = np.arange(len(self.percentage_list))
         width = 0.5       # the width of the bars: can also be len(x) sequence
 
-        p1 = plt.bar(x_left_indices, self.percentage_list, width, color=self.fill_color, edgecolor='none')
-        p2 = plt.bar(x_left_indices, [100-x for x in self.percentage_list], width, color='w', bottom=self.percentage_list, edgecolor='none')
+        p1 = plt.bar(x_left_indices, self.percentage_list, width,
+                     color=self.fill_color, edgecolor='none')
+        plt.bar(x_left_indices, [100-x for x in self.percentage_list],
+                width, color='w', bottom=self.percentage_list,
+                edgecolor='none')
 
         plt.ylabel('Percent (%)', fontsize=14, style='italic')
         if self.title:
             plt.title(self.title, fontsize=20, fontweight='bold', y=1.07)
-        plt.xticks(x_left_indices, self.label_list, fontsize=14, style='italic')
+        plt.xticks(x_left_indices, self.label_list,
+                   fontsize=14, style='italic')
         plt.yticks(np.arange(10, 100, 10), fontsize=13)
 
         for bar in p1:
             height = bar.get_height()
             plt.text(bar.get_x() + bar.get_width()/2.0, 1.0*height,
-                        '%d' % int(round(height,0)) +'%', ha='center', va='bottom', fontsize=15)
+                     '%d' % int(round(height, 0)) + '%', ha='center',
+                     va='bottom', fontsize=15)
 
-        #plt.show()
+        # plt.show()
         plt.tight_layout()  # trims margins down nicely
-        plt.savefig(filename + '.pdf')#, bbox_inches=0, pad_inches=0
+        plt.savefig(filename + '.pdf')  # bbox_inches=0, pad_inches=0
         plt.close()
 
 
@@ -800,34 +893,44 @@ class MyDonutPie(object):
     def plot(self, filename, size=1.0):
         # Override default figsize (make square), then scale by size parameter
         fig_width = fig_height = 4.0 * size
-        plt.rcParams.update({'figure.figsize':[fig_width, fig_height]})
-        extent = mpl.transforms.Bbox(((0, 0), (fig_width, fig_height)))  # Minimize whitespace around chart
+        plt.rcParams.update({'figure.figsize': [fig_width, fig_height]})
+        # Minimize whitespace around chart
+        extent = mpl.transforms.Bbox(((0, 0), (fig_width, fig_height)))
 
         labels = '', ''
         sizes = [100 - self.percentage_full, self.percentage_full]
         colors = ['white', self.fill_color]
 
         # Set edge color to black
-        # See https://matplotlib.org/users/dflt_style_changes.html#patch-edges-and-color
+        #
+        # See
+        # https://matplotlib.org/users/dflt_style_changes.html#patch-edges-and-color
         plt.rcParams['patch.force_edgecolor'] = True
         plt.rcParams['patch.facecolor'] = 'b'
 
-        plt.pie(sizes, labels=labels, colors=colors, shadow=False, startangle=90) #autopct='%1.1f%%'
+        # autopct='%1.1f%%'
+        plt.pie(sizes, labels=labels, colors=colors, shadow=False,
+                startangle=90)
 
         # Draw a circle at the center of pie to make it look like a donut
-        centre_circle = plt.Circle((0,0),0.75,color='black', fc='white',linewidth=1.25)
+        centre_circle = plt.Circle((0, 0), 0.75, color='black', fc='white',
+                                   linewidth=1.25)
         fig = plt.gcf()
         fig.gca().add_artist(centre_circle)
 
-        plt.text(0, 0.15, str(self.percentage_full) + '%', horizontalalignment='center', verticalalignment='center', fontsize=50)
-        plt.text(0, -0.3, self.label, horizontalalignment='center', verticalalignment='center', fontsize=19.5, fontweight='bold')
+        plt.text(0, 0.15, str(self.percentage_full) + '%',
+                 horizontalalignment='center', verticalalignment='center',
+                 fontsize=50)
+        plt.text(0, -0.3, self.label,
+                 horizontalalignment='center',
+                 verticalalignment='center',
+                 fontsize=19.5, fontweight='bold')
 
         # Set aspect ratio to be equal so that pie is drawn as a circle.
         plt.axis('equal')
         # plt.show()
         plt.tight_layout()  # trims margins down nicely
         plt.savefig(filename + '.pdf', bbox_inches=extent, pad_inches=0)
-        # plt.savefig('overall-compliance')
         plt.close()
 
 
