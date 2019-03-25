@@ -843,22 +843,26 @@ class ReportGenerator(object):
 
 # connection to database
 def db_from_config(config_filename):
+    db = None
+
     with open(config_filename, 'r') as stream:
         # The loader must now be explicitly specified to avoid a
         # warning message.  See here for more details:
         # https://github.com/yaml/pyyaml/wiki/PyYAML-yaml.load(input)-Deprecation
         config = yaml.load(stream, Loader=yaml.FullLoader)
 
-    try:
-        db_uri = config['database']['uri']
-        db_name = config['database']['name']
-    except:
-        print('Incorrect database config file format: {}'.format(
-            config_filename
-        ))
+    if config is not None:
+        try:
+            db_uri = config['database']['uri']
+            db_name = config['database']['name']
+        except KeyError:
+            print('Incorrect database config file format: {}'.format(
+                config_filename
+            ))
 
-    db_connection = MongoClient(host=db_uri, tz_aware=True)
-    db = db_connection[db_name]
+        db_connection = MongoClient(host=db_uri, tz_aware=True)
+        db = db_connection[db_name]
+
     return db
 
 
