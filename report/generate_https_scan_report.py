@@ -630,6 +630,7 @@ class ReportGenerator(object):
                          'Base Domain HSTS Preloaded',
                          'Domain Supports HTTPS', 'Domain Enforces HTTPS',
                          'Domain Uses Strong HSTS',
+                         'HTTPS Client Auth Required'
                          'Domain Supports Weak Crypto',
                          'Web Hosts With Weak Crypto',
                          'Domain Uses Symantec Certificate',
@@ -646,6 +647,7 @@ class ReportGenerator(object):
                        'hsts_base_domain_preloaded',
                        'domain_supports_https', 'domain_enforces_https',
                        'domain_uses_strong_hsts',
+                       'https_client_auth_required',
                        'domain_has_weak_crypto',
                        'hosts_with_weak_crypto_str',
                        'domain_has_symantec_cert',
