@@ -15,19 +15,18 @@ Options:
 # standard python libraries
 import codecs
 import csv
+from datetime import datetime
 import json
 import os
 import shutil
 import subprocess
 import sys
 import tempfile
-from datetime import datetime
 
 # third-party libraries (install with pip)
-import pystache
 from docopt import docopt
-from pymongo import MongoClient
-import yaml
+from mongo_db_from_config import db_from_config
+import pystache
 
 # intra-project modules
 import graphs
@@ -841,31 +840,6 @@ class ReportGenerator(object):
                                       stderr=subprocess.STDOUT)
         assert return_code == 0, \
             'xelatex pass 2 of 2 return code was %s' % return_code
-
-
-# connection to database
-def db_from_config(config_filename):
-    db = None
-
-    with open(config_filename, 'r') as stream:
-        # The loader must now be explicitly specified to avoid a
-        # warning message.  See here for more details:
-        # https://github.com/yaml/pyyaml/wiki/PyYAML-yaml.load(input)-Deprecation
-        config = yaml.load(stream, Loader=yaml.FullLoader)
-
-    if config is not None:
-        try:
-            db_uri = config['database']['uri']
-            db_name = config['database']['name']
-        except KeyError:
-            print('Incorrect database config file format: {}'.format(
-                config_filename
-            ))
-
-        db_connection = MongoClient(host=db_uri, tz_aware=True)
-        db = db_connection[db_name]
-
-    return db
 
 
 def main():

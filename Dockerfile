@@ -58,14 +58,13 @@ RUN tlmgr init-usertree
 RUN pip install --upgrade setuptools pip \
     && pip install --upgrade numpy \
     && pip install --upgrade \
-    pymongo \
     pypdf2 \
     matplotlib \
     pystache \
     pandas \
     geos \
-    pyyaml \
-    docopt
+    docopt \
+    https://github.com/cisagov/mongo-db-from-config/tarball/develop
 
 ###
 # Create unprivileged User
