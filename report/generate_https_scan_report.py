@@ -629,7 +629,7 @@ class ReportGenerator(object):
                          'Base Domain HSTS Preloaded',
                          'Domain Supports HTTPS', 'Domain Enforces HTTPS',
                          'Domain Uses Strong HSTS',
-                         'HTTPS Client Auth Required'
+                         'HTTPS Client Auth Required',
                          'Domain Supports Weak Crypto',
                          'Web Hosts With Weak Crypto',
                          'Domain Uses Symantec Certificate',
