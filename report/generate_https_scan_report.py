@@ -269,6 +269,16 @@ class ReportGenerator(object):
                     'domain': domain['domain']
                 })
 
+        # https_full_connection and https_client_auth_required
+        if domain['https_full_connection']:
+            score['https_full_connection_bool'] = True
+        else:
+            score['https_full_connection_bool'] = False
+        if domain['https_client_auth_required']:
+            score['https_client_auth_required_bool'] = True
+        else:
+            score['https_client_auth_required_bool'] = False
+
         # strictly_forces_https
         if domain['strictly_forces_https']:
             # score['strictly_forces_https'] = 'Yes'
