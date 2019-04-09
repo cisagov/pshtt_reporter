@@ -426,8 +426,8 @@ class ReportGenerator(object):
             #
             # If we can't make a full HTTPS connection because the
             # domain requires client authentication, then we can't
-            # know if they serve HSTS headers or not.  We have to give
-            # them the benefit of the doubt.
+            # know if they serve HSTS headers or not.  We have chosen
+            # to give them the benefit of the doubt.
             score['domain_uses_strong_hsts_bool'] = True
             if not domain['ocsp_domain']:
                 self.__domain_uses_strong_hsts_count += 1
