@@ -415,16 +415,24 @@ class ReportGenerator(object):
                 if 0 < domain['hsts_max_age'] < 31536000:
                     if not domain['ocsp_domain']:
                         self.__hsts_low_max_age_count += 1
-
-        # If HSTS is not present but the base_domain is preloaded,
-        # "HSTS" gets a thumbs up.  In this case, we only care if the
-        # domain is live.
-        elif domain['live'] and domain['hsts_base_domain_preloaded']:
+        elif domain['live'] and (
+                domain['hsts_base_domain_preloaded'] or
+                (not domain['https_full_connection'] and
+                 domain['https_client_auth_required'])
+        ):
+            # If HSTS is not present but the base_domain is preloaded,
+            # "HSTS" gets a thumbs up.  In this case, we only care if
+            # the domain is live.
+            #
+            # If we can't make a full HTTPS connection because the
+            # domain requires client authentication, then we can't
+            # know if they serve HSTS headers or not.  We have to give
+            # them the benefit of the doubt.
             score['domain_uses_strong_hsts_bool'] = True
             if not domain['ocsp_domain']:
                 self.__domain_uses_strong_hsts_count += 1
-
-        else:   # No HSTS
+        else:
+            # No HSTS
             # score['hsts'] = 'No'
             score['hsts_bool'] = False
             score['hsts_preloaded_bool'] = False
