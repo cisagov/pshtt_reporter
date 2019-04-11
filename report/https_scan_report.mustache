@@ -287,11 +287,7 @@ opacity=0.04
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % \usepackage[acronym]{glossaries}
 % \makeglossaries
-% \newacronym{DHS}{DHS}{Department of Homeland Security}
-% \newacronym{NPPD}{NPPD}{National Protection and Programs Directorate}
-% \newacronym{CSC}{CS\&C}{Office of Cybersecurity and Communications}
-% \newacronym{NCCIC}{NCCIC}{National Cybersecurity and Communications Integration Center}
-% \newacronym{NOI}{NO\&I}{NCCIC Operations and Integration}
+% \newacronym{CISA}{CISA}{Cybersecurity and Infrastructure Security Agency}
 % \newacronym{NCATS}{NCATS}{National Cybersecurity Assessments and Technical Services}
 % \newacronym{CH}{CH}{Cyber Hygiene}
 
@@ -364,7 +360,7 @@ Hypertext Transfer Protocol (HTTP) connections can be easily monitored, modified
 
 In 2015, \href{https://https.cio.gov/}{OMB M-15-13} required all existing Federal websites and web services to be accessible through a secure connection (HTTPS-only, with HSTS). In 2017, the .gov registry began \href{https://home.dotgov.gov/hsts-preloading/}{automatically preloading} new federal .gov domains as HSTS-only in modern browsers. Federal agencies must make more progress on HTTPS and HSTS deployment, including by removing support for known-weak cryptographic protocols and ciphers.
 
-This weekly report, created by the National Cybersecurity Assessments and Technical Services (NCATS) team inside the Department of Homeland Security's National Cybersecurity and Communications Integration Center (NCCIC), is intended to assist your agency to comply with the web security aspects of Binding Operational Directive (BOD) 18-01. Implementation guidance can be found at \href{https://cyber.dhs.gov/guide}{https://cyber.dhs.gov/guide} and \href{https://https.cio.gov}{https://https.cio.gov}.  This report also helps agencies to \href{https://https.cio.gov/hsts/#hsts-preloading}{``preload" their domains} to better enforce the protections BOD 18-01 requires.
+This weekly report, created by the National Cybersecurity Assessments and Technical Services (NCATS) team inside the \href{https://www.cisa.gov/}{Cybersecurity and Infrastructure Security Agency (CISA)}, is intended to assist your agency to comply with the web security aspects of Binding Operational Directive (BOD) 18-01. Implementation guidance can be found at \href{https://cyber.dhs.gov/guide}{https://cyber.dhs.gov/guide} and \href{https://https.cio.gov}{https://https.cio.gov}.  This report also helps agencies to \href{https://https.cio.gov/hsts/#hsts-preloading}{``preload" their domains} to better enforce the protections BOD 18-01 requires.
 
 \vspace*{-3mm}
 \addcontentsline{toc}{subsection}{Overview} % Adds a subsection to toc
@@ -605,7 +601,7 @@ More implementation guidance can be found at \href{https://cyber.dhs.gov/guide}{
   \end{itemize}
   \item SSLv2 and SSLv3 are disabled on web servers.
   \item 3DES and RC4 ciphers are disabled on web servers.
-  \item \href{https://cyber.dhs.gov/guide/#how-should-the-list-of-second-level-domains-to-be-preloaded-be-shared-with-dhs}{Identifying and providing a list} to DHS of agency second-level domains that can be HSTS preloaded, for which HTTPS will be enforced for all subdomains.
+  \item \href{https://cyber.dhs.gov/guide/#how-should-the-list-of-second-level-domains-to-be-preloaded-be-shared-with-dhs}{Identifying and providing a list} to CISA of agency second-level domains that can be HSTS preloaded, for which HTTPS will be enforced for all subdomains.
 \end{itemize}
 \vspace*{2mm}
 M-15-13 includes \textbf{all domains and subdomains that are publicly reachable over HTTP/HTTPS}, regardless of whether those hostnames are in practice only used internally.\\~\\
@@ -638,7 +634,7 @@ To solve this problem, the Chrome security team created an `HSTS preload list': 
 
 %Preloading takes on even greater importance because, in many cases, there may never be a first visit. For an HSTS policy that includes subdomains to take effect without preloading, the user must connect (``200 OK") to \textbf{https}://domain.gov (as the HSTS header is not cached by browsers unless there is a valid secure connection). Even if a user types `domain.gov' by hand, many Federal websites redirect from http://domain.gov to the `www' subdomain, leaving https://domain.gov unvisited. ``Vanity domains" or domains used solely for redirects {\it that don't first redirect to the secure versions of themselves also are never visited over HTTPS} and thus an HSTS policy that includes subdomains will not be successfully set with connecting clients.\\~\\
 
-You are encouraged to \href{https://cyber.dhs.gov/guide/#how-should-the-list-of-second-level-domains-to-be-preloaded-be-shared-with-dhs}{preload your domains yourself} and then to report the set of preloaded domains to DHS in your \href{https://cyber.dhs.gov/guide/#checklist}{Agency Plan of Action}.\\~\\
+You are encouraged to \href{https://cyber.dhs.gov/guide/#how-should-the-list-of-second-level-domains-to-be-preloaded-be-shared-with-dhs}{preload your domains yourself} and then to report the set of preloaded domains to CISA in your \href{https://cyber.dhs.gov/guide/#checklist}{Agency Plan of Action}.\\~\\
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Resources Section
@@ -702,8 +698,8 @@ Your agency is also welcome to request additional domains/subdomains be scanned 
 
 \vspace*{-3mm}
 \phantomsection % links this section from toc
-\addcontentsline{toc}{subsection}{What trust store is DHS using?}% Adds subsection to toc
-\subsection*{What trust store is DHS using?}
+\addcontentsline{toc}{subsection}{What trust store is CISA using?}% Adds subsection to toc
+\subsection*{What trust store is CISA using?}
 \vspace*{-3mm}
 
 Our scans use the \href{https://wiki.mozilla.org/CA:IncludedCAs}{Mozilla CA Certificate Store}. This trust store most accurately represents what roots are ``publicly trusted", and is used in Firefox, Android, Linux, and many commercial and open source network security tools. Note that the Federal Common Policy CA, the Federal trust anchor, \href{https://https.cio.gov/certificates/#does-the-us-government-operate-a-publicly-trusted-certificate-authority}{is not currently trusted} by the Mozilla CA Certificate Store.\\~\\
