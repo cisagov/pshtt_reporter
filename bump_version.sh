@@ -20,7 +20,9 @@ else
         major|minor|patch|prerelease|build)
             new_version=$(python -c "import semver; print(semver.bump_$1('$old_version'))")
             echo Changing version from "$old_version" to "$new_version"
-            sed -i "s/$old_version/$new_version/" $VERSION_FILE
+            tmp_file=/tmp/version.$$
+            sed "s/$old_version/$new_version/" $VERSION_FILE > $tmp_file
+            mv $tmp_file $VERSION_FILE
             git add $VERSION_FILE
             git commit -m"Bump version from $old_version to $new_version"
             git push
@@ -28,7 +30,9 @@ else
         finalize)
             new_version=$(python -c "import semver; print(semver.finalize_version('$old_version'))")
             echo Changing version from "$old_version" to "$new_version"
-            sed -i "s/$old_version/$new_version/" $VERSION_FILE
+            tmp_file=/tmp/version.$$
+            sed "s/$old_version/$new_version/" $VERSION_FILE > $tmp_file
+            mv $tmp_file $VERSION_FILE
             git add $VERSION_FILE
             git commit -m"Finalize version from $old_version to $new_version"
             git push
