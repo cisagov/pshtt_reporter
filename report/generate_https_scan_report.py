@@ -475,7 +475,12 @@ class ReportGenerator(object):
                 (domain['domain_supports_https'] and
                  domain['domain_enforces_https'] and
                  domain['domain_uses_strong_hsts']) or
-                (domain['live'] and domain['hsts_base_domain_preloaded'])
+                (domain['live'] and (
+                    domain['hsts_base_domain_preloaded'] or (
+                        (not domain['https_full_connection'] and
+                         domain['https_client_auth_required'])
+                    )
+                ))
         ) and not domain['domain_has_weak_crypto']:
             score['bod_1801_compliance'] = True
             if not domain['ocsp_domain']:
