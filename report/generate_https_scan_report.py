@@ -371,33 +371,33 @@ class ReportGenerator(object):
         else:
             score['hsts_base_domain_preloaded'] = False
 
-        # is HSTS present?
+        # hsts_preloaded > hsts_preload_pending > hsts_preload_ready
+        if domain['hsts_preloaded']:
+            # score['hsts_preloaded'] = 'Yes'
+            score['hsts_preloaded_bool'] = True
+            if not domain['ocsp_domain']:
+                self.__hsts_preloaded_count += 1
+        else:
+            score['hsts_preloaded_bool'] = False
+            # score['hsts_preloaded'] = 'No'
+            if domain['hsts_preload_pending']:
+                score['hsts_preload_pending_bool'] = True
+            else:
+                score['hsts_preload_pending_bool'] = False
+
+            if domain['hsts_preload_ready']:
+                score['hsts_preload_ready_bool'] = True
+                # score['hsts_preload_ready'] = 'Yes'
+                if not domain['ocsp_domain']:
+                    self.__hsts_preload_ready_count += 1
+            else:
+                score['hsts_preload_ready_bool'] = False
+                # score['hsts_preload_ready'] = 'No'
+
+        # Are the HSTS headers being served?
         if domain['hsts']:
             # score['hsts'] = 'Yes'
             score['hsts_bool'] = True
-
-            # hsts_preloaded > hsts_preload_pending > hsts_preload_ready
-            if domain['hsts_preloaded']:
-                # score['hsts_preloaded'] = 'Yes'
-                score['hsts_preloaded_bool'] = True
-                if not domain['ocsp_domain']:
-                    self.__hsts_preloaded_count += 1
-            else:
-                score['hsts_preloaded_bool'] = False
-                # score['hsts_preloaded'] = 'No'
-                if domain['hsts_preload_pending']:
-                    score['hsts_preload_pending_bool'] = True
-                else:
-                    score['hsts_preload_pending_bool'] = False
-
-                if domain['hsts_preload_ready']:
-                    score['hsts_preload_ready_bool'] = True
-                    # score['hsts_preload_ready'] = 'Yes'
-                    if not domain['ocsp_domain']:
-                        self.__hsts_preload_ready_count += 1
-                else:
-                    score['hsts_preload_ready_bool'] = False
-                    # score['hsts_preload_ready'] = 'No'
 
             # HTTPS Strict Transport Security (HSTS): This is 'Yes' in
             # the report only if HSTS is present and the max-age is >=
