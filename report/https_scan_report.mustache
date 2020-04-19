@@ -50,7 +50,7 @@
 \usepackage[pdfauthor={CISA Assessments team},
             pdftitle={HTTPS Report},
             pdfsubject={HTTPS Report},
-            pdfkeywords={https, BOD 18-01, M-15-13, cybersecurity, scorecard, cisa, ncats<<#scorecard_oid>>, oid:<<&scorecard_oid>><</scorecard_oid>>},
+            pdfkeywords={https, BOD 18-01, M-15-13, cybersecurity, scorecard, cisa<<#scorecard_oid>>, oid:<<&scorecard_oid>><</scorecard_oid>>},
             pdfcreator={XeTeX with hyperref},
 			hidelinks]{hyperref}
 
@@ -288,7 +288,6 @@ opacity=0.04
 % \usepackage[acronym]{glossaries}
 % \makeglossaries
 % \newacronym{CISA}{CISA}{Cybersecurity and Infrastructure Security Agency}
-% \newacronym{NCATS}{NCATS}{National Cybersecurity Assessments and Technical Services}
 % \newacronym{CH}{CH}{Cyber Hygiene}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -360,7 +359,7 @@ Hypertext Transfer Protocol (HTTP) connections can be easily monitored, modified
 
 In 2015, \href{https://https.cio.gov/}{OMB M-15-13} required all existing Federal websites and web services to be accessible through a secure connection (HTTPS-only, with HSTS). In 2017, the .gov registry began \href{https://home.dotgov.gov/hsts-preloading/}{automatically preloading} new federal .gov domains as HSTS-only in modern browsers. Federal agencies must make more progress on HTTPS and HSTS deployment, including by removing support for known-weak cryptographic protocols and ciphers.
 
-This weekly report, created by the National Cybersecurity Assessments and Technical Services (NCATS) team inside the \href{https://www.cisa.gov/}{Cybersecurity and Infrastructure Security Agency (CISA)}, is intended to assist your agency to comply with the web security aspects of Binding Operational Directive (BOD) 18-01. Implementation guidance can be found at \href{https://cyber.dhs.gov/guide}{https://cyber.dhs.gov/guide} and \href{https://https.cio.gov}{https://https.cio.gov}.  This report also helps agencies to \href{https://https.cio.gov/hsts/#hsts-preloading}{``preload" their domains} to better enforce the protections BOD 18-01 requires.
+This weekly report, created by the \href{https://www.cisa.gov/}{Cybersecurity and Infrastructure Security Agency (CISA)}, is intended to assist your agency to comply with the web security aspects of Binding Operational Directive (BOD) 18-01. Implementation guidance can be found at \href{https://cyber.dhs.gov/guide}{https://cyber.dhs.gov/guide} and \href{https://https.cio.gov}{https://https.cio.gov}.  This report also helps agencies to \href{https://https.cio.gov/hsts/#hsts-preloading}{``preload" their domains} to better enforce the protections BOD 18-01 requires.
 
 \vspace*{-3mm}
 \addcontentsline{toc}{subsection}{Overview} % Adds a subsection to toc
@@ -369,7 +368,7 @@ This weekly report, created by the National Cybersecurity Assessments and Techni
 \raggedright
 We measure the presence and enforcement of HTTPS for your agency's publicly-accessible .gov domains. \textbf{This report includes all agency-registered \href{https://github.com/GSA/data/blob/master/dotgov-domains/current-federal.csv}{second-level .gov domains} and known subdomains}, collectively referred to as ``hostnames" in this document (see the \hyperref[app:methodology]{\color{dhs-blue}{Methodology}} section for a description of how these hostnames are collected). Hostnames which do nothing but redirect to other websites \textit{are} measured. Hostnames that did not respond to HTTP/HTTPS requests are considered `non-web' and are removed from the compliance figures below.
 
-<<&agency>> owns \numprint{<<base_domain_count>>} second-level .gov domains and NCATS discovered \numprint{<<subdomain_count>>} subdomains. Of these, \textbf{\numprint{<<all_eligible_domains_count>>} hostnames responded to HTTP/HTTPS requests over the public Internet:}
+<<&agency>> owns \numprint{<<base_domain_count>>} second-level .gov domains and CISA discovered \numprint{<<subdomain_count>>} subdomains. Of these, \textbf{\numprint{<<all_eligible_domains_count>>} hostnames responded to HTTP/HTTPS requests over the public Internet:}
 \begin{itemize}[topsep=-6pt, itemsep=0pt]
   \item \numprint{<<eligible_domains_count>>} second-level .gov domains
   \item \numprint{<<eligible_subdomains_count>>} subdomains
@@ -663,7 +662,7 @@ You are encouraged to \href{https://cyber.dhs.gov/guide/#how-should-the-list-of-
 \subsubsection*{Get Help}
 \vspace*{-3mm}
 
-You can reach out to the NCATS team at \href{mailto:ncats@hq.dhs.gov}{ncats@hq.dhs.gov}.
+You can reach out to CISA at \href{mailto:vulnerability@cisa.dhs.gov}{vulnerability@cisa.dhs.gov}.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -694,7 +693,7 @@ Data from these endpoints is used to characterize the overall behavior of a host
   \item Hostnames gathered from Cyber Hygiene scans.
 \end{itemize}
 \vspace*{2mm}
-Your agency is also welcome to request additional domains/subdomains be scanned that you find missing from this report by emailing \href{mailto:ncats@hq.dhs.gov}{ncats@hq.dhs.gov}.
+Your agency is also welcome to request additional domains/subdomains be scanned that you find missing from this report by emailing \href{mailto:vulnerability@cisa.dhs.gov}{vulnerability@cisa.dhs.gov}.
 
 \vspace*{-3mm}
 \phantomsection % links this section from toc
