@@ -118,11 +118,11 @@ class ReportGenerator(object):
             csvreader = csv.reader(ocsp_file)
             ocsp_exclusions = {row[0]: None for row in csvreader}
 
-        # Get list of all domains from the database
-        all_domains_cursor = self.__db.https_scan.find({
-            'latest': True,
-            'agency.name': agency
-        })
+        # Get list of all domains from the database.  Use no_cursor_timeout
+        # to handle agencies with a large number of domains.
+        all_domains_cursor = self.__db.https_scan.find(
+            {"latest": True, "agency.name": agency}, no_cursor_timeout=True
+        )
         # We really shouldn't include OCSP excluded domains in the
         # total count.  We do want to score them, for informational
         # purposes, but the scores will not impact compliance.
@@ -223,6 +223,10 @@ class ReportGenerator(object):
                         subdomain_doc['domain'] in ocsp_exclusions
                 self.__base_domains.append(domain_doc)
             self.__agency_id = domain_doc['agency']['id']
+
+        # We instantiated this cursor without a timeout, so we have to
+        # close it manually.
+        all_domains_cursor.close()
 
         # Get a count of the second-level domains an agency owns.
         #
