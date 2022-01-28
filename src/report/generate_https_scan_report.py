@@ -27,12 +27,12 @@ import sys
 import tempfile
 
 # Third-Party Libraries
+import chevron
 from docopt import docopt
 
 # intra-project modules
 import graphs
 from mongo_db_from_config import db_from_config
-import pystache
 
 # constants
 HOME_DIR = "/home/reporter"
@@ -898,7 +898,7 @@ class ReportGenerator(object):
         with codecs.open(json_file, "r", encoding="utf-8") as data_file:
             data = json.load(data_file)
 
-        r = pystache.render(template, data)
+        r = chevron.render(template, data)
         with codecs.open(latex_file, "w", encoding="utf-8") as output:
             output.write(r)
 

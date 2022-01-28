@@ -93,13 +93,13 @@ RUN tlmgr init-usertree
 RUN pip install --no-cache-dir --upgrade pip setuptools \
     && pip install --no-cache-dir --upgrade numpy \
     && pip install --no-cache-dir --upgrade \
+    chevron \
     docopt \
     geos \
     matplotlib \
     https://github.com/cisagov/mongo-db-from-config/tarball/develop \
     pandas \
-    pypdf2 \
-    pystache
+    pypdf2
 
 ###
 # Clean up aptitude cruft
