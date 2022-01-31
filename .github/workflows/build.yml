@@ -29,8 +29,12 @@ env:
   CURL_CACHE_DIR: ~/.cache/curl
   IMAGE_NAME: cisagov/pshtt_reporter
   PIP_CACHE_DIR: ~/.cache/pip
-  PLATFORMS: "linux/amd64,linux/arm/v6,linux/arm/v7,\
-  linux/arm64,linux/ppc64le,linux/s390x"
+  # Not all these platforms can be built in the six hour time limit
+  # imposed by GitHub Actions, so we remove the three most obscure
+  # platforms.
+  # PLATFORMS: "linux/amd64,linux/arm/v6,linux/arm/v7,\
+  # linux/arm64,linux/ppc64le,linux/s390x"
+  PLATFORMS: "linux/amd64,linux/arm/v7,linux/arm64"
   PRE_COMMIT_CACHE_DIR: ~/.cache/pre-commit
   RUN_TMATE: ${{ secrets.RUN_TMATE }}
 
