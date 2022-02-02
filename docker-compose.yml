@@ -8,14 +8,14 @@ secrets:
     file: ./src/secrets/database_creds.yml
 
 services:
-  trustymail_reporter:
+  pshtt_reporter:
     # Run the container normally
     build:
       context: .
       dockerfile: Dockerfile
     depends_on:
       - redis
-    image: cisagov/trustymail_reporter
+    image: cisagov/pshtt_reporter
     init: true
     restart: "no"
     secrets:

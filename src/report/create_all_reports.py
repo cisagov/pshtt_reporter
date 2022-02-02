@@ -16,7 +16,7 @@ def main():
             bashCommand = (
                 HOME_DIR + "/report/generate_https_scan_report.py " + '"' + row[0] + '"'
             )
-            # generate_trustymail_report.py isn't written in a way
+            # generate_https_scan_report.py isn't written in a way
             # that easily allows it to be run in any other way.  Hence
             # the nosec.
             os.system(bashCommand)  # nosec B605
