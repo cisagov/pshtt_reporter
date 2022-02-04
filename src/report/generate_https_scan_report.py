@@ -567,7 +567,7 @@ class ReportGenerator(object):
         # "/reporting.csv" - is this still needed?
 
     def __latex_escape(self, to_escape):
-        return "".join([LATEX_ESCAPE_MAP.get(i, i) for i in to_escape])
+        return "".join(LATEX_ESCAPE_MAP.get(i, i) for i in to_escape)
 
     def __latex_escape_structure(self, data):
         """Escape data for LaTeX.
