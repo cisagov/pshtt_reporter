@@ -29,10 +29,10 @@ import tempfile
 # Third-Party Libraries
 import chevron
 from docopt import docopt
+from mongo_db_from_config import db_from_config
 
 # intra-project modules
-import graphs
-from mongo_db_from_config import db_from_config
+from . import graphs
 
 # constants
 HOME_DIR = "/home/reporter"
