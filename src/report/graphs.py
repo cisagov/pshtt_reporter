@@ -447,7 +447,7 @@ class MyDistributionBar(object):
                 tick.set_visible(False)
             else:
                 tick.set_visible(True)
-                tick.set_label("{}".format(self.series.index[i]))
+                tick.set_label(str(self.series.index[i]))
 
         if self.final_bucket_accumulate:
             # Show final tick (just in case it isn't already visible)
