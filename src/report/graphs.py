@@ -205,7 +205,7 @@ class MyStackedBar(object):
 
         ax.set_ylim([-0.5, 5])
         fig.set_tight_layout(True)
-        plt.savefig(filename + ".pdf")
+        plt.savefig(f"{filename}.pdf")
         plt.close()
 
 
@@ -341,7 +341,7 @@ class MyBar(object):
             )
 
         fig.set_tight_layout(True)
-        plt.savefig(filename + ".pdf")
+        plt.savefig(f"{filename}.pdf")
         plt.close()
 
 
@@ -522,7 +522,7 @@ class MyPie(object):
             if wedge.theta2 - wedge.theta1 > TOO_SMALL_WEDGE:
                 new_text = outer.get_text()  # transfer old label text
             else:
-                new_text = "{}\n({})".format(outer.get_text(), inner.get_text())
+                new_text = f"{outer.get_text()}\n({inner.get_text()})"
                 # too small to show inner label, add to outer
                 inner.set_visible(False)
 
@@ -583,12 +583,10 @@ class MyPie(object):
             label.set_color("white")
             if self.showValue:
                 label.set_text(
-                    "{}, {:.0f}%".format(
-                        self.data[i], float(self.data[i]) / total * 100.0
-                    )
+                    f"{self.data[i]}, {(float(self.data[i]) / total * 100.0):.0f}%"
                 )
             else:
-                label.set_text("%1.1f%%" % (self.data[i]))
+                label.set_text(f"{self.data[i]:1.1f}%")
             i += 1
 
         for label in outer_labels:
@@ -602,7 +600,7 @@ class MyPie(object):
         if self.too_close(rights):
             self.layout_labels(rights, ax, True)
 
-        plt.savefig(filename + ".pdf")
+        plt.savefig(f"{filename}.pdf")
         plt.close()
 
 
@@ -639,10 +637,8 @@ class MyColorBar(object):
             agencyTextXY = (0.75, 0.66)
             federalTextXY = (0.25, 0.66)
 
-        agencyLabel = "{} {}\n{:1.2f}".format(
-            self.agencyName, self.label, self.agencyScore
-        )
-        federalLabel = "Federal {}\n{:1.2f}".format(self.label, self.federalScore)
+        agencyLabel = f"{self.agencyName} {self.label}\n{self.agencyScore:1.2f}"
+        federalLabel = f"Federal {self.label}\n{self.federalScore:1.2f}"
 
         ax2.annotate(
             agencyLabel,
@@ -682,7 +678,7 @@ class MyColorBar(object):
             ),
         )
         fig.set_tight_layout(True)
-        plt.savefig(filename + ".pdf")
+        plt.savefig(f"{filename}.pdf")
         plt.close()
 
 
@@ -722,7 +718,7 @@ class MyLine(object):
         # Force y-axis to go to 0 (must be done after plot)
         ax.set_ylim(ymin=0)
         fig.set_tight_layout(True)
-        plt.savefig(filename + ".pdf")
+        plt.savefig(f"{filename}.pdf")
         plt.close()
 
 
@@ -805,7 +801,7 @@ class MyPentaLine(object):
         # following line doesn't work with fig.set_tight_layout it
         # does work with plt.tight_layout(), but generates a warning
         fig.subplots_adjust(hspace=0)
-        plt.savefig(filename + ".pdf", bbox_inches="tight", pad_inches=0.25)
+        plt.savefig(f"{filename}.pdf", bbox_inches="tight", pad_inches=0.25)
         plt.close()
 
 
@@ -869,7 +865,7 @@ class MyStackedLine(object):
         for i, tick in enumerate(axes.xaxis.get_major_ticks()):
             tick.label.set_fontsize(6)
         fig.set_tight_layout(True)
-        plt.savefig(filename + ".pdf")
+        plt.savefig(f"{filename}.pdf")
         plt.close()
 
 
@@ -945,7 +941,7 @@ class Boxes(object):
         patches = PatchCollection(boxes, facecolors=facecolors, edgecolors="white")
         ax.add_collection(patches)
         fig.set_tight_layout(True)
-        plt.savefig(filename + ".pdf")
+        plt.savefig(f"{filename}.pdf")
         plt.close()
         return self.cols
 
@@ -1013,7 +1009,7 @@ class Histogram(object):
             #     tick.label.set_visible(False)
 
         fig.set_tight_layout(True)
-        plt.savefig(filename + ".pdf")
+        plt.savefig(f"{filename}.pdf")
         plt.close()
 
 
@@ -1068,7 +1064,7 @@ class Histogram2(object):
             tick.label.set_color(self.tick_colors[i])
 
         fig.set_tight_layout(True)
-        plt.savefig(filename + ".pdf")
+        plt.savefig(f"{filename}.pdf")
         plt.close()
 
 
@@ -1123,7 +1119,7 @@ class MyTrustyBar(object):
 
         # plt.show()
         plt.tight_layout(rect=[0, 0, 1, 0.98])  # trims margins down nicely
-        plt.savefig(filename + ".pdf")  # bbox_inches=0, pad_inches=0
+        plt.savefig(f"{filename}.pdf")  # bbox_inches=0, pad_inches=0
         plt.close()
 
 
@@ -1187,5 +1183,5 @@ class MyDonutPie(object):
         plt.axis("equal")
         # plt.show()
         plt.tight_layout()  # trims margins down nicely
-        plt.savefig(filename + ".pdf", bbox_inches=extent, pad_inches=0)
+        plt.savefig(f"{filename}.pdf", bbox_inches=extent, pad_inches=0)
         plt.close()
