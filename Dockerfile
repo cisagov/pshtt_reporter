@@ -90,7 +90,7 @@ RUN tlmgr init-usertree
 #
 # Note that matplotlib.basemap is currently incompatible with
 # matplotlib 3.x.
-RUN pip install --no-cache-dir --upgrade pip setuptools \
+RUN pip install --no-cache-dir --upgrade pip setuptools wheel \
     && pip install --no-cache-dir --upgrade numpy \
     && pip install --no-cache-dir --upgrade \
     chevron \
