@@ -85,7 +85,7 @@ def wrapLabels(labels, width):
     return result
 
 
-class MyMessage(object):
+class MyMessage:
     """A message chart."""
 
     def __init__(self, message):
@@ -117,7 +117,7 @@ class MyMessage(object):
         plt.close()
 
 
-class MyStackedBar(object):
+class MyStackedBar:
     """A stacked bar chart."""
 
     def __init__(self, data, ylabels, dataLabels):
@@ -209,7 +209,7 @@ class MyStackedBar(object):
         plt.close()
 
 
-class MyBar(object):
+class MyBar:
     """A bar chart."""
 
     def __init__(
@@ -345,7 +345,7 @@ class MyBar(object):
         plt.close()
 
 
-class MyDistributionBar(object):
+class MyDistributionBar:
     """A distribution bar chart."""
 
     def __init__(
@@ -465,7 +465,7 @@ class MyDistributionBar(object):
         plt.close()
 
 
-class MyPie(object):
+class MyPie:
     """A pie chart."""
 
     def __init__(self, data, labels, explode=None, showValue=False):
@@ -604,7 +604,7 @@ class MyPie(object):
         plt.close()
 
 
-class MyColorBar(object):
+class MyColorBar:
     """A color bar chart."""
 
     def __init__(self, agencyName, agencyScore, federalScore, label="Average"):
@@ -682,7 +682,7 @@ class MyColorBar(object):
         plt.close()
 
 
-class MyLine(object):
+class MyLine:
     """A line chart."""
 
     def __init__(
@@ -722,7 +722,7 @@ class MyLine(object):
         plt.close()
 
 
-class MyPentaLine(object):
+class MyPentaLine:
     """A penta line chart."""
 
     def __init__(self, data_frame):
@@ -805,7 +805,7 @@ class MyPentaLine(object):
         plt.close()
 
 
-class MyStackedLine(object):
+class MyStackedLine:
     """A stacked line chart."""
 
     def __init__(
@@ -869,7 +869,7 @@ class MyStackedLine(object):
         plt.close()
 
 
-class Boxes(object):
+class Boxes:
     """A box graph."""
 
     def __init__(self, dataframe, min_cols=25, other_color="green"):
@@ -946,7 +946,7 @@ class Boxes(object):
         return self.cols
 
 
-class Histogram(object):
+class Histogram:
     """A histogram."""
 
     def __init__(self, bin_counts, highlight_bin):
@@ -1013,7 +1013,7 @@ class Histogram(object):
         plt.close()
 
 
-class Histogram2(object):
+class Histogram2:
     """A histogram variant."""
 
     def __init__(
@@ -1068,7 +1068,7 @@ class Histogram2(object):
         plt.close()
 
 
-class MyTrustyBar(object):
+class MyTrustyBar:
     """Yet another bar chart."""
 
     def __init__(self, percentage_list, label_list, fill_color, title=None):
@@ -1123,7 +1123,7 @@ class MyTrustyBar(object):
         plt.close()
 
 
-class MyDonutPie(object):
+class MyDonutPie:
     """A donut pie chart."""
 
     def __init__(self, percentage_full, label, fill_color):

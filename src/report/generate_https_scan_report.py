@@ -70,7 +70,7 @@ LATEX_ESCAPE_MAP = {
 PDF_CAPTURE_JS = "pdf_capture.js"
 
 
-class ReportGenerator(object):
+class ReportGenerator:
     """Class for generating a PSHTT report."""
 
     def __init__(self, db, agency, debug=False):
