@@ -1,5 +1,5 @@
 #!/usr/bin/env pytest -vs
-"""Tests for example container."""
+"""Tests for pshtt_reporter container."""
 # TODO: Make container tests functional
 # See https://github.com/cisagov/pshtt_reporter/issues/45
 
