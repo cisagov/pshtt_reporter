@@ -183,7 +183,7 @@ class MyStackedBar(object):
                 # decimal point and 0 by converting width to int type
                 width = int(rect.get_width())
 
-                labelString = "{:,d}".format(width)
+                labelString = f"{width:,}"
                 # TODO handle too labels getting squeezed, need box
                 # width in points
                 if width > 0:
@@ -390,7 +390,7 @@ class MyDistributionBar(object):
 
         tick_labels = list(self.series.index)
         if self.final_bucket_accumulate:
-            tick_labels[-1] = "{}+".format(tick_labels[-1])
+            tick_labels[-1] = f"{tick_labels[-1]}+"
 
         plt.bar(
             pos,
@@ -409,7 +409,7 @@ class MyDistributionBar(object):
             # draw reference lines
             plt.axvline(x=day, color="#777777", linewidth=0.5)
             ax.annotate(
-                "{} Days ".format(day),
+                "{day} Days ",
                 xy=(day - 1, y_max),
                 rotation="vertical",
                 fontsize=7,
@@ -1111,7 +1111,7 @@ class MyTrustyBar(object):
             plt.text(
                 bar.get_x() + bar.get_width() / 2.0,
                 1.0 * height,
-                "%d" % int(round(height, 0)) + "%",
+                f"{round(height)}%",
                 ha="center",
                 va="bottom",
                 fontsize=15,

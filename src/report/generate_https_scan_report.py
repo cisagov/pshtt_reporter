@@ -529,9 +529,7 @@ class ReportGenerator(object):
         if not self.__all_eligible_domains_count:
             # TODO Decide if we want to generate an empty report in this case
             print(
-                'ERROR: "{}" has no live domains - exiting without generating report!'.format(
-                    self.__agency
-                )
+                f'ERROR: "{self.__agency}" has no live domains - exiting without generating report!'
             )
             sys.exit(-1)
 
@@ -639,12 +637,12 @@ class ReportGenerator(object):
             dest_dir = "."
 
             if self.__agency_id is not None:
-                dest_filename = "{}/cyhy-{}-{}-https-report.pdf".format(
-                    dest_dir, self.__agency_id, datestamp
+                dest_filename = (
+                    f"{dest_dir}/cyhy-{self.__agency_id}-{datestamp}-https-report.pdf"
                 )
             else:
-                dest_filename = "{}/cyhy-{}-{}-https-report.pdf".format(
-                    dest_dir, self.__agency, datestamp
+                dest_filename = (
+                    f"{dest_dir}/cyhy-{self.__agency}-{datestamp}-https-report.pdf"
                 )
 
             shutil.move(src_filename, dest_filename)
@@ -768,9 +766,7 @@ class ReportGenerator(object):
                 ]:
                     if d[wc_key]:
                         weak_crypto_list.append(wc_text)
-                result = "{}:{} [supports: {}]".format(
-                    hostname, port, ",".join(weak_crypto_list)
-                )
+                result = f"{hostname}:{port} [supports: {','.join(weak_crypto_list)}]"
 
                 return result
 
