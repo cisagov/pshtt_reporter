@@ -3,7 +3,7 @@
 """Create Cyber Hygiene HTTPS Report PDF.
 
 Usage:
-  generate_https_scan_report [options] "AGENCY"
+  generate_https_scan_report [options] AGENCY
   generate_https_scan_report (-h | --help)
   generate_https_scan_report --version
 
@@ -914,8 +914,8 @@ def main():
     args = docopt(__doc__, version="v0.0.1")
     db = db_from_config(DB_CONFIG_FILE)
 
-    print("Generating HTTPS Report for {}...".format(args['"AGENCY"']))
-    generator = ReportGenerator(db, args['"AGENCY"'], debug=args["--debug"])
+    print(f"Generating HTTPS Report for {args['AGENCY']}...")
+    generator = ReportGenerator(db, args["AGENCY"], debug=args["--debug"])
     generator.generate_https_scan_report()
     print("Done")
     sys.exit(0)
