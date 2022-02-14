@@ -900,6 +900,9 @@ class ReportGenerator:
 
     def __generate_final_pdf(self):
         xelatex = ["/usr/bin/xelatex", REPORT_TEX]
+        # As usual, LaTeX requires two passes to correctly set all
+        # references in the document.
+        #
         # Bandit frowns upon the use of subprocess, but we need it
         # here.  Hence the nosec.
         subprocess.run(xelatex)  # nosec B603
