@@ -12,7 +12,7 @@ echo 'Waiting for saver'
 while [ "$(redis-cli -h redis get saving_complete)" != "true" ]; do
   sleep 5
 done
-echo "Saver finished"
+echo Saver finished
 
 # Don't delete saving_complete here since trustymail_reporter may be
 # using it too.
@@ -20,7 +20,7 @@ echo "Saver finished"
 # Because HHS/NASA reports are large, we need to increase buffer size (LaTeX)
 sed -i 's/buf_size = 200000/buf_size = 1000000/' /usr/share/texmf/web2c/texmf.cnf
 
-echo "Creating reporting folders..."
+echo Creating reporting folders...
 mkdir -p $SHARED_DIR/artifacts/reporting/pshtt_reports
 
 # Grab OCSP/CRL hosts.  These hosts are to be removed from the list of
@@ -35,14 +35,14 @@ cd $SHARED_DIR/artifacts/reporting/pshtt_reports || exit 1
 $HOME_DIR/report/create_all_reports.py
 
 # Wait for the trustworthy email reporting to finish
-echo 'Waiting for trustworthy email reporting'
+echo Waiting for trustworthy email reporting
 while [ "$(redis-cli -h redis get trustymail_reporting_complete)" != "true" ]; do
   sleep 5
 done
-echo "Trustworthy email reporting finished"
+echo Trustworthy email reporting finished
 
 # Archive artifacts folder
-echo 'Archiving Results...'
+echo Archiving Results...
 mkdir -p $SHARED_DIR/archive/
 TODAY=$(date +'%Y-%m-%d')
 mv $SHARED_DIR/artifacts $SHARED_DIR/artifacts_"$TODAY"
