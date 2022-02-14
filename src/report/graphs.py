@@ -862,7 +862,7 @@ class MyStackedLine:
         )
         # set the alpha value of the legend: it will be translucent
         leg.get_frame().set_alpha(0.5)
-        for i, tick in enumerate(axes.xaxis.get_major_ticks()):
+        for _, tick in enumerate(axes.xaxis.get_major_ticks()):
             tick.label.set_fontsize(6)
         fig.set_tight_layout(True)
         plt.savefig(f"{filename}.pdf")
@@ -919,7 +919,7 @@ class Boxes:
             color = color_iter.next()
             # iterate remainding values of row
             for tup_i, count in enumerate(tup):
-                for k in range(count):
+                for _ in range(count):
                     center = [i * width + (width / 2), 1 - (j * height - (height / 2))]
                     bottom_left = [i * width, 1 - (j * height)]
                     r = Rectangle(bottom_left, width, height)
