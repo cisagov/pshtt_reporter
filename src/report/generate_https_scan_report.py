@@ -35,7 +35,7 @@ from mongo_db_from_config import db_from_config
 from . import graphs
 
 # constants
-HOME_DIR = "/home/reporter"
+HOME_DIR = "/home/cisa"
 SHARED_DATA_DIR = HOME_DIR + "/shared/"
 DB_CONFIG_FILE = "/run/secrets/scan_read_creds.yml"
 HTTPS_RESULTS_CSV_FILE = "pshtt-results.csv"

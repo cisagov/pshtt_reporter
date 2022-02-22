@@ -1,6 +1,6 @@
 #!/bin/bash
 
-HOME_DIR='/home/reporter'
+HOME_DIR='/home/cisa'
 SHARED_DIR=$HOME_DIR'/shared'
 
 # Prepare fonts
