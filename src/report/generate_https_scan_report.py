@@ -128,11 +128,14 @@ class ReportGenerator:
         all_domains_cursor = self.__db.https_scan.find(
             {"latest": True, "agency.name": agency}, no_cursor_timeout=True
         )
+        all_domains_count = self.__db.https_scan.count_documents(
+            {"latest": True, "agency.name": agency}
+        )
         # We really shouldn't include OCSP excluded domains in the
         # total count.  We do want to score them, for informational
         # purposes, but the scores will not impact compliance.
         # Therefore I should really perform this query:
-        #   self.__domain_count = self.__db.https_scan.count({
+        #   self.__domain_count = self.__db.https_scan.count_documents({
         #       'latest': True,
         #       'agency.name': agency,
         #       'domain': {
@@ -142,7 +145,7 @@ class ReportGenerator:
         #
         # In reality this value is not used in the report at all, so
         # it doesn't matter.
-        self.__domain_count = all_domains_cursor.count()
+        self.__domain_count = all_domains_count
 
         # Get weak crypto data for this agency's domains from the
         # sslyze-scan collection
@@ -239,9 +242,9 @@ class ReportGenerator:
         # Really I should exclude OCSP domains here, but this isn't
         # necessary since OCSP domains should be individual hostnames
         # and not second-level domains.
-        self.__base_domain_count = self.__db.https_scan.find(
+        self.__base_domain_count = self.__db.https_scan.count_documents(
             {"latest": True, "agency.name": agency, "is_base_domain": True}
-        ).count()
+        )
 
     def __score_domain(self, domain):
         score = {
