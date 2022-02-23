@@ -27,7 +27,7 @@ mkdir -p $SHARED_DIR/artifacts/reporting/pshtt_reports
 # hosts to be evaluated for HTTPS compliance, since they are not
 # required to satisfy BOD 18-01.  For more information see here:
 # https://https.cio.gov/guide/#are-federally-operated-certificate-revocation-services-crl-ocsp-also-required-to-move-to-https
-wget https://raw.githubusercontent.com/GSA/data/master/dotgov-websites/ocsp-crl.csv \
+wget https://raw.githubusercontent.com/cisagov/dotgov-data/main/dotgov-websites/ocsp-crl.csv \
   -O $SHARED_DIR/artifacts/ocsp-crl.csv
 
 # Generate agency reports
