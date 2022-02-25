@@ -29,10 +29,10 @@ import tempfile
 # Third-Party Libraries
 import chevron
 from docopt import docopt
-from mongo_db_from_config import db_from_config
 
 # intra-project modules
-from . import graphs
+import graphs
+from mongo_db_from_config import db_from_config
 
 # constants
 HOME_DIR = "/home/cisa"
