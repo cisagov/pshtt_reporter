@@ -15,7 +15,7 @@ second-level domains using data collected via
 [pshtt](https://github.com/cisagov/pshtt) scans.
 
 This Docker container is intended to be run via
-[orchestrator](https://github.com/cisagov/orchestrator).
+[cisagov/orchestrator](https://github.com/cisagov/orchestrator).
 
 __N.B.:__ The secrets in the `src/secrets` directory are only used
 when testing via the `docker-compose.yml` composition.  Normally this
