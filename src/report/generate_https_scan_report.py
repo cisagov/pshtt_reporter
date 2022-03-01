@@ -36,10 +36,10 @@ from mongo_db_from_config import db_from_config
 
 # constants
 HOME_DIR = "/home/cisa"
-SHARED_DATA_DIR = HOME_DIR + "/shared/"
+SHARED_DATA_DIR = f"{HOME_DIR}/shared"
 DB_CONFIG_FILE = "/run/secrets/scan_read_creds.yml"
 HTTPS_RESULTS_CSV_FILE = "pshtt-results.csv"
-OCSP_EXCLUSION_CSV_FILE = SHARED_DATA_DIR + "artifacts/ocsp-crl.csv"
+OCSP_EXCLUSION_CSV_FILE = f"{SHARED_DATA_DIR}/artifacts/ocsp-crl.csv"
 # Do not include the orgs below (based on _id) in the Report
 EXEMPT_ORGS: list[str] = []
 MUSTACHE_FILE = "https_scan_report.mustache"
