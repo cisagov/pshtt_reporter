@@ -366,7 +366,7 @@ This weekly report, created by the \href{https://www.cisa.gov/}{Cybersecurity an
 \subsection*{Overview}
 \vspace*{-3mm}
 \raggedright
-We measure the presence and enforcement of HTTPS for your agency's publicly-accessible .gov domains. \textbf{This report includes all agency-registered \href{https://github.com/cisagov/dotgov-data/blob/main/current-federal.csv}{second-level .gov domains} and known subdomains}, collectively referred to as ``hostnames" in this document (see the \hyperref[app:methodology]{\color{dhs-blue}{Methodology}} section for a description of how these hostnames are collected). Hostnames which do nothing but redirect to other websites \textit{are} measured. Hostnames that did not respond to HTTP/HTTPS requests are considered `non-web' and are removed from the compliance figures below.
+We measure the presence and enforcement of HTTPS for your agency's publicly-accessible .gov domains. \textbf{This report includes all agency-registered \href{https://github.com/cisagov/dotgov-data/blob/main/current-federal.csv}{second-level .gov domains} and known subdomains}, collectively referred to as ``hostnames" in this document (see the \hyperref[sec:methodology]{\color{dhs-blue}{Methodology}} section for a description of how these hostnames are collected). Hostnames which do nothing but redirect to other websites \textit{are} measured. Hostnames that did not respond to HTTP/HTTPS requests are considered `non-web' and are removed from the compliance figures below.
 
 <<&agency>> owns \numprint{<<base_domain_count>>} second-level .gov domains and CISA discovered \numprint{<<subdomain_count>>} subdomains. Of these, \textbf{\numprint{<<all_eligible_domains_count>>} hostnames responded to HTTP/HTTPS requests over the public Internet:}
 \begin{itemize}[topsep=-6pt, itemsep=0pt]
@@ -652,7 +652,7 @@ You are encouraged to \href{https://cyber.dhs.gov/guide/#how-should-the-list-of-
 
 \begin{itemize}[topsep=-6pt, itemsep=0pt]
 	\item \href{https://cyber.dhs.gov/guide/#how-does-the-web-security-requirement-in-bod-18-01-differ-from-m-15-13}{BOD 18-01 incorporates parallel language to M-15-13} with regard to HTTPS deployment. The Compliance Guide at \href{https://https.cio.gov}{https.cio.gov} \textbf{should be consulted} in implementing HTTPS and HSTS.
-	\item \href{https://pulse.cio.gov}{pulse.cio.gov} is a public dashboard to support compliance with M-15-13 and BOD 18-01. The site includes scores for all second-level Federal .gov domains and subdomains sourced from GSA's DAP and Censys.io (as detailed in the \hyperref[app:methodology]{\color{dhs-blue}{Methodology}} section below). Pulse scans domains with \href{https://github.com/cisagov/pshtt}{\texttt{pshtt}}.
+	\item \href{https://pulse.cio.gov}{pulse.cio.gov} is a public dashboard to support compliance with M-15-13 and BOD 18-01. The site includes scores for all second-level Federal .gov domains and subdomains sourced from GSA's DAP and Censys.io (as detailed in the \hyperref[sec:methodology]{\color{dhs-blue}{Methodology}} section below). Pulse scans domains with \href{https://github.com/cisagov/pshtt}{\texttt{pshtt}}.
 	\item \href{https://https.cio.gov/resources}{https://https.cio.gov/resources} has presentations to watch and tools to use.
 \end{itemize}
 
