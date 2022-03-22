@@ -30,7 +30,7 @@ expects the secrets in a different location.
 To run the `cisagov/pshtt_reporter` image via Docker:
 
 ```console
-docker run cisagov/pshtt_reporter:1.2.2
+docker run cisagov/pshtt_reporter:1.2.3
 ```
 
 ### Running with Docker Compose ###
@@ -43,7 +43,7 @@ docker run cisagov/pshtt_reporter:1.2.2
 
     services:
       pshtt_reporter:
-        image: cisagov/pshtt_reporter:1.2.2
+        image: cisagov/pshtt_reporter:1.2.3
         volumes:
           - type: bind
             source: <your_log_dir>
@@ -89,7 +89,7 @@ environment variables.  See the
 
     services:
       pshtt_reporter:
-        image: cisagov/pshtt_reporter:1.2.2
+        image: cisagov/pshtt_reporter:1.2.3
         volumes:
           - type: bind
             source: <your_log_dir>
@@ -126,7 +126,7 @@ environment variables.  See the
 1. Pull the new image:
 
     ```console
-    docker pull cisagov/pshtt_reporter:1.2.2
+    docker pull cisagov/pshtt_reporter:1.2.3
     ```
 
 1. Recreate and run the container by following the [previous instructions](#running-with-docker).
@@ -136,11 +136,11 @@ environment variables.  See the
 The images of this container are tagged with [semantic
 versions](https://semver.org) of the underlying example project that they
 containerize.  It is recommended that most users use a version tag (e.g.
-`:1.2.2`).
+`:1.2.3`).
 
 | Image:tag | Description |
 |-----------|-------------|
-|`cisagov/pshtt_reporter:1.2.2`| An exact release version. |
+|`cisagov/pshtt_reporter:1.2.3`| An exact release version. |
 |`cisagov/pshtt_reporter:1.2`| The most recent release matching the major and minor version numbers. |
 |`cisagov/pshtt_reporter:1`| The most recent release matching the major version number. |
 |`cisagov/pshtt_reporter:edge` | The most recent image built from a merge into the `develop` branch of this repository. |
@@ -204,7 +204,7 @@ Build the image locally using this git repository as the [build context](https:/
 
 ```console
 docker build \
-  --tag cisagov/pshtt_reporter:1.2.2 \
+  --tag cisagov/pshtt_reporter:1.2.3 \
   https://github.com/cisagov/pshtt_reporter.git#develop
 ```
 
@@ -235,7 +235,7 @@ Docker:
       --file Dockerfile-x \
       --platform linux/amd64 \
       --output type=docker \
-      --tag cisagov/pshtt_reporter:1.2.2 .
+      --tag cisagov/pshtt_reporter:1.2.3 .
     ```
 
 ## Contributing ##
