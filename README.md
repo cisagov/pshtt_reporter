@@ -17,7 +17,7 @@ second-level domains using data collected via
 This Docker container is intended to be run via
 [cisagov/orchestrator](https://github.com/cisagov/orchestrator).
 
-__N.B.:__ The secrets in the `src/secrets` directory are only used
+**N.B.:** The secrets in the `src/secrets` directory are only used
 when testing via the `docker-compose.yml` composition.  Normally this
 Docker container is run via the Docker composition in
 [cisagov/orchestrator](https://github.com/cisagov/orchestrator), which
@@ -53,7 +53,7 @@ docker run cisagov/pshtt_reporter:1.2.4
 1. Start the container and detach:
 
     ```console
-    docker-compose up --detach
+    docker compose up --detach
     ```
 
 ## Using secrets with your container ##
@@ -106,13 +106,13 @@ environment variables.  See the
 1. Pull the new image from Docker Hub:
 
     ```console
-    docker-compose pull
+    docker compose pull
     ```
 
 1. Recreate the running container by following the [previous instructions](#running-with-docker-compose):
 
     ```console
-    docker-compose up --detach
+    docker compose up --detach
     ```
 
 ### Docker ###
