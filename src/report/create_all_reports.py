@@ -22,7 +22,7 @@ def main():
             # that easily allows it to be run in any other way, but
             # Bandit doesn't like us to use subprocess.  Hence the
             # nosec.
-            subprocess.run(bashCommand)  # nosec B404
+            subprocess.run(bashCommand)  # nosec B404, B603
 
 
 if __name__ == "__main__":
