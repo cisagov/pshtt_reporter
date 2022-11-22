@@ -13,7 +13,7 @@ page.onError = function (msg, trace) {
           t.file +
           ": " +
           t.line +
-          (t.function ? ' (in function "' + t.function + '")' : "")
+          (t.function ? ' (in function "' + t.function + '")' : ""),
       );
     });
   }
@@ -22,7 +22,7 @@ page.onError = function (msg, trace) {
 
 page.onConsoleMessage = function (msg, lineNum, sourceId) {
   console.log(
-    "CONSOLE: " + msg + " (from line #" + lineNum + ' in "' + sourceId + '")'
+    "CONSOLE: " + msg + " (from line #" + lineNum + ' in "' + sourceId + '")',
   );
 };
 
