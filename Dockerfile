@@ -139,7 +139,7 @@ COPY src ${CISA_HOME}
 RUN chown --recursive ${CISA_USER}:${CISA_GROUP} ${CISA_HOME}
 
 ###
-# Prepare to Run
+# Prepare to run
 ###
 # Right now we need to run as root for the font stuff
 # USER ${CISA_USER}:${CISA_GROUP}
