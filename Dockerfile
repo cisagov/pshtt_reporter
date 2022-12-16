@@ -125,8 +125,8 @@ RUN pip install --no-cache-dir --upgrade numpy \
 ###
 # Clean up aptitude cruft
 ###
-RUN apt-get --quiet --quiet clean
-RUN rm -rf /var/lib/apt/lists/*
+RUN apt-get --quiet --quiet clean \
+    && rm --recursive --force /var/lib/apt/lists/*
 
 ###
 # Setup working directory and entrypoint
