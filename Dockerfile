@@ -84,13 +84,16 @@ RUN apt-get install --quiet --quiet --yes \
     $DEPS $INSTALL_DEPS
 
 ###
-# Make sure pip and setuptools are the latest versions
+# Make sure pip, setuptools, and wheel are the latest versions
 #
-# Note that we use pip --no-cache-dir to avoid writing to a local
+# Note that we use pip3 --no-cache-dir to avoid writing to a local
 # cache.  This results in a smaller final image, at the cost of
 # slightly longer install times.
 ###
-RUN pip install --no-cache-dir --upgrade pip setuptools
+RUN pip3 install --no-cache-dir --upgrade \
+    pip \
+    setuptools \
+    wheel
 
 # Setup texlive latex stuff.
 RUN tlmgr init-usertree
@@ -98,7 +101,7 @@ RUN tlmgr init-usertree
 ###
 # Install requirements for report generation
 #
-# Note that we use pip --no-cache-dir to avoid writing to a local
+# Note that we use pip3 --no-cache-dir to avoid writing to a local
 # cache.  This results in a smaller final image, at the cost of
 # slightly longer install times.
 #
@@ -107,8 +110,8 @@ RUN tlmgr init-usertree
 #
 # Note that matplotlib.basemap is currently incompatible with
 # matplotlib 3.x.
-RUN pip install --no-cache-dir --upgrade numpy \
-    && pip install --no-cache-dir --upgrade \
+RUN pip3 install --no-cache-dir --upgrade numpy \
+    && pip3 install --no-cache-dir --upgrade \
     chevron \
     docopt \
     geos \
