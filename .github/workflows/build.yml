@@ -354,17 +354,6 @@ jobs:
     permissions:
       packages: write
     steps:
-      - name: Login to Docker Hub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v2
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
       - name: Checkout
         uses: actions/checkout@v3
       - name: Set up QEMU
@@ -380,8 +369,17 @@ jobs:
           key: ${{ env.BASE_CACHE_KEY }}${{ github.sha }}
           restore-keys: |
             ${{ env.BASE_CACHE_KEY }}
-      - name: Create cross-platform support Dockerfile-x
-        run: ./buildx-dockerfile.sh
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build and push platform images to registries
         id: docker_build
         uses: docker/build-push-action@v4
@@ -390,8 +388,6 @@ jobs:
             VERSION=${{ needs.prepare.outputs.source_version }}
           cache-from: type=local,src=${{ env.BUILDX_CACHE_DIR }}
           cache-to: type=local,dest=${{ env.BUILDX_CACHE_DIR }}
-          context: .
-          file: ./Dockerfile-x
           platforms: ${{ env.PLATFORMS }}
           push: true
           tags: ${{ needs.prepare.outputs.tags }}
