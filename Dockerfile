@@ -1,4 +1,13 @@
-FROM python:3.11.2-bullseye
+# Set up cross-compilation scripts
+FROM --platform=${BUILDPLATFORM} tonistiigi/xx:1.2.1 as xx
+
+FROM --platform=${BUILDPLATFORM} python:3.11.2-bullseye
+
+# Copy in cross-compilation scripts
+COPY --from=xx / /
+
+# Export the target platform
+ARG TARGETPLATFORM
 
 ###
 # For a list of pre-defined annotation keys and value types see:
@@ -36,36 +45,14 @@ RUN groupadd --system --gid ${CISA_GID} ${CISA_GROUP} \
 # will be removed at the end of the build process.
 ###
 ENV DEPS \
-    build-essential \
     curl \
     git \
-    libc6-dev \
     libfontconfig1 \
-    libreadline-dev \
-    libssl-dev \
-    libxml2-dev \
-    libxslt1-dev \
-    libyaml-dev \
-    make \
     unzip \
     wget \
-    zlib1g-dev \
-    autoconf \
-    automake \
-    bison \
     gawk \
-    libffi-dev \
-    libgdbm-dev \
-    libncurses5-dev \
-    libsqlite3-dev \
-    libtool \
     pkg-config \
     sqlite3 \
-    libgeos-dev \
-    # Additional dependencies for python-build
-    libbz2-dev \
-    llvm \
-    libncursesw5-dev \
     # Latex stuff
     xzdec \
     texlive-latex-base \
@@ -77,11 +64,39 @@ ENV DEPS \
     texlive-science \
     fontconfig \
     redis-tools
+ENV BUILD_DEPS \
+    autoconf \
+    automake \
+    bison \
+    build-essential \
+    # Additional dependencies for python-build
+    libbz2-dev \
+    libc6-dev \
+    libffi-dev \
+    libgdbm-dev \
+    libgeos-dev \
+    libncurses5-dev \
+    libncursesw5-dev \
+    libreadline-dev \
+    libsqlite3-dev \
+    libssl-dev \
+    libtool \
+    libxml2-dev \
+    libxslt1-dev \
+    libyaml-dev \
+    llvm \
+    make \
+    zlib1g-dev
+
 # ENV INSTALL_DEPS \
 #     git
 RUN apt-get install --quiet --quiet --yes \
     --no-install-recommends --no-install-suggests \
     $DEPS $INSTALL_DEPS
+
+RUN xx-apt-get install --quiet --quiet --yes \
+    --no-install-recommends --not-install-suggests \
+    $BUILD_DEPS
 
 ###
 # Make sure pip, setuptools, and wheel are the latest versions
