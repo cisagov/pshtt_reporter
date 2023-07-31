@@ -462,7 +462,7 @@ class ReportGenerator:
         score["hosts_with_weak_crypto"] = list()
         for host in domain["hosts_with_weak_crypto"]:
             weak_crypto_list = list()
-            for (wc_key, wc_text) in [
+            for wc_key, wc_text in [
                 ("sslv2", "SSLv2"),
                 ("sslv3", "SSLv3"),
                 ("any_3des", "3DES"),
@@ -761,7 +761,7 @@ class ReportGenerator:
                 port = d["scanned_port"]
 
                 weak_crypto_list = list()
-                for (wc_key, wc_text) in [
+                for wc_key, wc_text in [
                     ("sslv2", "SSLv2"),
                     ("sslv3", "SSLv3"),
                     ("any_3des", "3DES"),

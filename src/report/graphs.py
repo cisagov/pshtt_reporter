@@ -405,7 +405,7 @@ class MyDistributionBar:
         # Colorize regions and add dividing lines if region_colors
         # present
         previous_day = 0
-        for (day, bgcolor) in self.region_colors:
+        for day, bgcolor in self.region_colors:
             # draw reference lines
             plt.axvline(x=day, color="#777777", linewidth=0.5)
             ax.annotate(
@@ -491,7 +491,7 @@ class MyPie:
         """Determine if we are too close."""
         if len(trips) <= 1:
             return False
-        for (inner, outer, wedge) in trips:
+        for inner, outer, wedge in trips:
             if wedge.theta2 - wedge.theta1 < TOO_SMALL_WEDGE:
                 return True
         return False
