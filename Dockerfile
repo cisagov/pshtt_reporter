@@ -40,6 +40,7 @@ ENV DEPS \
     cmake \
     curl \
     git \
+    libblas-dev \
     libc6-dev \
     libfontconfig1 \
     libreadline-dev \
