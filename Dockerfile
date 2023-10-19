@@ -1,4 +1,4 @@
-FROM python:3.11.5-bullseye
+FROM python:3.12.0-bullseye
 
 ###
 # For a list of pre-defined annotation keys and value types see:
@@ -40,8 +40,10 @@ ENV DEPS \
     cmake \
     curl \
     git \
+    libblas-dev \
     libc6-dev \
     libfontconfig1 \
+    liblapack-dev \
     libreadline-dev \
     libssl-dev \
     libxml2-dev \
