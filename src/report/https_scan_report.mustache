@@ -93,13 +93,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% DHS Image Watermark
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\usepackage[pages=some]{background}
-\backgroundsetup{
-contents={\includegraphics{assets/dhs-logo}},
-angle=0,
-scale=3.0,
-opacity=0.04
-}
+\usepackage{background}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% URL and Link Setup
@@ -343,6 +337,18 @@ opacity=0.04
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Table of Contents
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% DHS Image Watermark
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% The watermarks are known to be acting a little wonky.  I created
+% cisagov/trustymail_reporter#54 to document this.
+\backgroundsetup{
+  pages=some,
+  contents=\includegraphics{assets/dhs-logo},
+  angle=0,
+  scale=3.0,
+  opacity=0.04,
+}
 \BgThispage
 %\large
 \tableofcontents
