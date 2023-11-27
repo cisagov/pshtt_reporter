@@ -79,7 +79,7 @@ class ReportGenerator:
         self.__agency = agency
         self.__agency_id = None
         self.__debug = debug
-        self.__generated_time = datetime.utcnow()
+        self.__generated_time = datetime.now(datetime.UTC)
         self.__results = dict()  # reusable query results
         self.__requests = None
         self.__report_doc = {"scores": []}
