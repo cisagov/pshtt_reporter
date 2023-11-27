@@ -33,6 +33,11 @@
 \usepackage{hhline} % used for double horizontal lines in tables
 \usepackage{amsmath} % used for {align*} in tables
 \usepackage{pgfplots} % used to create line graph
+% Gets rid of an xetex warning:
+% Package pgfplots Warning: running in backwards compatibility mode
+% (unsuitable tick labels; missing features).  Consider writing
+% \pgfplotsset{compat=1.17} into your preamble
+\pgfplotsset{compat=1.17}
 \usepackage{tikz} % used to draw graphs
 \usepackage{pgf}
 \usepackage{url}
