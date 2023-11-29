@@ -33,6 +33,11 @@
 \usepackage{hhline} % used for double horizontal lines in tables
 \usepackage{amsmath} % used for {align*} in tables
 \usepackage{pgfplots} % used to create line graph
+% Gets rid of an xetex warning:
+% Package pgfplots Warning: running in backwards compatibility mode
+% (unsuitable tick labels; missing features).  Consider writing
+% \pgfplotsset{compat=1.17} into your preamble
+\pgfplotsset{compat=1.17}
 \usepackage{tikz} % used to draw graphs
 \usepackage{pgf}
 \usepackage{url}
@@ -360,7 +365,7 @@
 \newpage
 \renewcommand{\footrulewidth}{0.4pt}
 \section{Executive Summary}
-\label{sec:executive summary}
+\label{sec:executive_summary}
 Hypertext Transfer Protocol (HTTP) connections can be easily monitored, modified, and impersonated; HTTPS remedies each vulnerability. HTTP Strict Transport Security (HSTS) ensures that browsers always use an https:// connection, and removes the ability for users to click through certificate-related warnings.
 
 In 2015, \href{https://https.cio.gov/}{OMB M-15-13} required all existing Federal websites and web services to be accessible through a secure connection (HTTPS-only, with HSTS). In 2017, the .gov registry began \href{https://home.dotgov.gov/hsts-preloading/}{automatically preloading} new federal .gov domains as HSTS-only in modern browsers. Federal agencies must make more progress on HTTPS and HSTS deployment, including by removing support for known-weak cryptographic protocols and ciphers.
@@ -368,8 +373,9 @@ In 2015, \href{https://https.cio.gov/}{OMB M-15-13} required all existing Federa
 This weekly report, created by the \href{https://www.cisa.gov/}{Cybersecurity and Infrastructure Security Agency (CISA)}, is intended to assist your agency to comply with the web security aspects of Binding Operational Directive (BOD) 18-01. Implementation guidance can be found at \href{https://cyber.dhs.gov/guide}{https://cyber.dhs.gov/guide} and \href{https://https.cio.gov}{https://https.cio.gov}.  This report also helps agencies to \href{https://https.cio.gov/hsts/#hsts-preloading}{``preload" their domains} to better enforce the protections BOD 18-01 requires.
 
 \vspace*{-3mm}
+\phantomsection
 \addcontentsline{toc}{subsection}{Overview} % Adds a subsection to toc
-\subsection*{Overview}
+\hypertarget{Overview}{\subsection*{Overview}}
 \vspace*{-3mm}
 \raggedright
 We measure the presence and enforcement of HTTPS for your agency's publicly-accessible .gov domains. \textbf{This report includes all agency-registered \href{https://github.com/cisagov/dotgov-data/blob/main/current-federal.csv}{second-level .gov domains} and known subdomains}, collectively referred to as ``hostnames" in this document (see the \hyperref[sec:methodology]{\color{dhs-blue}{Methodology}} section for a description of how these hostnames are collected). Hostnames which do nothing but redirect to other websites \textit{are} measured. Hostnames that did not respond to HTTP/HTTPS requests are considered `non-web' and are removed from the compliance figures below.
