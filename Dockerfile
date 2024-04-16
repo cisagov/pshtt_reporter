@@ -1,4 +1,4 @@
-FROM python:3.12.2-bookworm
+FROM python:3.12.3-bookworm
 
 ###
 # For a list of pre-defined annotation keys and value types see:
