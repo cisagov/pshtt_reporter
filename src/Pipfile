@@ -5,9 +5,15 @@ name = "pypi"
 
 # List any Python dependencies for the image here
 [packages]
-# This should match the version of the image
-example = {file = "https://github.com/cisagov/skeleton-python-library/archive/v0.2.2.tar.gz"}
+chevron = "*"
+docopt = "*"
+geos = "*"
+matplotlib = "*"
+mongo-db-from-config = {file = "https://github.com/cisagov/mongo-db-from-config/tarball/develop" }
+numpy = "*"
+pandas = "*"
+pypdf2 = "*"
 
 # This version should match the version of Python in the image
 [requires]
-python_full_version = "3.13.5"
+python_full_version = "3.12.3"
