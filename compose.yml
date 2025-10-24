@@ -1,7 +1,7 @@
 ---
-version: "3.7"
-
 # This Docker composition file is used to build and test the container
+
+name: skeleton-docker
 
 secrets:
   database_creds:
@@ -21,5 +21,6 @@ services:
     secrets:
       - source: database_creds
         target: database_creds.yml
+
   redis:
     image: redis:alpine

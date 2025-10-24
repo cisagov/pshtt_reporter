@@ -1,4 +1,6 @@
-FROM python:3.12.3-bookworm
+# Official Docker images are in the form library/<app> while non-official
+# images are in the form <user>/<app>.
+FROM docker.io/library/python:3.12.3-bookworm
 
 ###
 # For a list of pre-defined annotation keys and value types see:
