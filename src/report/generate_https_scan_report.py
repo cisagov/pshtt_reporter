@@ -864,15 +864,15 @@ class ReportGenerator:
         # result['downgrades_percentage'] = 0
         # result['hsts_preloaded_percentage'] = 0
         # result['hsts_entire_domain_percentage'] = 0
-        result[
-            "domain_has_no_weak_crypto_count"
-        ] = self.__domain_has_no_weak_crypto_count
+        result["domain_has_no_weak_crypto_count"] = (
+            self.__domain_has_no_weak_crypto_count
+        )
         result["has_no_weak_crypto_percentage"] = self.__has_no_weak_crypto_percentage
         result["bod_1801_percentage"] = self.__bod_1801_percentage
         result["bod_1801_count"] = self.__bod_1801_count
-        result[
-            "domain_supports_https_count"
-        ] = self.__domain_supports_https_count  # added
+        result["domain_supports_https_count"] = (
+            self.__domain_supports_https_count
+        )  # added
         result["uses_https_percentage"] = self.__uses_https_percentage
         result["enforces_https_percentage"] = self.__enforces_https_percentage
         result["strictly_forces_count"] = self.__strictly_forces_count
