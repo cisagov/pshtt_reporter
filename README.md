@@ -7,7 +7,7 @@
 
 [![Docker Pulls](https://img.shields.io/docker/pulls/cisagov/pshtt_reporter)](https://hub.docker.com/r/cisagov/pshtt_reporter)
 [![Docker Image Size (latest by date)](https://img.shields.io/docker/image-size/cisagov/pshtt_reporter)](https://hub.docker.com/r/cisagov/pshtt_reporter)
-[![Platforms](https://img.shields.io/badge/platforms-386%20%7C%20amd64%20%7C%20arm%2Fv6%20%7C%20arm%2Fv7%20%7C%20arm64%20%7C%20ppc64le%20%7C%20riscv64%20%7C%20s390x-blue)](https://hub.docker.com/r/cisagov/pshtt_reporter/tags)
+[![Platforms](https://img.shields.io/badge/platforms-386%20%7C%20amd64%20%7C%20arm%2Fv6%20%7C%20arm%2Fv7%20%7C%20arm64%20%7C%20ppc64le%20%7C%20s390x-blue)](https://hub.docker.com/r/cisagov/pshtt_reporter/tags)
 
 This is a Docker container that creates PDF reports for individual
 second-level domains using data collected via
