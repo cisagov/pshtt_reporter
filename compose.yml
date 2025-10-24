@@ -1,7 +1,7 @@
 ---
 # This Docker composition file is used to build and test the container
 
-name: skeleton-docker
+name: pshtt_reporter
 
 secrets:
   database_creds:

@@ -38,7 +38,7 @@ docker run cisagov/pshtt_reporter:1.2.17
 
     ```yaml
     ---
-    name: skeleton-docker
+    name: pshtt_reporter
 
     services:
       pshtt_reporter:
@@ -80,7 +80,7 @@ environment variables.  See the
 
     ```yaml
     ---
-    name: skeleton-docker
+    name: pshtt_reporter
 
     secrets:
       database_creds:
