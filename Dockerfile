@@ -73,12 +73,6 @@ ENV CISA_HOME="/home/${CISA_USER}"
 ENV VIRTUAL_ENV="${CISA_HOME}/.venv"
 
 ###
-# Upgrade the system
-###
-# RUN apt update --quiet --quiet \
-#     && apt upgrade --quiet --quiet --yes
-
-###
 # Create unprivileged user
 ###
 RUN groupadd --system --gid ${CISA_GID} ${CISA_GROUP} \
