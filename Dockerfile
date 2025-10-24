@@ -23,7 +23,7 @@ ENV CISA_HOME="/home/${CISA_USER}"
 # Upgrade the system
 ###
 RUN apt update --quiet --quiet \
-    && apt upgrade --quiet --quiet
+    && apt upgrade --quiet --quiet --yes
 
 ###
 # Create unprivileged user
