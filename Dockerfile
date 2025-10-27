@@ -41,6 +41,47 @@ RUN python3 -m pip install --no-cache-dir --upgrade \
         wheel==${PYTHON_WHEEL_VERSION}
 
 ###
+# Install everything we need to build wheels
+###
+ENV DEPS="build-essential \
+    cmake \
+    curl \
+    git \
+    libblas-dev \
+    libc6-dev \
+    libfontconfig1 \
+    liblapack-dev \
+    libreadline-dev \
+    libssl-dev \
+    libxml2-dev \
+    libxslt1-dev \
+    libyaml-dev \
+    make \
+    unzip \
+    wget \
+    zlib1g-dev \
+    autoconf \
+    automake \
+    bison \
+    gawk \
+    libffi-dev \
+    libgdbm-dev \
+    libncurses5-dev \
+    libsqlite3-dev \
+    libtool \
+    pkg-config \
+    sqlite3 \
+    libgeos-dev \
+    # Additional dependencies for python-build
+    libbz2-dev \
+    llvm \
+    libncursesw5-dev"
+RUN apt update --quiet --quiet \
+    && apt install --quiet --quiet --yes \
+    --no-install-recommends --no-install-suggests \
+    $DEPS
+
+###
 # Install the Python dependencies into the virtual environment.
 #
 # Note that pipenv will install into a virtual environment if the VIRTUAL_ENV
