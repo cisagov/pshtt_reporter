@@ -169,7 +169,7 @@ containerize.  It is recommended that most users use a version tag (e.g.
 | Image:tag | Description |
 |-----------|-------------|
 |`cisagov/pshtt_reporter:1.3.0-rc.1`| An exact release version. |
-|`cisagov/pshtt_reporter:1.2`| The most recent release matching the major and minor version numbers. |
+|`cisagov/pshtt_reporter:1.3`| The most recent release matching the major and minor version numbers. |
 |`cisagov/pshtt_reporter:1`| The most recent release matching the major version number. |
 |`cisagov/pshtt_reporter:edge` | The most recent image built from a merge into the `develop` branch of this repository. |
 |`cisagov/pshtt_reporter:nightly` | A nightly build of the `develop` branch of this repository. |
