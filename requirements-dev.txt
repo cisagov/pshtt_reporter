@@ -1,4 +1,5 @@
 --requirement requirements-test.txt
 ipython
 mypy
+pipenv
 semver
