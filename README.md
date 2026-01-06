@@ -1,6 +1,7 @@
 # PSHTT Reporter #
 
 [![GitHub Build Status](https://github.com/cisagov/pshtt_reporter/workflows/build/badge.svg)](https://github.com/cisagov/pshtt_reporter/actions/workflows/build.yml)
+[![License](https://img.shields.io/github/license/cisagov/pshtt_reporter)](https://spdx.org/licenses/)
 [![CodeQL](https://github.com/cisagov/pshtt_reporter/workflows/CodeQL/badge.svg)](https://github.com/cisagov/pshtt_reporter/actions/workflows/codeql-analysis.yml)
 
 ## Docker Image ##

@@ -9,7 +9,7 @@ chevron = "*"
 docopt = "*"
 geos = "*"
 matplotlib = "*"
-mongo-db-from-config = {file = "https://github.com/cisagov/mongo-db-from-config/tarball/develop" }
+mongo-db-from-config = {file = "https://github.com/cisagov/mongo-db-from-config/archive/v1.2.1.tar.gz"}
 numpy = "*"
 pandas = "*"
 pypdf2 = "*"
