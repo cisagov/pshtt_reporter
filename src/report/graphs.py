@@ -326,7 +326,7 @@ class MyBar:
                 color = "white"
                 offset = (0, -14)
 
-            labelString = "{:,d}".format(yloc)
+            labelString = f"{yloc:,d}"
 
             ax.annotate(
                 labelString,
