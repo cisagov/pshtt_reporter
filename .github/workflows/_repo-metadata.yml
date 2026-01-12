@@ -51,15 +51,13 @@ jobs:
                       # The GitHub runners take forever when building
                       # wheels for all these platforms, so we comment
                       # out the less common ones: 386, arm/v6, arm/v7,
-                      # ppc64le, and s390x.
+                      # ppc64le, riscv64, and s390x.
                       # "linux/386",
                       "linux/amd64",
                       # "linux/arm/v6",
                       # "linux/arm/v7",
                       "linux/arm64",
                       # "linux/ppc64le",
-                      # The base Docker image does not support the
-                      # riscv64 hardware platform.
                       # "linux/riscv64",
                       # "linux/s390x",
                   ],
