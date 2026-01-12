@@ -49,10 +49,7 @@ RUN python3 -m pip install --no-cache-dir --upgrade \
 ###
 ENV DEPS="build-essential=12.12 \
     cmake=3.31.6-2 \
-    curl=8.14.1-2+deb13u2 \
-    git=1:2.47.3-0+deb13u1 \
     libblas-dev=3.12.1-6 \
-    libc6-dev=2.41-12+deb13u1 \
     libfontconfig1=2.15.0-2.3 \
     liblapack-dev=3.12.1-6 \
     libreadline-dev=8.2-6 \
@@ -60,26 +57,20 @@ ENV DEPS="build-essential=12.12 \
     libxml2-dev=2.12.7+dfsg+really2.9.14-2.1+deb13u2 \
     libxslt1-dev=1.1.35-1.2+deb13u2 \
     libyaml-dev=0.2.5-2 \
-    make=4.4.1-2 \
-    unzip=6.0-29 \
-    wget=1.25.0-2 \
     zlib1g-dev=1:1.3.dfsg+really1.3.1-1+b1 \
     autoconf=2.72-3.1 \
     automake=1:1.17-4 \
     bison=2:3.8.2+dfsg-1+b2 \
-    gawk=1:5.2.1-2+b1 \
     libffi-dev=3.4.8-2 \
     libgdbm-dev=1.24-2 \
     libncurses-dev=6.5+20250216-2 \
     libsqlite3-dev=3.46.1-7 \
     libtool=2.5.4-4 \
     pkg-config=1.8.1-4 \
-    sqlite3=3.46.1-7 \
     libgeos-dev=3.13.1-1 \
     # Additional dependencies for python-build
     libbz2-dev=1.0.8-6 \
     llvm=1:19.0-63"
-    #libncursesw5-dev"
 RUN apt update --quiet --quiet \
     && apt install --quiet --quiet --yes \
     --no-install-recommends --no-install-suggests \
