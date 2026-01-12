@@ -47,39 +47,39 @@ RUN python3 -m pip install --no-cache-dir --upgrade \
 # TODO: Pin these packages to enable reproducible builds.  See #106
 # for more details.
 ###
-ENV DEPS="build-essential \
-    cmake \
-    curl \
-    git \
-    libblas-dev \
-    libc6-dev \
-    libfontconfig1 \
-    liblapack-dev \
-    libreadline-dev \
-    libssl-dev \
-    libxml2-dev \
-    libxslt1-dev \
-    libyaml-dev \
-    make \
-    unzip \
-    wget \
-    zlib1g-dev \
-    autoconf \
-    automake \
-    bison \
-    gawk \
-    libffi-dev \
-    libgdbm-dev \
-    libncurses5-dev \
-    libsqlite3-dev \
-    libtool \
-    pkg-config \
-    sqlite3 \
-    libgeos-dev \
+ENV DEPS="build-essential=12.12 \
+    cmake=3.31.6-2 \
+    curl=8.14.1-2+deb13u2 \
+    git=1:2.47.3-0+deb13u1 \
+    libblas-dev=3.12.1-6 \
+    libc6-dev=2.41-12+deb13u1 \
+    libfontconfig1=2.15.0-2.3 \
+    liblapack-dev=3.12.1-6 \
+    libreadline-dev=8.2-6 \
+    libssl-dev=3.5.4-1~deb13u1 \
+    libxml2-dev=2.12.7+dfsg+really2.9.14-2.1+deb13u2 \
+    libxslt1-dev=1.1.35-1.2+deb13u2 \
+    libyaml-dev=0.2.5-2 \
+    make=4.4.1-2 \
+    unzip=6.0-29 \
+    wget=1.25.0-2 \
+    zlib1g-dev=1:1.3.dfsg+really1.3.1-1+b1 \
+    autoconf=2.72-3.1 \
+    automake=1:1.17-4 \
+    bison=2:3.8.2+dfsg-1+b2 \
+    gawk=1:5.2.1-2+b1 \
+    libffi-dev=3.4.8-2 \
+    libgdbm-dev=1.24-2 \
+    libncurses-dev=6.5+20250216-2 \
+    libsqlite3-dev=3.46.1-7 \
+    libtool=2.5.4-4 \
+    pkg-config=1.8.1-4 \
+    sqlite3=3.46.1-7 \
+    libgeos-dev=3.13.1-1 \
     # Additional dependencies for python-build
-    libbz2-dev \
-    llvm \
-    libncursesw5-dev"
+    libbz2-dev=1.0.8-6 \
+    llvm=1:19.0-63"
+    #libncursesw5-dev"
 RUN apt update --quiet --quiet \
     && apt install --quiet --quiet --yes \
     --no-install-recommends --no-install-suggests \
@@ -133,50 +133,50 @@ RUN groupadd --system --gid ${CISA_GID} ${CISA_GROUP} \
 # TODO: Pin these packages to enable reproducible builds.  See #106
 # for more details.
 ###
-ENV DEPS="build-essential \
-    cmake \
-    curl \
-    git \
-    libblas-dev \
-    libc6-dev \
-    libfontconfig1 \
-    liblapack-dev \
-    libreadline-dev \
-    libssl-dev \
-    libxml2-dev \
-    libxslt1-dev \
-    libyaml-dev \
-    make \
-    unzip \
-    wget \
-    zlib1g-dev \
-    autoconf \
-    automake \
-    bison \
-    gawk \
-    libffi-dev \
-    libgdbm-dev \
-    libncurses5-dev \
-    libsqlite3-dev \
-    libtool \
-    pkg-config \
-    sqlite3 \
-    libgeos-dev \
+ENV DEPS="build-essential=12.12 \
+    cmake=3.31.6-2 \
+    curl=8.14.1-2+deb13u2 \
+    git=1:2.47.3-0+deb13u1 \
+    libblas-dev=3.12.1-6 \
+    libc6-dev=2.41-12+deb13u1 \
+    libfontconfig1=2.15.0-2.3 \
+    liblapack-dev=3.12.1-6 \
+    libreadline-dev=8.2-6 \
+    libssl-dev=3.5.4-1~deb13u1 \
+    libxml2-dev=2.12.7+dfsg+really2.9.14-2.1+deb13u2 \
+    libxslt1-dev=1.1.35-1.2+deb13u2 \
+    libyaml-dev=0.2.5-2 \
+    make=4.4.1-2 \
+    unzip=6.0-29 \
+    wget=1.25.0-2 \
+    zlib1g-dev=1:1.3.dfsg+really1.3.1-1+b1 \
+    autoconf=2.72-3.1 \
+    automake=1:1.17-4 \
+    bison=2:3.8.2+dfsg-1+b2 \
+    gawk=1:5.2.1-2+b1 \
+    libffi-dev=3.4.8-2 \
+    libgdbm-dev=1.24-2 \
+    libncurses-dev=6.5+20250216-2 \
+    libsqlite3-dev=3.46.1-7 \
+    libtool=2.5.4-4 \
+    pkg-config=1.8.1-4 \
+    sqlite3=3.46.1-7 \
+    libgeos-dev=3.13.1-1 \
     # Additional dependencies for python-build
-    libbz2-dev \
-    llvm \
-    libncursesw5-dev \
+    libbz2-dev=1.0.8-6 \
+    llvm=1:19.0-63 \
+    # libncursesw5-dev
     # Latex stuff
-    xzdec \
-    texlive-latex-base \
-    texlive-latex-recommended \
-    texlive-latex-extra \
-    texlive-xetex \
-    fonts-lmodern \
-    lmodern \
-    texlive-science \
-    fontconfig \
-    redis-tools"
+    xzdec=5.8.1-1 \
+    texlive-latex-base=2024.20250309-1 \
+    texlive-latex-recommended=2024.20250309-1 \
+    texlive-latex-extra=2024.20250309-2 \
+    texlive-xetex=2024.20250309-1 \
+    fonts-lmodern=2.005-1 \
+    lmodern=2.005-1 \
+    texlive-science=2024.20250309-2 \
+    fontconfig=2.15.0-2.3 \
+    redis-tools=5:8.0.2-3+deb13u1"
 RUN apt update --quiet --quiet \
     && apt install --quiet --quiet --yes \
     --no-install-recommends --no-install-suggests \
