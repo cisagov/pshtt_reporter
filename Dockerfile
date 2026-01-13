@@ -81,7 +81,6 @@ RUN groupadd --system --gid ${CISA_GID} ${CISA_GROUP} \
 # Install everything we need
 ###
 ENV DEPS="fontconfig=2.15.0-2.3 \
-    fonts-lmodern=2.005-1 \
     lmodern=2.005-1 \
     redis-tools=5:8.0.2-3+deb13u1 \
     texlive-latex-base=2024.20250309-1 \
