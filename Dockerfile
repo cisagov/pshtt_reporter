@@ -67,7 +67,6 @@ ENV DEPS="build-essential=12.12 \
     libsqlite3-dev=3.46.1-7 \
     libtool=2.5.4-4 \
     pkg-config=1.8.1-4 \
-    libgeos-dev=3.13.1-1 \
     # Additional dependencies for python-build
     libbz2-dev=1.0.8-6 \
     llvm=1:19.0-63"
@@ -152,7 +151,6 @@ ENV DEPS="build-essential=12.12 \
     libtool=2.5.4-4 \
     pkg-config=1.8.1-4 \
     sqlite3=3.46.1-7 \
-    libgeos3.13.1=3.13.1-1 \
     # Additional dependencies for python-build
     libbz2-1.0=1.0.8-6 \
     llvm=1:19.0-63 \
