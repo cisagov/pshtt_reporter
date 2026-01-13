@@ -7,12 +7,9 @@ name = "pypi"
 [packages]
 chevron = "*"
 docopt = "*"
-geos = "*"
 matplotlib = "*"
 mongo-db-from-config = {file = "https://github.com/cisagov/mongo-db-from-config/archive/v1.2.1.tar.gz"}
 numpy = "*"
-pandas = "*"
-pypdf2 = "*"
 
 # This version should match the version of Python in the image
 [requires]
