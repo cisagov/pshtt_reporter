@@ -144,7 +144,7 @@ ENV DEPS="build-essential=12.12 \
     autoconf=2.72-3.1 \
     automake=1:1.17-4 \
     bison=2:3.8.2+dfsg-1+b2 \
-    gawk=1:5.2.1-2+b1 \
+    #gawk=1:5.2.1-2+b1 \
     libffi8=3.4.8-2 \
     libgdbm6t64=1.24-2 \
     libncurses6=6.5+20250216-2 \
