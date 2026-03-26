@@ -251,7 +251,7 @@ class ReportGenerator:
         score = {
             "domain": domain["domain"],
             "ocsp_domain": domain["ocsp_domain"],
-            "subdomain_scores": list(),
+            "subdomain_scores": [],
         }
 
         if domain["live"]:
@@ -460,9 +460,9 @@ class ReportGenerator:
                 self.__domain_has_no_weak_crypto_count += 1
         # Build list of weak crypto host info and save it in
         # score['hosts_with_weak_crypto']
-        score["hosts_with_weak_crypto"] = list()
+        score["hosts_with_weak_crypto"] = []
         for host in domain["hosts_with_weak_crypto"]:
-            weak_crypto_list = list()
+            weak_crypto_list = []
             for wc_key, wc_text in [
                 ("sslv2", "SSLv2"),
                 ("sslv3", "SSLv3"),
@@ -761,7 +761,7 @@ class ReportGenerator:
                 hostname = d["scanned_hostname"]
                 port = d["scanned_port"]
 
-                weak_crypto_list = list()
+                weak_crypto_list = []
                 for wc_key, wc_text in [
                     ("sslv2", "SSLv2"),
                     ("sslv3", "SSLv3"),
