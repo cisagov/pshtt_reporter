@@ -538,9 +538,11 @@ class MyPie:
                     size=6,
                     va="top",
                     ha="right",
-                    arrowprops=dict(
-                        arrowstyle="-", mutation_scale=30, connectionstyle="arc3"
-                    ),
+                    arrowprops={
+                        "arrowstyle": "-",
+                        "mutation_scale": 30,
+                        "connectionstyle": "arc3",
+                    },
                 )
             else:
                 ax.annotate(
@@ -552,9 +554,11 @@ class MyPie:
                     size=6,
                     va="top",
                     ha="left",
-                    arrowprops=dict(
-                        arrowstyle="-", mutation_scale=30, connectionstyle="arc3"
-                    ),
+                    arrowprops={
+                        "arrowstyle": "-",
+                        "mutation_scale": 30,
+                        "connectionstyle": "arc3",
+                    },
                 )
 
     def plot(self, filename, size=1.0):
@@ -648,15 +652,15 @@ class MyColorBar:
             textcoords="figure fraction",
             size=14,
             ha="center",
-            bbox=dict(boxstyle="round", fc="1.0", alpha=0.9),
-            arrowprops=dict(
-                arrowstyle="fancy",
-                mutation_scale=30,
-                fc="0.1",
-                ec="none",
-                patchB=ax2,
-                connectionstyle="angle3,angleA=0,angleB=-90",
-            ),
+            bbox={"boxstyle": "round", "fc": "1.0", "alpha": 0.9},
+            arrowprops={
+                "arrowstyle": "fancy",
+                "mutation_scale": 30,
+                "fc": "0.1",
+                "ec": "none",
+                "patchB": ax2,
+                "connectionstyle": "angle3,angleA=0,angleB=-90",
+            },
         )
 
         ax2.annotate(
@@ -667,15 +671,15 @@ class MyColorBar:
             textcoords="figure fraction",
             size=14,
             ha="center",
-            bbox=dict(boxstyle="round", fc="1.0", alpha=0.9),
-            arrowprops=dict(
-                arrowstyle="fancy",
-                mutation_scale=30,
-                fc="0.4",
-                ec="none",
-                patchB=ax2,
-                connectionstyle="angle3,angleA=0,angleB=-90",
-            ),
+            bbox={"boxstyle": "round", "fc": "1.0", "alpha": 0.9},
+            arrowprops={
+                "arrowstyle": "fancy",
+                "mutation_scale": 30,
+                "fc": "0.4",
+                "ec": "none",
+                "patchB": ax2,
+                "connectionstyle": "angle3,angleA=0,angleB=-90",
+            },
         )
         fig.set_tight_layout(True)
         plt.savefig(f"{filename}.pdf")

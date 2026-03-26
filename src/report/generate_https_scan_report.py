@@ -81,7 +81,7 @@ class ReportGenerator:
         self.__agency_id = None
         self.__debug = debug
         self.__generated_time = datetime.now(timezone.utc)
-        self.__results = dict()  # reusable query results
+        self.__results = {}  # reusable query results
         self.__requests = None
         self.__report_doc = {"scores": []}
         self.__all_domains = []
@@ -155,7 +155,7 @@ class ReportGenerator:
         # subquery to fetch https_scan and sslyze_scan data in one
         # query (MongoDB server 3.6 and later)
 
-        sslyze_data_all_domains = dict()
+        sslyze_data_all_domains = {}
         for host in self.__db.sslyze_scan.find(
             {"latest": True, "agency.name": agency, "scanned_port": 443},
             {
