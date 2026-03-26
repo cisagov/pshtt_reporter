@@ -533,7 +533,8 @@ class ReportGenerator:
         if not self.__all_eligible_domains_count:
             # TODO Decide if we want to generate an empty report in this case
             print(
-                f'ERROR: "{self.__agency}" has no live domains - exiting without generating report!'
+                f'ERROR: "{self.__agency}" has no live domains - '
+                "exiting without generating report!"
             )
             sys.exit(-1)
 
