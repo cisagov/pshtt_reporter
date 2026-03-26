@@ -12,6 +12,7 @@ Options:
   -h --help                      Show this screen.
   --version                      Show version.
 """
+
 # Standard Python Libraries
 import codecs
 import csv
