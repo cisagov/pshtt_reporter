@@ -358,7 +358,7 @@ class MyDistributionBar:
         ylabel=None,
         final_bucket_accumulate=False,
         x_major_tick_count=10,
-        region_colors=[],
+        region_colors=(),
         x_limit_extra=0,
     ):
         """Initialize."""
