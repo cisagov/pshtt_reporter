@@ -135,8 +135,8 @@ class MyStackedBar:
         ax = fig.add_subplot(1, 1, 1)
         plt.xlabel("Vulnerabilities")
 
-        majorLocator = MaxNLocator(nbins=5, integer=True)  # only mark integers
-        ax.xaxis.set_major_locator(majorLocator)
+        major_locator = MaxNLocator(nbins=5, integer=True)  # only mark integers
+        ax.xaxis.set_major_locator(major_locator)
 
         ax.spines["left"].set_visible(False)
         ax.spines["top"].set_visible(False)
@@ -183,7 +183,7 @@ class MyStackedBar:
                 # decimal point and 0 by converting width to int type
                 width = int(rect.get_width())
 
-                labelString = f"{width:,}"
+                label_string = f"{width:,}"
                 # TODO handle too labels getting squeezed, need box
                 # width in points
                 if width > 0:
@@ -192,7 +192,7 @@ class MyStackedBar:
                     # Center the text vertically in the bar
                     yloc = rect.get_y() + rect.get_height() / 2.0
                     ax.annotate(
-                        labelString,
+                        label_string,
                         xy=(xloc, yloc),
                         xycoords="data",
                         xytext=(-4, 0),
@@ -240,23 +240,23 @@ class MyBar:
         pos = np.arange(len(self.series))  # the bar centers on the x axis
 
         if self.barSeverities:
-            barColors = []
+            bar_colors = []
             for i in self.barSeverities:
-                barColors.append(COLORS[i - 1])
+                bar_colors.append(COLORS[i - 1])
             if self.legendLabels:
                 # build a dummy set of bars ('underneath' the real
                 # bars) to be used
 
                 # to color the legend; legendLabels are implicitly
                 # tied to COLORS
-                legendColors = []
+                legend_colors = []
                 for i in range(len(self.legendLabels)):
-                    legendColors.append(COLORS[i])
+                    legend_colors.append(COLORS[i])
                 dummy_legend_rects = plt.bar(
                     pos,
                     self.series.values,
                     align="center",
-                    color=legendColors,
+                    color=legend_colors,
                     edgecolor="white",
                     width=0.5,
                 )
@@ -274,7 +274,7 @@ class MyBar:
                 pos,
                 self.series.values,
                 align="center",
-                color=barColors,
+                color=bar_colors,
                 edgecolor="white",
                 width=0.5,
             )
@@ -326,10 +326,10 @@ class MyBar:
                 color = "white"
                 offset = (0, -14)
 
-            labelString = f"{yloc:,d}"
+            label_string = f"{yloc:,d}"
 
             ax.annotate(
-                labelString,
+                label_string,
                 xy=(xloc, yloc),
                 xycoords="data",
                 xytext=offset,
@@ -635,20 +635,20 @@ class MyColorBar:
         ax2.xaxis.tick_bottom()
 
         if self.agencyScore <= self.federalScore:
-            agencyTextXY = (0.25, 0.66)
-            federalTextXY = (0.75, 0.66)
+            agency_text_xy = (0.25, 0.66)
+            federal_text_xy = (0.75, 0.66)
         else:
-            agencyTextXY = (0.75, 0.66)
-            federalTextXY = (0.25, 0.66)
+            agency_text_xy = (0.75, 0.66)
+            federal_text_xy = (0.25, 0.66)
 
-        agencyLabel = f"{self.agencyName} {self.label}\n{self.agencyScore:1.2f}"
-        federalLabel = f"Federal {self.label}\n{self.federalScore:1.2f}"
+        agency_label = f"{self.agencyName} {self.label}\n{self.agencyScore:1.2f}"
+        federal_label = f"Federal {self.label}\n{self.federalScore:1.2f}"
 
         ax2.annotate(
-            agencyLabel,
+            agency_label,
             xy=(self.agencyScore / 10, 1),
             xycoords="data",
-            xytext=agencyTextXY,
+            xytext=agency_text_xy,
             textcoords="figure fraction",
             size=14,
             ha="center",
@@ -664,10 +664,10 @@ class MyColorBar:
         )
 
         ax2.annotate(
-            federalLabel,
+            federal_label,
             xy=(self.federalScore / 10, 1),
             xycoords="data",
-            xytext=federalTextXY,
+            xytext=federal_text_xy,
             textcoords="figure fraction",
             size=14,
             ha="center",
