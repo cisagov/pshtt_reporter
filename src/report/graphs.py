@@ -493,7 +493,7 @@ class MyPie:
         """Determine if we are too close."""
         if len(trips) <= 1:
             return False
-        for inner, outer, wedge in trips:
+        for _inner, _outer, wedge in trips:
             if wedge.theta2 - wedge.theta1 < TOO_SMALL_WEDGE:
                 return True
         return False
