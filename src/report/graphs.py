@@ -120,11 +120,11 @@ class MyMessage:
 class MyStackedBar:
     """A stacked bar chart."""
 
-    def __init__(self, data, ylabels, dataLabels):
+    def __init__(self, data, ylabels, data_labels):
         """Initialize."""
         self.data = data
         self.ylabels = ylabels
-        self.dataLabels = dataLabels
+        self.dataLabels = data_labels
 
     def plot(self, filename, size=1.0):
         """Create the graph."""
@@ -216,16 +216,16 @@ class MyBar:
         self,
         series,
         yscale="linear",
-        bigLabels=False,
-        barSeverities=None,
-        legendLabels=None,
+        big_labels=False,
+        bar_severities=None,
+        legend_labels=None,
     ):
         """Initialize."""
         self.series = series
         self.yscale = yscale
-        self.bigLabels = bigLabels
-        self.barSeverities = barSeverities
-        self.legendLabels = legendLabels
+        self.bigLabels = big_labels
+        self.barSeverities = bar_severities
+        self.legendLabels = legend_labels
 
     def plot(self, filename, size=1.0):
         """Create the graph."""
@@ -470,12 +470,12 @@ class MyDistributionBar:
 class MyPie:
     """A pie chart."""
 
-    def __init__(self, data, labels, explode=None, showValue=False):
+    def __init__(self, data, labels, explode=None, show_value=False):
         """Initialize."""
         self.data = data
         self.labels = wrap_labels(labels, 20)
         self.explode = explode
-        self.showValue = showValue
+        self.showValue = show_value
 
     def left_right(self, trips):
         """Lefts and rights."""
@@ -613,11 +613,11 @@ class MyPie:
 class MyColorBar:
     """A color bar chart."""
 
-    def __init__(self, agencyName, agencyScore, federalScore, label="Average"):
+    def __init__(self, agency_name, agency_score, federal_score, label="Average"):
         """Initialize."""
-        self.agencyName = agencyName
-        self.agencyScore = agencyScore
-        self.federalScore = federalScore
+        self.agencyName = agency_name
+        self.agencyScore = agency_score
+        self.federalScore = federal_score
         self.label = label
 
     def plot(self, filename, size=1.0):
