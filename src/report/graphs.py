@@ -76,7 +76,7 @@ def setup():
     plt.rcParams.update(params)
 
 
-def wrapLabels(labels, width):
+def wrap_labels(labels, width):
     """Word-wrap labels."""
     wrapper = TextWrapper(width=width, break_long_words=False)
     result = []
@@ -289,13 +289,15 @@ class MyBar:
             )
 
         if self.bigLabels:
-            plt.xticks(pos, wrapLabels(self.series.index, 24), rotation=55, fontsize=7)
+            plt.xticks(pos, wrap_labels(self.series.index, 24), rotation=55, fontsize=7)
             # Extremely nice function to auto-rotate the x axis labels.
             # It was made for dates (hence the name) but it works
             # for any long x tick labels
             # fig.autofmt_xdate()
         else:
-            plt.xticks(pos, wrapLabels(self.series.index, 6), rotation=None, fontsize=8)
+            plt.xticks(
+                pos, wrap_labels(self.series.index, 6), rotation=None, fontsize=8
+            )
 
         ax.yaxis.grid(False)
         ax.yaxis.tick_left()  # ticks only on left
@@ -471,7 +473,7 @@ class MyPie:
     def __init__(self, data, labels, explode=None, showValue=False):
         """Initialize."""
         self.data = data
-        self.labels = wrapLabels(labels, 20)
+        self.labels = wrap_labels(labels, 20)
         self.explode = explode
         self.showValue = showValue
 
