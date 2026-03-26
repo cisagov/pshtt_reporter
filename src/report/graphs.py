@@ -480,7 +480,7 @@ class MyPie:
         lefts = []
         rights = []
         for inner, outer, wedge in trips:
-            (x, y) = outer.get_position()
+            x, y = outer.get_position()
             if x <= 0:
                 lefts.append((inner, outer, wedge))
             else:
