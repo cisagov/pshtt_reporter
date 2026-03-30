@@ -12,6 +12,7 @@ Options:
   -h --help                      Show this screen.
   --version                      Show version.
 """
+
 # Standard Python Libraries
 import codecs
 import csv
@@ -80,7 +81,7 @@ class ReportGenerator:
         self.__agency_id = None
         self.__debug = debug
         self.__generated_time = datetime.now(timezone.utc)
-        self.__results = dict()  # reusable query results
+        self.__results = {}  # reusable query results
         self.__requests = None
         self.__report_doc = {"scores": []}
         self.__all_domains = []
@@ -154,7 +155,7 @@ class ReportGenerator:
         # subquery to fetch https_scan and sslyze_scan data in one
         # query (MongoDB server 3.6 and later)
 
-        sslyze_data_all_domains = dict()
+        sslyze_data_all_domains = {}
         for host in self.__db.sslyze_scan.find(
             {"latest": True, "agency.name": agency, "scanned_port": 443},
             {
@@ -250,7 +251,7 @@ class ReportGenerator:
         score = {
             "domain": domain["domain"],
             "ocsp_domain": domain["ocsp_domain"],
-            "subdomain_scores": list(),
+            "subdomain_scores": [],
         }
 
         if domain["live"]:
@@ -459,9 +460,9 @@ class ReportGenerator:
                 self.__domain_has_no_weak_crypto_count += 1
         # Build list of weak crypto host info and save it in
         # score['hosts_with_weak_crypto']
-        score["hosts_with_weak_crypto"] = list()
+        score["hosts_with_weak_crypto"] = []
         for host in domain["hosts_with_weak_crypto"]:
-            weak_crypto_list = list()
+            weak_crypto_list = []
             for wc_key, wc_text in [
                 ("sslv2", "SSLv2"),
                 ("sslv3", "SSLv3"),
@@ -532,7 +533,8 @@ class ReportGenerator:
         if not self.__all_eligible_domains_count:
             # TODO Decide if we want to generate an empty report in this case
             print(
-                f'ERROR: "{self.__agency}" has no live domains - exiting without generating report!'
+                f'ERROR: "{self.__agency}" has no live domains - '
+                "exiting without generating report!"
             )
             sys.exit(-1)
 
@@ -760,7 +762,7 @@ class ReportGenerator:
                 hostname = d["scanned_hostname"]
                 port = d["scanned_port"]
 
-                weak_crypto_list = list()
+                weak_crypto_list = []
                 for wc_key, wc_text in [
                     ("sslv2", "SSLv2"),
                     ("sslv3", "SSLv3"),

@@ -76,7 +76,7 @@ def setup():
     plt.rcParams.update(params)
 
 
-def wrapLabels(labels, width):
+def wrap_labels(labels, width):
     """Word-wrap labels."""
     wrapper = TextWrapper(width=width, break_long_words=False)
     result = []
@@ -120,11 +120,11 @@ class MyMessage:
 class MyStackedBar:
     """A stacked bar chart."""
 
-    def __init__(self, data, ylabels, dataLabels):
+    def __init__(self, data, ylabels, data_labels):
         """Initialize."""
         self.data = data
         self.ylabels = ylabels
-        self.dataLabels = dataLabels
+        self.dataLabels = data_labels
 
     def plot(self, filename, size=1.0):
         """Create the graph."""
@@ -135,8 +135,8 @@ class MyStackedBar:
         ax = fig.add_subplot(1, 1, 1)
         plt.xlabel("Vulnerabilities")
 
-        majorLocator = MaxNLocator(nbins=5, integer=True)  # only mark integers
-        ax.xaxis.set_major_locator(majorLocator)
+        major_locator = MaxNLocator(nbins=5, integer=True)  # only mark integers
+        ax.xaxis.set_major_locator(major_locator)
 
         ax.spines["left"].set_visible(False)
         ax.spines["top"].set_visible(False)
@@ -183,7 +183,7 @@ class MyStackedBar:
                 # decimal point and 0 by converting width to int type
                 width = int(rect.get_width())
 
-                labelString = f"{width:,}"
+                label_string = f"{width:,}"
                 # TODO handle too labels getting squeezed, need box
                 # width in points
                 if width > 0:
@@ -192,7 +192,7 @@ class MyStackedBar:
                     # Center the text vertically in the bar
                     yloc = rect.get_y() + rect.get_height() / 2.0
                     ax.annotate(
-                        labelString,
+                        label_string,
                         xy=(xloc, yloc),
                         xycoords="data",
                         xytext=(-4, 0),
@@ -216,16 +216,16 @@ class MyBar:
         self,
         series,
         yscale="linear",
-        bigLabels=False,
-        barSeverities=None,
-        legendLabels=None,
+        big_labels=False,
+        bar_severities=None,
+        legend_labels=None,
     ):
         """Initialize."""
         self.series = series
         self.yscale = yscale
-        self.bigLabels = bigLabels
-        self.barSeverities = barSeverities
-        self.legendLabels = legendLabels
+        self.bigLabels = big_labels
+        self.barSeverities = bar_severities
+        self.legendLabels = legend_labels
 
     def plot(self, filename, size=1.0):
         """Create the graph."""
@@ -240,23 +240,23 @@ class MyBar:
         pos = np.arange(len(self.series))  # the bar centers on the x axis
 
         if self.barSeverities:
-            barColors = []
+            bar_colors = []
             for i in self.barSeverities:
-                barColors.append(COLORS[i - 1])
+                bar_colors.append(COLORS[i - 1])
             if self.legendLabels:
                 # build a dummy set of bars ('underneath' the real
                 # bars) to be used
 
                 # to color the legend; legendLabels are implicitly
                 # tied to COLORS
-                legendColors = []
+                legend_colors = []
                 for i in range(len(self.legendLabels)):
-                    legendColors.append(COLORS[i])
+                    legend_colors.append(COLORS[i])
                 dummy_legend_rects = plt.bar(
                     pos,
                     self.series.values,
                     align="center",
-                    color=legendColors,
+                    color=legend_colors,
                     edgecolor="white",
                     width=0.5,
                 )
@@ -274,7 +274,7 @@ class MyBar:
                 pos,
                 self.series.values,
                 align="center",
-                color=barColors,
+                color=bar_colors,
                 edgecolor="white",
                 width=0.5,
             )
@@ -289,13 +289,15 @@ class MyBar:
             )
 
         if self.bigLabels:
-            plt.xticks(pos, wrapLabels(self.series.index, 24), rotation=55, fontsize=7)
+            plt.xticks(pos, wrap_labels(self.series.index, 24), rotation=55, fontsize=7)
             # Extremely nice function to auto-rotate the x axis labels.
             # It was made for dates (hence the name) but it works
             # for any long x tick labels
             # fig.autofmt_xdate()
         else:
-            plt.xticks(pos, wrapLabels(self.series.index, 6), rotation=None, fontsize=8)
+            plt.xticks(
+                pos, wrap_labels(self.series.index, 6), rotation=None, fontsize=8
+            )
 
         ax.yaxis.grid(False)
         ax.yaxis.tick_left()  # ticks only on left
@@ -326,10 +328,10 @@ class MyBar:
                 color = "white"
                 offset = (0, -14)
 
-            labelString = f"{yloc:,d}"
+            label_string = f"{yloc:,d}"
 
             ax.annotate(
-                labelString,
+                label_string,
                 xy=(xloc, yloc),
                 xycoords="data",
                 xytext=offset,
@@ -356,7 +358,7 @@ class MyDistributionBar:
         ylabel=None,
         final_bucket_accumulate=False,
         x_major_tick_count=10,
-        region_colors=[],
+        region_colors=(),
         x_limit_extra=0,
     ):
         """Initialize."""
@@ -468,19 +470,19 @@ class MyDistributionBar:
 class MyPie:
     """A pie chart."""
 
-    def __init__(self, data, labels, explode=None, showValue=False):
+    def __init__(self, data, labels, explode=None, show_value=False):
         """Initialize."""
         self.data = data
-        self.labels = wrapLabels(labels, 20)
+        self.labels = wrap_labels(labels, 20)
         self.explode = explode
-        self.showValue = showValue
+        self.showValue = show_value
 
     def left_right(self, trips):
         """Lefts and rights."""
         lefts = []
         rights = []
         for inner, outer, wedge in trips:
-            (x, y) = outer.get_position()
+            x, _y = outer.get_position()
             if x <= 0:
                 lefts.append((inner, outer, wedge))
             else:
@@ -491,7 +493,7 @@ class MyPie:
         """Determine if we are too close."""
         if len(trips) <= 1:
             return False
-        for inner, outer, wedge in trips:
+        for _inner, _outer, wedge in trips:
             if wedge.theta2 - wedge.theta1 < TOO_SMALL_WEDGE:
                 return True
         return False
@@ -538,9 +540,11 @@ class MyPie:
                     size=6,
                     va="top",
                     ha="right",
-                    arrowprops=dict(
-                        arrowstyle="-", mutation_scale=30, connectionstyle="arc3"
-                    ),
+                    arrowprops={
+                        "arrowstyle": "-",
+                        "mutation_scale": 30,
+                        "connectionstyle": "arc3",
+                    },
                 )
             else:
                 ax.annotate(
@@ -552,9 +556,11 @@ class MyPie:
                     size=6,
                     va="top",
                     ha="left",
-                    arrowprops=dict(
-                        arrowstyle="-", mutation_scale=30, connectionstyle="arc3"
-                    ),
+                    arrowprops={
+                        "arrowstyle": "-",
+                        "mutation_scale": 30,
+                        "connectionstyle": "arc3",
+                    },
                 )
 
     def plot(self, filename, size=1.0):
@@ -607,11 +613,11 @@ class MyPie:
 class MyColorBar:
     """A color bar chart."""
 
-    def __init__(self, agencyName, agencyScore, federalScore, label="Average"):
+    def __init__(self, agency_name, agency_score, federal_score, label="Average"):
         """Initialize."""
-        self.agencyName = agencyName
-        self.agencyScore = agencyScore
-        self.federalScore = federalScore
+        self.agencyName = agency_name
+        self.agencyScore = agency_score
+        self.federalScore = federal_score
         self.label = label
 
     def plot(self, filename, size=1.0):
@@ -631,51 +637,51 @@ class MyColorBar:
         ax2.xaxis.tick_bottom()
 
         if self.agencyScore <= self.federalScore:
-            agencyTextXY = (0.25, 0.66)
-            federalTextXY = (0.75, 0.66)
+            agency_text_xy = (0.25, 0.66)
+            federal_text_xy = (0.75, 0.66)
         else:
-            agencyTextXY = (0.75, 0.66)
-            federalTextXY = (0.25, 0.66)
+            agency_text_xy = (0.75, 0.66)
+            federal_text_xy = (0.25, 0.66)
 
-        agencyLabel = f"{self.agencyName} {self.label}\n{self.agencyScore:1.2f}"
-        federalLabel = f"Federal {self.label}\n{self.federalScore:1.2f}"
+        agency_label = f"{self.agencyName} {self.label}\n{self.agencyScore:1.2f}"
+        federal_label = f"Federal {self.label}\n{self.federalScore:1.2f}"
 
         ax2.annotate(
-            agencyLabel,
+            agency_label,
             xy=(self.agencyScore / 10, 1),
             xycoords="data",
-            xytext=agencyTextXY,
+            xytext=agency_text_xy,
             textcoords="figure fraction",
             size=14,
             ha="center",
-            bbox=dict(boxstyle="round", fc="1.0", alpha=0.9),
-            arrowprops=dict(
-                arrowstyle="fancy",
-                mutation_scale=30,
-                fc="0.1",
-                ec="none",
-                patchB=ax2,
-                connectionstyle="angle3,angleA=0,angleB=-90",
-            ),
+            bbox={"boxstyle": "round", "fc": "1.0", "alpha": 0.9},
+            arrowprops={
+                "arrowstyle": "fancy",
+                "mutation_scale": 30,
+                "fc": "0.1",
+                "ec": "none",
+                "patchB": ax2,
+                "connectionstyle": "angle3,angleA=0,angleB=-90",
+            },
         )
 
         ax2.annotate(
-            federalLabel,
+            federal_label,
             xy=(self.federalScore / 10, 1),
             xycoords="data",
-            xytext=federalTextXY,
+            xytext=federal_text_xy,
             textcoords="figure fraction",
             size=14,
             ha="center",
-            bbox=dict(boxstyle="round", fc="1.0", alpha=0.9),
-            arrowprops=dict(
-                arrowstyle="fancy",
-                mutation_scale=30,
-                fc="0.4",
-                ec="none",
-                patchB=ax2,
-                connectionstyle="angle3,angleA=0,angleB=-90",
-            ),
+            bbox={"boxstyle": "round", "fc": "1.0", "alpha": 0.9},
+            arrowprops={
+                "arrowstyle": "fancy",
+                "mutation_scale": 30,
+                "fc": "0.4",
+                "ec": "none",
+                "patchB": ax2,
+                "connectionstyle": "angle3,angleA=0,angleB=-90",
+            },
         )
         fig.set_tight_layout(True)
         plt.savefig(f"{filename}.pdf")
