@@ -79,7 +79,7 @@ RUN groupadd --system --gid ${CISA_GID} ${CISA_GROUP} \
 ###
 ENV DEPS="fontconfig=2.15.0-2.3 \
     lmodern=2.005-1 \
-    redis-tools=5:8.0.2-3+deb13u1 \
+    redis-tools=5:8.0.2-3+deb13u2 \
     texlive-latex-base=2024.20250309-1 \
     texlive-latex-recommended=2024.20250309-1 \
     texlive-latex-extra=2024.20250309-2 \
@@ -87,7 +87,7 @@ ENV DEPS="fontconfig=2.15.0-2.3 \
     texlive-science=2024.20250309-2 \
     unzip=6.0-29 \
     wget=1.25.0-2 \
-    xzdec=5.8.1-1"
+    xzdec=5.8.1-1+deb13u1"
 RUN apt update --quiet --quiet \
     && apt install --quiet --quiet --yes \
     --no-install-recommends --no-install-suggests \
