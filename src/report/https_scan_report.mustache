@@ -609,6 +609,12 @@ Whether a hostname meets all of the following criteria for being compliant with 
   \end{itemize}
   \item SSLv2 and SSLv3 are disabled on web servers.
   \item 3DES and RC4 ciphers are disabled on web servers.
+  % NOTE (hyperref URL escaping): in the \href{} targets here and elsewhere in
+  % this document, the characters # % ~ are intentionally written as \# \% \~.
+  % Inside hyperref's \href URL argument these are emitted as the literal
+  % characters, which the "#:~:text=" scroll-to-highlight fragments require.
+  % Keep ~ literal -- percent-encoding it as %7E stops browsers from recognizing
+  % the text fragment. This is correct and builds cleanly under xelatex.
   \item \href{https://www.cisa.gov/news-events/directives/bod-18-01-enhance-email-and-web-security\#:\~:text=in\%20the\%20request.-,How\%20should\%20the\%20list\%20of\%20second\%2Dlevel\%20domains\%20to\%20be\%20preloaded\%20be\%20shared\%20with\%20DHS\%3F,-You\%20are\%20encouraged}{Identifying and providing a list} to CISA of agency second-level domains that can be HSTS preloaded, for which HTTPS will be enforced for all subdomains.
 \end{itemize}
 \vspace*{2mm}
