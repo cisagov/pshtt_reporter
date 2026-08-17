@@ -10,8 +10,11 @@ ENV CISA_HOME="/home/${CISA_USER}"
 ENV VIRTUAL_ENV="${CISA_HOME}/.venv"
 
 # Versions of the Python packages installed directly
+# renovate: datasource=pypi depName=pip
 ENV PYTHON_PIP_VERSION=26.2.1
+# renovate: datasource=pypi depName=pipenv
 ENV PYTHON_PIPENV_VERSION=2026.7.1
+# renovate: datasource=pypi depName=setuptools
 ENV PYTHON_SETUPTOOLS_VERSION=84.0.0
 
 ###
@@ -75,19 +78,44 @@ RUN groupadd --system --gid ${CISA_GID} ${CISA_GROUP} \
     && useradd --system --uid ${CISA_UID} --gid ${CISA_GROUP} --comment "${CISA_USER} user" ${CISA_USER}
 
 ###
-# Install everything we need
+# Install everything we need.
+#
+# Note that the suite name must be kept in sync with the version of
+# Debian being used in the base containers.
 ###
-ENV DEPS="fontconfig=2.15.0-2.3 \
-    lmodern=2.005-1 \
-    redis-tools=5:8.0.2-3+deb13u2 \
-    texlive-latex-base=2024.20250309-1 \
-    texlive-latex-recommended=2024.20250309-1 \
-    texlive-latex-extra=2024.20250309-2 \
-    texlive-xetex=2024.20250309-1 \
-    texlive-science=2024.20250309-2 \
-    unzip=6.0-29 \
-    wget=1.25.0-2 \
-    xzdec=5.8.1-1+deb13u1"
+# renovate: datasource=deb depName=fontconfig
+ENV FONTCONFIG_VERSION=2.15.0-2.3
+# renovate: datasource=deb depName=lmodern
+ENV LMODERN_VERSION=2.005-1
+# renovate: datasource=deb depName=redis-tools
+ENV REDIS_TOOLS_VERSION=5:8.0.2-3+deb13u2
+# renovate: datasource=deb depName=texlive-latex-base
+ENV TEXLIVE_LATEX_BASE_VERSION=2024.20250309-1
+# renovate: datasource=deb depName=texlive-latex-extra
+ENV TEXLIVE_LATEX_EXTRA_VERSION=2024.20250309-2
+# renovate: datasource=deb depName=texlive-latex-recommended
+ENV TEXLIVE_LATEX_RECOMMENDED_VERSION=2024.20250309-1
+# renovate: datasource=deb depName=texlive-science
+ENV TEXLIVE_SCIENCE_VERSION=2024.20250309-2
+# renovate: datasource=deb depName=texlive-xetex
+ENV TEXLIVE_XETEX_VERSION=2024.20250309-1
+# renovate: datasource=deb depName=unzip
+ENV UNZIP_VERSION=6.0-29
+# renovate: datasource=deb depName=wget
+ENV WGET_VERSION=1.25.0-2
+# renovate: datasource=deb depName=xzdec
+ENV XZDEC_VERSION=5.8.1-1+deb13u1
+ENV DEPS="fontconfig=${FONTCONFIG_VERSION} \
+    lmodern=${LMODERN_VERSION} \
+    redis-tools=${REDIS_TOOLS_VERSION} \
+    texlive-latex-base=${TEXLIVE_LATEX_BASE_VERSION} \
+    texlive-latex-extra=${TEXLIVE_LATEX_EXTRA_VERSION} \
+    texlive-latex-recommended=${TEXLIVE_LATEX_RECOMMENDED_VERSION} \
+    texlive-science=${TEXLIVE_SCIENCE_VERSION} \
+    texlive-xetex=${TEXLIVE_XETEX_VERSION} \
+    unzip=${UNZIP_VERSION} \
+    wget=${WGET_VERSION} \
+    xzdec=${XZDEC_VERSION}"
 RUN apt update --quiet --quiet \
     && apt install --quiet --quiet --yes \
     --no-install-recommends --no-install-suggests \
