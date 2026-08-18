@@ -32,7 +32,7 @@
     {
       customType: "regex",
       datasourceTemplate: "github-releases",
-      depNameTemplate: "cisagov/guacscanner",
+      depNameTemplate: "cisagov/mongo-db-from-config",
       managerFilePatterns: ["/^src/Pipfile$/"],
       matchStrings: [
         "cisagov/mongo-db-from-config/archive/(?<currentValue>\\S+).tar.gz",
