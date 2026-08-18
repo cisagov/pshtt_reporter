@@ -8,7 +8,7 @@ name = "pypi"
 chevron = ">=0.14.0"
 docopt = ">=0.6.2"
 matplotlib = ">=3.10.8"
-mongo-db-from-config = {file = "https://github.com/cisagov/mongo-db-from-config/archive/v1.2.1.tar.gz"}
+mongo-db-from-config = {file = "https://github.com/cisagov/mongo-db-from-config/archive/v1.3.1.tar.gz"}
 numpy = ">=2.4.1"
 
 # This version should match the version of Python in the image
