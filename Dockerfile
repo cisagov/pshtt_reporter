@@ -79,9 +79,6 @@ RUN groupadd --system --gid ${CISA_GID} ${CISA_GROUP} \
 
 ###
 # Install everything we need.
-#
-# Note that the suite name must be kept in sync with the version of
-# Debian being used in the base containers.
 ###
 # renovate: datasource=deb depName=fontconfig
 ENV FONTCONFIG_VERSION=2.15.0-2.3
