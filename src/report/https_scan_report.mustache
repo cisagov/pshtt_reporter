@@ -368,9 +368,9 @@
 \label{sec:executive_summary}
 Hypertext Transfer Protocol (HTTP) connections can be easily monitored, modified, and impersonated; HTTPS remedies each vulnerability. HTTP Strict Transport Security (HSTS) ensures that browsers always use an https:// connection, and removes the ability for users to click through certificate-related warnings.
 
-In 2015, \href{https://https.cio.gov/}{OMB M-15-13} required all existing Federal websites and web services to be accessible through a secure connection (HTTPS-only, with HSTS). In 2017, the .gov registry began \href{https://home.dotgov.gov/hsts-preloading/}{automatically preloading} new federal .gov domains as HSTS-only in modern browsers. Federal agencies must make more progress on HTTPS and HSTS deployment, including by removing support for known-weak cryptographic protocols and ciphers.
+In 2015, OMB M-15-13 required all existing Federal websites and web services to be accessible through a secure connection (HTTPS-only, with HSTS). In 2017, the .gov registry began automatically preloading new federal .gov domains as HSTS-only in modern browsers. Federal agencies must make more progress on HTTPS and HSTS deployment, including by removing support for known-weak cryptographic protocols and ciphers.
 
-This weekly report, created by the \href{https://www.cisa.gov/}{Cybersecurity and Infrastructure Security Agency (CISA)}, is intended to assist your agency to comply with the web security aspects of Binding Operational Directive (BOD) 18-01. Implementation guidance can be found at \href{https://cyber.dhs.gov/guide}{https://cyber.dhs.gov/guide} and \href{https://https.cio.gov}{https://https.cio.gov}.  This report also helps agencies to \href{https://https.cio.gov/hsts/#hsts-preloading}{``preload" their domains} to better enforce the protections BOD 18-01 requires.
+This weekly report, created by the \href{https://www.cisa.gov/}{Cybersecurity and Infrastructure Security Agency (CISA)}, is intended to assist your agency to comply with the web security aspects of Binding Operational Directive (BOD) 18-01. This report also helps agencies to ``preload" their domains to better enforce the protections BOD 18-01 requires.
 
 \vspace*{-3mm}
 \phantomsection
@@ -393,7 +393,7 @@ Of \textit{\numprint{<<all_eligible_domains_count>>} hostnames that respond to H
   \item \textbf{\numprint{<<domain_enforces_https_count>>}} hostnames (<<enforces_https_percentage>>\%) default to HTTPS
   \item \textbf{\numprint{<<domain_uses_strong_hsts_count>>}} hostnames (<<hsts_percentage>>\%) use Strong HSTS
   \item \textbf{\numprint{<<domain_has_no_weak_crypto_count>>}} hostnames (<<has_no_weak_crypto_percentage>>\%) do not support SSLv2, SSLv3, 3DES, or RC4
-  \item \textbf{\numprint{<<bod_1801_count>>}} hostnames (<<bod_1801_percentage>>\%) are \href{https://cyber.dhs.gov}{BOD 18-01} Compliant for web security
+  \item \textbf{\numprint{<<bod_1801_count>>}} hostnames (<<bod_1801_percentage>>\%) are \href{https://www.cisa.gov/news-events/directives/bod-18-01-enhance-email-and-web-security}{BOD 18-01} Compliant for web security
 \end{itemize}
 
 \vspace*{6mm}
@@ -418,10 +418,8 @@ Of \textit{\numprint{<<all_eligible_domains_count>>} hostnames that respond to H
 \addcontentsline{toc}{subsection}{Results}% Adds subsection to toc
 The following table shows where each <<&agency>> domain falls along the spectrum of BOD 18-01 web security compliance and whether the domain is preloaded. To be \hyperlink{BOD 18-01 Web Compliant}{BOD 18-01 web compliant}, a domain must meet all of the following: `Uses HTTPS', `Enforces HTTPS', `Uses Strong Strict Transport Security (HSTS)', `Free of SSLv2, SSLv3, 3DES, RC4'. Definitions of the field values are in ``\hyperlink{Field Descriptions}{\color{dhs-blue}{Field Descriptions}}", after the table below.\\~\\
 
-BOD 18-01 includes
-\href{https://https.cio.gov/guide/#what-about-domains-that-are-technically-public-but-in-practice-are-only-used-internally}{\textbf{all
-    domains and subdomains that are publicly reachable over
-    HTTP/HTTPS}}, regardless of whether those hostnames are in
+BOD 18-01 includes \textbf{all domains and subdomains that are publicly reachable
+over HTTP/HTTPS}, regardless of whether those hostnames are in
 practice only used internally.  An exception is made for domains used
 exclusively for Online Certificate Status Protocol (OCSP), which can
 be excluded from the BOD 18-01 requirements by adding them to
@@ -523,7 +521,7 @@ In \texttt{pshtt}, ``Enforces HTTPS" is mapped to the value for `Domain Enforces
 \vspace*{-6mm}
 \textit{Values: \checkmark (implements), \checkmark * (given credit for implementing, but we are unable to verify the use of HSTS since the host requires client authentication), \xmark \ (does not implement HSTS, or implements HSTS with low max-age)}\\~\\
 
-Whether a hostname has implemented strong \href{https://https.cio.gov/hsts}{HTTP Strict Transport Security}. HSTS is an HTTP response header that directs \href{https://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security#Browser_support}{supporting browsers} to, after the first visit, only communicate with a hostname over HTTPS for the duration of \texttt{max-age} (even if the user clicks or types a plain HTTP link).\\
+Whether a hostname has implemented strong HTTP Strict Transport Security. HSTS is an HTTP response header that directs \href{https://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security#Browser_support}{supporting browsers} to, after the first visit, only communicate with a hostname over HTTPS for the duration of \texttt{max-age} (even if the user clicks or types a plain HTTP link).\\
 
 \begin{itemize}[topsep=-6pt, itemsep=0pt]
 	\item \checkmark means that a valid Strict-Transport-Security header with at least \texttt{max-age=31536000} (1 year) is present on the hostname's default endpoint. (For increased security, you should consider the full HSTS preloading of the parent domain, which includes all subdomains.)
@@ -552,7 +550,7 @@ Whether any weak cryptographic protocols (Secure Sockets Layer (SSL)v2, SSLv3) o
 \vspace*{-6mm}
 \textit{Values: \checkmark (compliant), \xmark \ (not compliant), N/A (Not live; no web)}\\~\\
 
-Whether a hostname meets all of the following criteria for being compliant with \href{https://cyber.dhs.gov}{BOD 18-01} for web security:
+Whether a hostname meets all of the following criteria for being compliant with \href{https://www.cisa.gov/news-events/directives/bod-18-01-enhance-email-and-web-security}{BOD 18-01} for web security:
   \begin{itemize}[topsep=-6pt, itemsep=0pt]
     \item Uses HTTPS
     \item Enforces HTTPS
@@ -595,7 +593,6 @@ Whether a hostname meets all of the following criteria for being compliant with 
 \phantomsection % links this section from toc
 \section{Background}
 \label{sec:Background}
-More implementation guidance can be found at \href{https://cyber.dhs.gov/guide}{https://cyber.dhs.gov/guide} and \href{https://https.cio.gov}{https://https.cio.gov}.\\~\\
 
 \vspace*{-3mm}
 \phantomsection % links this section from toc
@@ -608,16 +605,22 @@ More implementation guidance can be found at \href{https://cyber.dhs.gov/guide}{
   \begin{itemize}[topsep=-6pt, itemsep=0pt]
 	   \item Provide service over HTTPS.
 	   \item Automatically redirect HTTP requests to HTTPS, or disable HTTP entirely.
-	   \item Have an \href{https://https.cio.gov/guide/#options-for-hsts-compliance}{HSTS policy in place}.
+	   \item Have an HSTS policy in place.
   \end{itemize}
   \item SSLv2 and SSLv3 are disabled on web servers.
   \item 3DES and RC4 ciphers are disabled on web servers.
-  \item \href{https://cyber.dhs.gov/guide/#how-should-the-list-of-second-level-domains-to-be-preloaded-be-shared-with-dhs}{Identifying and providing a list} to CISA of agency second-level domains that can be HSTS preloaded, for which HTTPS will be enforced for all subdomains.
+  % NOTE (hyperref URL escaping): in the \href{} targets here and elsewhere in
+  % this document, the characters # % ~ are intentionally written as \# \% \~.
+  % Inside hyperref's \href URL argument these are emitted as the literal
+  % characters, which the "#:~:text=" scroll-to-highlight fragments require.
+  % Keep ~ literal -- percent-encoding it as %7E stops browsers from recognizing
+  % the text fragment. This is correct and builds cleanly under xelatex.
+  \item \href{https://www.cisa.gov/news-events/directives/bod-18-01-enhance-email-and-web-security\#:\~:text=in\%20the\%20request.-,How\%20should\%20the\%20list\%20of\%20second\%2Dlevel\%20domains\%20to\%20be\%20preloaded\%20be\%20shared\%20with\%20DHS\%3F,-You\%20are\%20encouraged}{Identifying and providing a list} to CISA of agency second-level domains that can be HSTS preloaded, for which HTTPS will be enforced for all subdomains.
 \end{itemize}
 \vspace*{2mm}
 M-15-13 includes \textbf{all domains and subdomains that are publicly reachable over HTTP/HTTPS}, regardless of whether those hostnames are in practice only used internally.\\~\\
 
-\href{https://cyber.dhs.gov/guide/#how-does-the-web-security-requirement-in-bod-18-01-differ-from-m-15-13}{BOD 18-01 incorporates parallel language to M-15-13} with regard to HTTPS deployment. The Compliance Guide at \href{https://https.cio.gov}{https.cio.gov} \textbf{should be consulted} in implementing HTTPS and HSTS.\\~\\~\\
+\href{https://www.cisa.gov/news-events/directives/bod-18-01-enhance-email-and-web-security\#:\~:text=mil\%C2\%A0TLDs.-,How\%20does\%20the\%20web\%20security\%20requirement\%20in\%20BOD\%2018\%2D01\%20differ\%20from\%20M\%2D15\%2D13,-\%3F}{BOD 18-01 incorporates parallel language to M-15-13} with regard to HTTPS deployment.\\~\\~\\
 
 \vspace*{-3mm}
 \phantomsection % links this section from toc
@@ -625,7 +628,7 @@ M-15-13 includes \textbf{all domains and subdomains that are publicly reachable 
 \subsection*{What else should I do?}
 \vspace*{-3mm}
 
-BOD 18-01 \textbf{requires} <<&agency>> to evaluate which domains can be added to the \href{https://https.cio.gov/hsts/#hsts-preloading}{HSTS preload list}.\\~\\
+BOD 18-01 \textbf{requires} <<&agency>> to evaluate which domains can be added to the \href{https://hstspreload.org/}{HSTS preload list}.\\~\\
 
 For a user to take advantage of HSTS, their browser does have to see the HSTS header at least once. This means that users are not protected until after their first successful secure connection to a given domain.\\~\\
 
@@ -645,33 +648,12 @@ To solve this problem, the Chrome security team created an `HSTS preload list': 
 
 %Preloading takes on even greater importance because, in many cases, there may never be a first visit. For an HSTS policy that includes subdomains to take effect without preloading, the user must connect (``200 OK") to \textbf{https}://domain.gov (as the HSTS header is not cached by browsers unless there is a valid secure connection). Even if a user types `domain.gov' by hand, many Federal websites redirect from http://domain.gov to the `www' subdomain, leaving https://domain.gov unvisited. ``Vanity domains" or domains used solely for redirects {\it that don't first redirect to the secure versions of themselves also are never visited over HTTPS} and thus an HSTS policy that includes subdomains will not be successfully set with connecting clients.\\~\\
 
-You are encouraged to \href{https://cyber.dhs.gov/guide/#how-should-the-list-of-second-level-domains-to-be-preloaded-be-shared-with-dhs}{preload your domains yourself} and then to report the set of preloaded domains to CISA in your \href{https://cyber.dhs.gov/guide/#checklist}{Agency Plan of Action}.\\~\\
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% Resources Section
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newpage
-\vspace*{-3mm}
-\phantomsection % links this section from toc
-\addcontentsline{toc}{subsection}{Resources}% Adds subsection to toc
-\subsection*{Resources}
-\vspace*{-3mm}
-
-\phantomsection % links this section from toc
-\addcontentsline{toc}{subsubsection}{Learn}% Adds subsection to toc
-\subsubsection*{Learn}
-\vspace*{-3mm}
-
-\begin{itemize}[topsep=-6pt, itemsep=0pt]
-	\item \href{https://cyber.dhs.gov/guide/#how-does-the-web-security-requirement-in-bod-18-01-differ-from-m-15-13}{BOD 18-01 incorporates parallel language to M-15-13} with regard to HTTPS deployment. The Compliance Guide at \href{https://https.cio.gov}{https.cio.gov} \textbf{should be consulted} in implementing HTTPS and HSTS.
-	\item \href{https://pulse.cio.gov}{pulse.cio.gov} is a public dashboard to support compliance with M-15-13 and BOD 18-01. The site includes scores for all second-level Federal .gov domains and subdomains sourced from GSA's DAP and Censys.io (as detailed in the \hyperref[sec:methodology]{\color{dhs-blue}{Methodology}} section below). Pulse scans domains with \href{https://github.com/cisagov/pshtt}{\texttt{pshtt}}.
-	\item \href{https://https.cio.gov/resources}{https://https.cio.gov/resources} has presentations to watch and tools to use.
-\end{itemize}
+You are encouraged to \href{https://www.cisa.gov/news-events/directives/bod-18-01-enhance-email-and-web-security\#:\~:text=in\%20the\%20request.-,How\%20should\%20the\%20list\%20of\%20second\%2Dlevel\%20domains\%20to\%20be\%20preloaded\%20be\%20shared\%20with\%20DHS\%3F,-You\%20are\%20encouraged}{preload your domains yourself} and then to report the set of preloaded domains to CISA in your \href{https://www.cisa.gov/news-events/directives/bod-18-01-enhance-email-and-web-security\#:\~:text=from\%20Federal\%20agencies.-,Checklist,-Within\%C2\%A030}{Agency Plan of Action}.\\~\\
 
 \vspace*{-3mm}
 \phantomsection % links this section from toc
-\addcontentsline{toc}{subsubsection}{Get Help}% Adds subsection to toc
-\subsubsection*{Get Help}
+\addcontentsline{toc}{subsection}{Get Help}% Adds subsection to toc
+\subsection*{Get Help}
 \vspace*{-3mm}
 
 You can reach out to CISA at \href{mailto:vulnerability@cisa.dhs.gov}{vulnerability@cisa.dhs.gov}.
@@ -700,7 +682,6 @@ Each domain and subdomain is assessed on four ``endpoints":\\
 Data from these endpoints is used to characterize the overall behavior of a hostname. These measurements are performed using \texttt{pshtt}, our \href{https://github.com/cisagov/pshtt}{open source HTTPS scanner}. All owned \href{https://github.com/cisagov/dotgov-data/blob/main/current-federal.csv}{.gov domains} and known subdomains are included. Subdomains are gathered from the following sources:
 \begin{itemize}[topsep=-6pt, itemsep=0pt]
   \item General Services Administration's Digital Analytics Program (DAP), which nightly publishes a \href{https://analytics.usa.gov/data/live/sites-extended.csv}{dataset of federal hostnames} for which the DAP observed at least one recorded visit in the previous 14 days.
-  \item \href{https://censys.io}{Censys} is used to query the `Common Name' field and `Subject Alternative Name' extension on X.509 certificates found on Federal .gov sites, derived from scans of the IPv4 space and from certificates submitted to public Certificate Transparency logs.
   \item \href{http://eotarchive.cdlib.org/}{End of Term Web Archive Project}, which captures and saves U.S. Government websites at the end of presidential administrations.
   \item Hostnames gathered from Cyber Hygiene scans.
 \end{itemize}
@@ -713,9 +694,9 @@ Your agency is also welcome to request additional domains/subdomains be scanned 
 \subsection*{What trust store is CISA using?}
 \vspace*{-3mm}
 
-Our scans use the \href{https://wiki.mozilla.org/CA:IncludedCAs}{Mozilla CA Certificate Store}. This trust store most accurately represents what roots are ``publicly trusted", and is used in Firefox, Android, Linux, and many commercial and open source network security tools. Note that the Federal Common Policy CA, the Federal trust anchor, \href{https://https.cio.gov/certificates/#does-the-us-government-operate-a-publicly-trusted-certificate-authority}{is not currently trusted} by the Mozilla CA Certificate Store.\\~\\
+Our scans use the \href{https://wiki.mozilla.org/CA:IncludedCAs}{Mozilla CA Certificate Store}. This trust store most accurately represents what roots are ``publicly trusted", and is used in Firefox, Android, Linux, and many commercial and open source network security tools. Note that the Federal Common Policy CA, the Federal trust anchor, is not currently trusted by the Mozilla CA Certificate Store.\\~\\
 
-M-15-13/BOD 18-01 have no restrictions on acceptable certificate authorities agencies might use to meet their requirements. However, Federally issued certificates \href{https://https.cio.gov/guide/#what-if-im-using-a-federally-issued-certificate-such-as-from-the-federal-pki-or-department-of-defense-for-my-web-service}{will not be practical for web services} whose users may not always be expected to trust the issuing federal certificate authority.\\~\\~\\~\\~\\
+M-15-13/BOD 18-01 have no restrictions on acceptable certificate authorities agencies might use to meet their requirements. However, Federally issued certificates will not be practical for web services whose users may not always be expected to trust the issuing federal certificate authority.\\~\\~\\~\\~\\
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
