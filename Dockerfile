@@ -97,7 +97,7 @@ ENV TEXLIVE_SCIENCE_VERSION=2024.20250309-2
 # renovate: datasource=deb depName=texlive-xetex
 ENV TEXLIVE_XETEX_VERSION=2024.20250309-1
 # renovate: datasource=deb depName=unzip
-ENV UNZIP_VERSION=6.0-29
+ENV UNZIP_VERSION=6.0-29+deb13u1
 # renovate: datasource=deb depName=wget
 ENV WGET_VERSION=1.25.0-2
 # renovate: datasource=deb depName=xzdec
