@@ -85,7 +85,7 @@ ENV FONTCONFIG_VERSION=2.15.0-2.3
 # renovate: datasource=deb depName=lmodern
 ENV LMODERN_VERSION=2.005-1
 # renovate: datasource=deb depName=redis-tools
-ENV REDIS_TOOLS_VERSION=5:8.0.2-3+deb13u2
+ENV REDIS_TOOLS_VERSION=5:8.0.2-3+deb13u3
 # renovate: datasource=deb depName=texlive-latex-base
 ENV TEXLIVE_LATEX_BASE_VERSION=2024.20250309-1
 # renovate: datasource=deb depName=texlive-latex-extra
