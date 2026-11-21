@@ -101,7 +101,7 @@ ENV UNZIP_VERSION=6.0-29+deb13u1
 # renovate: datasource=deb depName=wget
 ENV WGET_VERSION=1.25.0-2
 # renovate: datasource=deb depName=xzdec
-ENV XZDEC_VERSION=5.8.1-1+deb13u1
+ENV XZDEC_VERSION=5.8.1-1+deb13u2
 ENV DEPS="fontconfig=${FONTCONFIG_VERSION} \
     lmodern=${LMODERN_VERSION} \
     redis-tools=${REDIS_TOOLS_VERSION} \
