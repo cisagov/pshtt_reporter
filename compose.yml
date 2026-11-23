@@ -17,7 +17,7 @@ services:
       redis:
         condition: service_healthy
     environment:
-      REDISCLI_AUTH: ${REDIS_PASSWORD:-gatherer-dev-only}
+      REDISCLI_AUTH: ${REDIS_PASSWORD:-pshtt-reporter-dev-only}
     image: cisagov/pshtt_reporter
     init: true
     restart: "no"
@@ -29,9 +29,9 @@ services:
     command:
       - redis-server
       - --requirepass
-      - ${REDIS_PASSWORD:-gatherer-dev-only}
+      - ${REDIS_PASSWORD:-pshtt-reporter-dev-only}
     environment:
-      REDISCLI_AUTH: ${REDIS_PASSWORD:-gatherer-dev-only}
+      REDISCLI_AUTH: ${REDIS_PASSWORD:-pshtt-reporter-dev-only}
     healthcheck:
       test:
         - CMD
