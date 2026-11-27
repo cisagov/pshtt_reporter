@@ -3,11 +3,6 @@
 HOME_DIR='/home/cisa'
 SHARED_DIR=$HOME_DIR'/shared'
 
-# Prepare fonts
-echo "Preparing fonts..."
-cp ./fonts/* /usr/share/fonts/truetype/
-fc-cache -f
-
 echo 'Waiting for saver'
 while [ "$(redis-cli -h redis get saving_complete)" != "true" ]; do
   sleep 5

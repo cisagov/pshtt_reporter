@@ -151,6 +151,12 @@ COPY src ${CISA_HOME}
 RUN chown --recursive ${CISA_USER}:${CISA_GROUP} ${CISA_HOME}
 
 ###
+# Prepare fonts
+###
+RUN mv ${CISA_HOME}/fonts/* /usr/share/fonts/truetype/ \
+    && fc-cache --force && rmdir ${CISA_HOME}/fonts
+
+###
 # Prepare to run
 #
 # Pre-create ${CISA_HOME}/shared with the correct ownership so that the
