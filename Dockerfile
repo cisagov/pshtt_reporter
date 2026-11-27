@@ -64,7 +64,7 @@ LABEL org.opencontainers.image.vendor="Cybersecurity and Infrastructure Security
 ###
 # Unprivileged user setup variables
 ###
-ARG CISA_UID=421
+ARG CISA_UID=2048
 ARG CISA_GID=${CISA_UID}
 ARG CISA_USER="cisa"
 ENV CISA_GROUP=${CISA_USER}
@@ -151,9 +151,22 @@ COPY src ${CISA_HOME}
 RUN chown --recursive ${CISA_USER}:${CISA_GROUP} ${CISA_HOME}
 
 ###
-# Prepare to run
+# Prepare fonts
 ###
-# Right now we need to run as root for the font stuff
-# USER ${CISA_USER}:${CISA_GROUP}
+RUN mv ${CISA_HOME}/fonts/* /usr/share/fonts/truetype/ \
+    && fc-cache --force && rmdir ${CISA_HOME}/fonts
+
+###
+# Prepare to run
+#
+# Pre-create ${CISA_HOME}/shared with the correct ownership so that the
+# entrypoint can create files there without running as root.  Note that
+# when a host directory is bind mounted over ${CISA_HOME}/shared it masks
+# this directory, so the host directory must itself be writable by UID
+# ${CISA_UID} as described in the README.
+###
+RUN mkdir --parents ${CISA_HOME}/shared \
+    && chown ${CISA_USER}:${CISA_GROUP} ${CISA_HOME}/shared
 WORKDIR ${CISA_HOME}
+USER ${CISA_USER}:${CISA_GROUP}
 ENTRYPOINT ["./report.sh"]

@@ -14,7 +14,10 @@ services:
       context: .
       dockerfile: Dockerfile
     depends_on:
-      - redis
+      redis:
+        condition: service_healthy
+    environment:
+      REDISCLI_AUTH: ${REDIS_PASSWORD:-pshtt-reporter-dev-only}
     image: cisagov/pshtt_reporter
     init: true
     restart: "no"
@@ -23,4 +26,19 @@ services:
         target: database_creds.yml
 
   redis:
+    command:
+      - redis-server
+      - --requirepass
+      - ${REDIS_PASSWORD:-pshtt-reporter-dev-only}
+    environment:
+      REDISCLI_AUTH: ${REDIS_PASSWORD:-pshtt-reporter-dev-only}
+    healthcheck:
+      test:
+        - CMD
+        - redis-cli
+        - ping
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 5s
     image: redis:alpine
